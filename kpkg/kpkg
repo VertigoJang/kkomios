@@ -19,7 +19,7 @@
 set -Eeuo pipefail
 trap 'echo "kpkg: ${BASH_SOURCE[0]##*/} ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
 
-KPKG_VERSION=0.2
+KPKG_VERSION=0.3
 ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
 ROOT=${ROOT%/}/
 DB=${ROOT}var/lib/kpkg/db
@@ -84,12 +84,15 @@ cmd_build() {
 
   local log="$work/build.log"
   msg "$NAME $VERSION 빌드 (로그: $log)"
+  local SRCTOP ; SRCTOP=$(pwd)
   (
     set -e
-    declare -F prepare > /dev/null && prepare
-    declare -F build   > /dev/null && build
+    export PATH=/usr/local/bin:/usr/bin:/usr/sbin     # Homebrew 도구(파이썬 등)가 끼어들지 않게
+    # 각 단계는 항상 소스 최상위 폴더에서 시작
+    if declare -F prepare > /dev/null ; then cd "$SRCTOP" ; prepare ; fi
+    if declare -F build   > /dev/null ; then cd "$SRCTOP" ; build   ; fi
     declare -F package > /dev/null || { echo "레시피에 package() 가 없습니다" ; exit 1 ; }
-    package
+    cd "$SRCTOP" ; package
   ) > "$log" 2>&1 || { tail -25 "$log" ; die "빌드 실패: $NAME (전체 로그: $log)" ; }
 
   [ -n "$(find "$PKG" -mindepth 1 -print -quit)" ] || die "package() 가 아무 파일도 설치하지 않았습니다"
@@ -270,7 +273,9 @@ cmd_install() {
 
   [ "$ROOT" = "/" ] && run_hooks "$tmp/newfiles"
   if [ "$ROOT" = "/" ] ; then
-    ( set +e ; source "$DB/$NAME/recipe.sh" ; declare -F post_install > /dev/null && { msg "설치 후 작업 (post_install)" ; post_install ; } ) || warn "post_install 에서 오류가 있었습니다"
+    ( set +e ; source "$DB/$NAME/recipe.sh"
+      if declare -F post_install > /dev/null ; then msg "설치 후 작업 (post_install)" ; post_install ; else true ; fi
+    ) || warn "post_install 에서 오류가 있었습니다"
   fi
   msg "완료: $NAME $VERSION"
 }
@@ -348,7 +353,8 @@ cmd_list() {
 cmd_info()  { local n=${1:?이름} ; [ -f "$DB/$n/meta" ] || die "없는 패키지: $n" ; cat "$DB/$n/meta" ; [ -f "$DB/$n/files" ] && echo "FILES=$(grep -vc '/$' "$DB/$n/files")" ; true ; }
 cmd_files() { local n=${1:?이름} ; [ -f "$DB/$n/files" ] || die "파일 목록이 없습니다: $n" ; grep -v '/$' "$DB/$n/files" ; }
 cmd_owns()  {
-  local p ; p=$(readlink -m "${1:?파일 경로}")
+  local a=${1:?파일 경로} p
+  p="$(readlink -m "$(dirname "$a")")/$(basename "$a")"     # 폴더 링크만 풀고, 파일 자체 링크는 따라가지 않음
   local o ; o=$(owner_of "$p")
   [ -n "$o" ] && echo "$p ← $o" || { echo "$p : 어느 패키지에도 기록되지 않음" ; return 1 ; }
 }

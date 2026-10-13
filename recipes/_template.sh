@@ -24,7 +24,7 @@ build() {
 package() {
   make DESTDIR="$PKG" install
 }
-# meson 예:  package() { cd build && DESTDIR="$PKG" ninja install ; }
+# meson 예:  package() { cd build && DESTDIR="$PKG" ninja install ; }   (각 단계는 항상 소스 최상위 폴더에서 시작)
 
 # (선택) 설치 후 root 로 실행할 작업: 사용자 추가, 서비스 켜기 등
 # ldconfig, 아이콘/글꼴/MIME 캐시, systemd daemon-reload 는 kpkg 가 자동으로 함
