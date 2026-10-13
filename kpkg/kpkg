@@ -1,0 +1,404 @@
+#!/bin/bash
+# =====================================================================
+#  kpkg — KkomiOS 패키지 관리자 (간단 버전)
+#
+#  원리: 빌드 → 임시 폴더(DESTDIR)에 설치 → 패키지 파일로 묶기
+#        → 충돌 검사 → 시스템에 반영 + 설치 파일 목록 기록
+#
+#  명령:
+#    kpkg build   <레시피.sh>          패키지 파일 만들기 (시스템은 안 건드림)
+#    kpkg install <패키지파일|레시피>  설치 / 업그레이드
+#    kpkg remove  <이름> [--force]     기록된 파일만 삭제
+#    kpkg list                         설치된 패키지 목록
+#    kpkg info    <이름>               패키지 정보
+#    kpkg files   <이름>               설치한 파일 목록
+#    kpkg owns    <파일경로>           이 파일이 어느 패키지 소속인지
+#    kpkg adopt-base                   지금 시스템 파일 전체를 'base' 로 등록
+#    kpkg register-versions [목록파일] 이름-버전 형태의 목록을 '버전만' 등록
+# =====================================================================
+set -euo pipefail
+
+KPKG_VERSION=0.1
+ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
+ROOT=${ROOT%/}/
+DB=${ROOT}var/lib/kpkg/db
+CACHE=${ROOT}var/cache/kpkg
+SRCDIR=${KPKG_SRCDIR:-/sources/kpkg-src}   # 내려받은 원본 보관
+BUILDROOT=${KPKG_BUILDDIR:-/tmp/kpkg-build}
+
+# ---------- 공통 ----------
+msg()  { printf '\033[1;32m==>\033[0m %s\n' "$*" ; }
+warn() { printf '\033[1;33m==> 경고:\033[0m %s\n' "$*" >&2 ; }
+die()  { printf '\033[1;31m==> 오류:\033[0m %s\n' "$*" >&2 ; exit 1 ; }
+
+need_root() {
+  if [ "$(id -u)" -ne 0 ] ; then
+    [ "$ROOT" = "/" ] || die "시험 모드(KPKG_ROOT)에서는 root 로 실행하세요"
+    exec sudo --preserve-env=KPKG_ROOT,KPKG_SRCDIR,KPKG_BUILDDIR "$0" "$@"
+  fi
+}
+
+compress_flag() { command -v zstd > /dev/null && echo "--zstd" || echo "--xz" ; }
+
+lock() {
+  mkdir -p "$DB"
+  exec 9> "${DB}/.lock"
+  flock -n 9 || die "다른 kpkg 가 실행 중입니다"
+}
+
+# 레시피 읽기 (NAME VERSION 필수)
+load_recipe() {
+  local r=$1
+  [ -f "$r" ] || die "레시피 파일이 없습니다: $r"
+  unset NAME VERSION URL DEPENDS SOURCES
+  # shellcheck disable=SC1090
+  source "$r"
+  [ -n "${NAME:-}" ] && [ -n "${VERSION:-}" ] || die "레시피에 NAME 과 VERSION 이 필요합니다"
+  DEPENDS=${DEPENDS:-}
+  if [ -z "${SOURCES+x}" ] ; then SOURCES=() ; [ -n "${URL:-}" ] && SOURCES=("$URL") ; fi
+}
+
+# ---------- build ----------
+cmd_build() {
+  local recipe ; recipe=$(readlink -f "${1:?레시피 파일을 지정하세요}")
+  load_recipe "$recipe"
+  local work="$BUILDROOT/$NAME-$VERSION"
+  local PKG="$work/pkg"
+  rm -rf "$work" ; mkdir -p "$work/src" "$PKG" "$SRCDIR" "$CACHE" 2>/dev/null || sudo mkdir -p "$CACHE"
+
+  # 내려받기 + 풀기
+  local s f
+  for s in "${SOURCES[@]}" ; do
+    f="$SRCDIR/$(basename "$s")"
+    if [ ! -f "$f" ] ; then msg "내려받기: $s" ; wget -q --show-progress -O "$f.part" "$s" && mv "$f.part" "$f" ; fi
+    case "$f" in
+      *.tar.*|*.tgz|*.tar) tar -xf "$f" -C "$work/src" ;;
+      *) cp "$f" "$work/src/" ;;
+    esac
+  done
+  # 압축이 폴더 하나로 풀렸으면 그 안으로 들어감
+  local top ; top=$(find "$work/src" -mindepth 1 -maxdepth 1)
+  if [ "$(echo "$top" | grep -c .)" -eq 1 ] && [ -d "$top" ] ; then cd "$top" ; else cd "$work/src" ; fi
+  export PKG
+
+  local log="$work/build.log"
+  msg "$NAME $VERSION 빌드 (로그: $log)"
+  (
+    set -e
+    declare -F prepare > /dev/null && prepare
+    declare -F build   > /dev/null && build
+    declare -F package > /dev/null || { echo "레시피에 package() 가 없습니다" ; exit 1 ; }
+    package
+  ) > "$log" 2>&1 || { tail -25 "$log" ; die "빌드 실패: $NAME (전체 로그: $log)" ; }
+
+  [ -n "$(find "$PKG" -mindepth 1 -print -quit)" ] || die "package() 가 아무 파일도 설치하지 않았습니다"
+  # 'lib' 'bin' 'sbin' 이 최상위에 실제 폴더로 있으면 /usr 쪽으로 옮김 (LFS 는 /lib → usr/lib 링크)
+  local d
+  for d in bin sbin lib lib64 ; do
+    if [ -d "$PKG/$d" ] && [ ! -L "$PKG/$d" ] ; then
+      warn "패키지에 /$d 가 있어 /usr/$d 로 옮깁니다"
+      mkdir -p "$PKG/usr/$d" ; cp -a "$PKG/$d/." "$PKG/usr/$d/" ; rm -rf "${PKG:?}/$d"
+    fi
+  done
+
+  # 정보 파일
+  {
+    echo "NAME=$NAME" ; echo "VERSION=$VERSION" ; echo "DEPENDS=\"$DEPENDS\""
+    echo "BUILDDATE=\"$(date "+%Y-%m-%d %H:%M")\"" ; echo "TYPE=package"
+  } > "$PKG/.KPKGINFO"
+  cp "$recipe" "$PKG/.KPKGRECIPE"
+
+  local out="$CACHE/$NAME-$VERSION.kpkg.tar"
+  ( cd "$PKG" && find . -mindepth 1 | sed 's#^\./##' | LC_ALL=C sort > "$work/list" )
+  if [ -w "$CACHE" ] ; then
+    tar -C "$PKG" $(compress_flag) --owner=0 --group=0 --numeric-owner --no-recursion -cpf "$out" -T "$work/list"
+  else
+    tar -C "$PKG" $(compress_flag) --owner=0 --group=0 --numeric-owner --no-recursion -cpf - -T "$work/list" | sudo tee "$out" > /dev/null
+  fi
+  msg "완성: $out ($(du -h "$out" | cut -f1), 파일 $(cd "$PKG" && find . -mindepth 1 ! -type d ! -name ".KPKG*" | wc -l)개)"
+  echo "$out"
+}
+
+# ---------- 파일 목록 도우미 ----------
+# 패키지 안의 항목 → 절대경로 목록 (폴더는 끝에 / )
+pkg_listing() {
+  local file=$1
+  tar -tvf "$file" | awk '
+    { type=substr($1,1,1); path=$0; for(i=1;i<=5;i++) sub(/^[^ ]+ +/,"",path); sub(/ -> .*/,"",path); sub(/ link to .*/,"",path); sub(/^\.\//,"",path)
+      if (path ~ /^\.KPKG/) next
+      sub(/\/$/,"",path)
+      if (type=="d") print "/" path "/"; else print "/" path }' | LC_ALL=C sort -u
+}
+
+dir_in_use() {   # 다른 패키지(base 포함)도 가진 폴더인가
+  local d=$1 me=$2 f
+  for f in "$DB"/*/files ; do
+    [ -f "$f" ] || continue
+    [ "$(basename "$(dirname "$f")")" = "$me" ] && continue
+    grep -qxF -- "$d" "$f" && return 0
+  done
+  return 1
+}
+
+owner_of() {   # 경로를 가진 패키지 이름들 (base 포함)
+  local p=$1 f
+  for f in "$DB"/*/files ; do
+    [ -f "$f" ] || continue
+    grep -qxF -- "$p" "$f" && basename "$(dirname "$f")"
+  done
+  return 0
+}
+
+# ---------- install ----------
+cmd_install() {
+  need_root install "$@"
+  lock
+  local arg=${1:?패키지 파일이나 레시피를 지정하세요} force=no
+  [ "${2:-}" = "--force" ] && force=yes
+  local file
+  case "$arg" in
+    *.kpkg.tar) file=$(readlink -f "$arg") ;;
+    *.sh) die "레시피는 먼저 일반 사용자로 'kpkg build $arg' 한 뒤, 나온 패키지 파일을 install 하세요" ;;
+    *) die "알 수 없는 형식: $arg" ;;
+  esac
+  [ -f "$file" ] || die "파일이 없습니다: $file"
+
+  local tmp ; tmp=$(mktemp -d)
+  trap 'rm -rf "$tmp"' RETURN
+  tar -xf "$file" -C "$tmp" .KPKGINFO .KPKGRECIPE
+  # shellcheck disable=SC1091
+  ( source "$tmp/.KPKGINFO" ; echo "$NAME" > "$tmp/name" ; echo "$VERSION" > "$tmp/ver" )
+  local NAME VERSION ; NAME=$(cat "$tmp/name") ; VERSION=$(cat "$tmp/ver")
+  [ "$NAME" != "base" ] || die "'base' 는 예약된 이름입니다"
+
+  pkg_listing "$file" > "$tmp/new"
+  grep -v '/$' "$tmp/new" > "$tmp/newfiles" || true
+
+  # 이미 설치돼 있으면 업그레이드
+  local old="$DB/$NAME/files" oldver=""
+  [ -f "$DB/$NAME/meta" ] && oldver=$(. "$DB/$NAME/meta" ; echo "$VERSION")
+  if [ -n "$oldver" ] ; then msg "업그레이드: $NAME $oldver → $VERSION" ; else msg "설치: $NAME $VERSION" ; fi
+
+  # 충돌 검사: 다른 패키지(base 제외)가 가진 파일
+  : > "$tmp/conflicts" ; : > "$tmp/frombase"
+  local f o
+  for f in "$DB"/*/files ; do
+    [ -f "$f" ] || continue
+    o=$(basename "$(dirname "$f")")
+    [ "$o" = "$NAME" ] && continue
+    if [ "$o" = "base" ] ; then
+      LC_ALL=C comm -12 "$tmp/newfiles" <(LC_ALL=C sort "$f") >> "$tmp/frombase"
+    else
+      LC_ALL=C comm -12 "$tmp/newfiles" <(LC_ALL=C sort "$f") | sed "s#\$#  ← $o#" >> "$tmp/conflicts"
+    fi
+  done
+  if [ -s "$tmp/conflicts" ] ; then
+    echo "다른 패키지가 가진 파일과 겹칩니다:" ; head -20 "$tmp/conflicts"
+    [ "$force" = yes ] || die "중단합니다 (--force 로 강행 가능)"
+    warn "--force: 덮어씁니다"
+  fi
+  # 기록에 없는데 이미 존재하는 파일 (참고용)
+  local untracked=0
+  while IFS= read -r f ; do
+    [ -e "${ROOT%/}$f" ] || [ -L "${ROOT%/}$f" ] || continue
+    grep -qxF -- "$f" "$tmp/frombase" && continue
+    [ -f "$old" ] && grep -qxF -- "$f" "$old" && continue
+    grep -qF -- "$f" "$tmp/conflicts" && continue
+    untracked=$((untracked+1))
+  done < "$tmp/newfiles"
+  [ -s "$tmp/frombase" ] && msg "base 에 기록된 파일 $(wc -l < "$tmp/frombase")개를 이 패키지 소유로 넘깁니다"
+  [ "$untracked" -gt 0 ] && warn "기록에 없는 기존 파일 $untracked개를 덮어씁니다"
+
+  # /etc 설정 파일 보호: 이미 있고 내용이 다르면 .kpkgnew 로 설치
+  : > "$tmp/etckeep"
+  while IFS= read -r f ; do
+    case "$f" in /etc/*) ;; *) continue ;; esac
+    local real="${ROOT%/}$f"
+    [ -f "$real" ] || continue
+    tar -xOf "$file" "${f#/}" 2>/dev/null | cmp -s - "$real" && continue
+    echo "${f#/}" >> "$tmp/etckeep"
+  done < "$tmp/newfiles"
+
+  # 시스템에 풀기 (디렉터리 심볼릭 링크 유지, 정보 파일 제외)
+  tar -C "$ROOT" -xpf "$file" --keep-directory-symlink --no-overwrite-dir \
+      --exclude=.KPKGINFO --exclude=.KPKGRECIPE -X "$tmp/etckeep"
+  if [ -s "$tmp/etckeep" ] ; then
+    while IFS= read -r f ; do
+      tar -xOf "$file" "$f" > "${ROOT%/}/$f.kpkgnew"
+      warn "설정 파일 유지: /$f (새 버전은 /$f.kpkgnew)"
+    done < "$tmp/etckeep"
+  fi
+
+  # 업그레이드: 옛 버전에만 있던 파일 정리
+  if [ -f "$old" ] ; then
+    LC_ALL=C comm -23 <(LC_ALL=C sort "$old") "$tmp/new" | grep -v '/$' | while IFS= read -r f ; do
+      case "$f" in /etc/*) continue ;; esac
+      rm -f -- "${ROOT%/}$f"
+    done
+    LC_ALL=C comm -23 <(LC_ALL=C sort "$old") "$tmp/new" | grep '/$' | sort -r | while IFS= read -r f ; do
+      dir_in_use "$f" "$NAME" && continue
+      rmdir -- "${ROOT%/}$f" 2>/dev/null || true
+    done
+  fi
+
+  # 유지한 설정 파일: 원래 주인을 그대로 둠 (이전에 이 패키지 것이었으면 계속 이 패키지 것)
+  sed 's#^#/#' "$tmp/etckeep" | LC_ALL=C sort -u > "$tmp/keptabs"
+  if [ -f "$old" ] ; then LC_ALL=C comm -23 "$tmp/keptabs" <(LC_ALL=C sort "$old") > "$tmp/notmine" ; else cp "$tmp/keptabs" "$tmp/notmine" ; fi
+  LC_ALL=C comm -23 "$tmp/new" "$tmp/notmine" > "$tmp/record"
+  LC_ALL=C sort -u "$tmp/frombase" | LC_ALL=C comm -23 - "$tmp/keptabs" > "$tmp/frombase2" ; mv "$tmp/frombase2" "$tmp/frombase"
+
+  # 기록
+  mkdir -p "$DB/$NAME"
+  [ -f "$DB/$NAME/etcsums" ] && cp "$DB/$NAME/etcsums" "$tmp/oldsums" || : > "$tmp/oldsums"
+  cp "$tmp/record" "$DB/$NAME/files"
+  cp "$tmp/.KPKGRECIPE" "$DB/$NAME/recipe.sh"
+  { cat "$tmp/.KPKGINFO" ; echo "INSTALLDATE=\"$(date "+%Y-%m-%d %H:%M")\"" ; echo "PKGFILE=\"$file\"" ; } > "$DB/$NAME/meta"
+  # /etc 파일 원본 지문 (삭제 시 수정 여부 판단용)
+  { grep '^/etc/' "$tmp/record" | grep -v '/$' || true ; } | while IFS= read -r f ; do
+    if grep -qxF -- "$f" "$tmp/keptabs" ; then awk -v p="$f" '$2==p' "$tmp/oldsums"
+    elif [ -f "${ROOT%/}$f" ] ; then echo "$(sha256sum < "${ROOT%/}$f" | cut -d' ' -f1)  $f" ; fi
+  done > "$DB/$NAME/etcsums" || true
+  # base 에서 소유권 넘기기
+  if [ -s "$tmp/frombase" ] && [ -f "$DB/base/files" ] ; then
+    LC_ALL=C sort -u "$tmp/frombase" > "$tmp/fb"
+    LC_ALL=C comm -23 <(LC_ALL=C sort "$DB/base/files") "$tmp/fb" > "$DB/base/files.new" && mv "$DB/base/files.new" "$DB/base/files"
+  fi
+  # '버전만' 기록이 있었다면 이 패키지로 대체됨 (위 meta 덮어쓰기로 처리)
+
+  [ "$ROOT" = "/" ] && run_hooks "$tmp/newfiles"
+  if [ "$ROOT" = "/" ] ; then
+    ( set +e ; source "$DB/$NAME/recipe.sh" ; declare -F post_install > /dev/null && { msg "설치 후 작업 (post_install)" ; post_install ; } ) || warn "post_install 에서 오류가 있었습니다"
+  fi
+  msg "완료: $NAME $VERSION"
+}
+
+# 공통 설치 후 작업
+run_hooks() {
+  local list=$1
+  grep -qE '\.so(\.|$)' "$list" && ldconfig
+  grep -q '^/usr/share/icons/' "$list" && command -v gtk-update-icon-cache > /dev/null && \
+    for t in /usr/share/icons/*/ ; do [ -f "$t/index.theme" ] && gtk-update-icon-cache -qf "$t" ; done
+  grep -q '^/usr/share/applications/' "$list" && command -v update-desktop-database > /dev/null && update-desktop-database -q
+  grep -q '^/usr/share/mime/' "$list" && command -v update-mime-database > /dev/null && update-mime-database /usr/share/mime
+  grep -q '^/usr/share/glib-2.0/schemas/' "$list" && command -v glib-compile-schemas > /dev/null && glib-compile-schemas /usr/share/glib-2.0/schemas
+  grep -q '^/usr/share/fonts/' "$list" && command -v fc-cache > /dev/null && fc-cache -f
+  grep -qE '^/usr/lib/systemd/|^/etc/systemd/' "$list" && command -v systemctl > /dev/null && systemctl daemon-reload
+  grep -q '^/usr/lib/gtk-3.0/3.0.0/immodules/' "$list" && command -v gtk-query-immodules-3.0 > /dev/null && gtk-query-immodules-3.0 --update-cache
+  return 0
+}
+
+# ---------- remove ----------
+cmd_remove() {
+  need_root remove "$@"
+  lock
+  local NAME=${1:?패키지 이름을 지정하세요} force=no
+  [ "${2:-}" = "--force" ] && force=yes
+  [ "$NAME" != "base" ] || die "'base' 는 삭제할 수 없습니다"
+  [ -d "$DB/$NAME" ] || die "설치되지 않은 패키지: $NAME"
+  [ -f "$DB/$NAME/files" ] || die "$NAME 은 '버전만' 기록된 항목이라 지울 파일 목록이 없습니다"
+
+  # 이 패키지에 의존하는 패키지
+  local m users=""
+  for m in "$DB"/*/meta ; do
+    [ -f "$m" ] || continue
+    local n ; n=$(basename "$(dirname "$m")") ; [ "$n" = "$NAME" ] && continue
+    ( . "$m" ; echo " ${DEPENDS:-} " ) | grep -q " $NAME " && users="$users $n"
+  done
+  if [ -n "$users" ] ; then
+    echo "이 패키지를 필요로 하는 패키지:$users"
+    [ "$force" = yes ] || die "중단합니다 (--force 로 강행 가능)"
+  fi
+
+  msg "삭제: $NAME"
+  local f real
+  grep -v '/$' "$DB/$NAME/files" | while IFS= read -r f ; do
+    real="${ROOT%/}$f"
+    [ -e "$real" ] || [ -L "$real" ] || continue
+    case "$f" in
+      /etc/*)
+        local sum ; sum=$(awk -v p="$f" '$2==p{print $1}' "$DB/$NAME/etcsums" 2>/dev/null)
+        if [ -z "$sum" ] || [ "$(sha256sum < "$real" | cut -d' ' -f1)" != "$sum" ] ; then
+          mv -- "$real" "$real.kpkgsave" ; echo "  수정된 설정 파일 보존: $f.kpkgsave"
+          continue
+        fi ;;
+    esac
+    rm -f -- "$real"
+  done
+  grep '/$' "$DB/$NAME/files" | sort -r | while IFS= read -r f ; do
+    dir_in_use "$f" "$NAME" && continue
+    rmdir -- "${ROOT%/}$f" 2>/dev/null || true
+  done
+  rm -rf -- "${DB:?}/$NAME"
+  [ "$ROOT" = "/" ] && ldconfig
+  msg "완료"
+}
+
+# ---------- 조회 ----------
+cmd_list() {
+  local m
+  printf '%-28s %-18s %-12s %s\n' "이름" "버전" "종류" "설치일"
+  for m in "$DB"/*/meta ; do
+    [ -f "$m" ] || continue
+    ( . "$m" ; printf '%-28s %-18s %-12s %s\n' "$NAME" "$VERSION" "${TYPE:-package}" "${INSTALLDATE:-}" )
+  done
+}
+cmd_info()  { local n=${1:?이름} ; [ -f "$DB/$n/meta" ] || die "없는 패키지: $n" ; cat "$DB/$n/meta" ; [ -f "$DB/$n/files" ] && echo "FILES=$(grep -vc '/$' "$DB/$n/files")" ; true ; }
+cmd_files() { local n=${1:?이름} ; [ -f "$DB/$n/files" ] || die "파일 목록이 없습니다: $n" ; grep -v '/$' "$DB/$n/files" ; }
+cmd_owns()  {
+  local p ; p=$(readlink -m "${1:?파일 경로}")
+  local o ; o=$(owner_of "$p")
+  [ -n "$o" ] && echo "$p ← $o" || { echo "$p : 어느 패키지에도 기록되지 않음" ; return 1 ; }
+}
+
+# ---------- 기존 시스템 등록 ----------
+cmd_adopt_base() {
+  need_root adopt-base "$@"
+  lock
+  [ -f "$DB/base/files" ] && die "이미 base 가 등록돼 있습니다"
+  msg "시스템 파일을 base 로 등록합니다 (/usr /etc /opt, 시간이 좀 걸립니다)"
+  mkdir -p "$DB/base"
+  local d
+  for d in usr etc opt ; do
+    [ -d "${ROOT}$d" ] || continue
+    ( cd "$ROOT" && find "$d" -xdev \( -path 'usr/src' -o -path 'usr/local/src' \) -prune -o \( -type d -printf '/%p/\n' -o -printf '/%p\n' \) )
+  done | grep -v '^/var/lib/kpkg' | LC_ALL=C sort -u > "$DB/base/files"
+  { echo "NAME=base" ; echo "VERSION=\"$( (cat "${ROOT}etc/lfs-release" 2>/dev/null || echo unknown) | head -1)\"" ; echo "TYPE=base"
+    echo "INSTALLDATE=\"$(date "+%Y-%m-%d %H:%M")\"" ; } > "$DB/base/meta"
+  msg "완료: $(grep -vc '/$' "$DB/base/files")개 파일을 base 로 기록"
+}
+
+cmd_register_versions() {
+  need_root register-versions "$@"
+  lock
+  local src=${1:-} added=0 line name ver
+  {
+    if [ -n "$src" ] ; then [ -f "$src" ] || die "목록 파일이 없습니다: $src" ; grep -v '^#' "$src" || true
+    elif [ -d /sources ] ; then ls /sources ; fi
+  } | sed 's#/$##' | while IFS= read -r line ; do
+    line=$(echo "$line" | sed -E 's/\.(tar\..*|tgz|zip)$//')
+    if [[ "$line" =~ ^(.+)-v?([0-9][0-9A-Za-z.]*)$ ]] ; then
+      name=${BASH_REMATCH[1]} ; ver=${BASH_REMATCH[2]}
+      name=${name%-libhangul} ; name=$(echo "$name" | tr 'A-Z' 'a-z')
+      [ -d "$DB/$name" ] && continue
+      mkdir -p "$DB/$name"
+      { echo "NAME=$name" ; echo "VERSION=$ver" ; echo "TYPE=version-only" ; echo "INSTALLDATE=" ; } > "$DB/$name/meta"
+      echo "  등록: $name $ver"
+    fi
+  done
+  msg "완료"
+}
+
+# ---------- 진입점 ----------
+case "${1:-}" in
+  build)             shift ; cmd_build "$@" ;;
+  install)           shift ; cmd_install "$@" ;;
+  remove)            shift ; cmd_remove "$@" ;;
+  list)              shift ; cmd_list ;;
+  info)              shift ; cmd_info "$@" ;;
+  files)             shift ; cmd_files "$@" ;;
+  owns)              shift ; cmd_owns "$@" ;;
+  adopt-base)        shift ; cmd_adopt_base ;;
+  register-versions) shift ; cmd_register_versions "$@" ;;
+  version|--version) echo "kpkg $KPKG_VERSION" ;;
+  *) sed -n '3,20p' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
+esac
