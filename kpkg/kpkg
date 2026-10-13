@@ -16,9 +16,10 @@
 #    kpkg adopt-base                   지금 시스템 파일 전체를 'base' 로 등록
 #    kpkg register-versions [목록파일] 이름-버전 형태의 목록을 '버전만' 등록
 # =====================================================================
-set -euo pipefail
+set -Eeuo pipefail
+trap 'echo "kpkg: ${BASH_SOURCE[0]##*/} ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
 
-KPKG_VERSION=0.1
+KPKG_VERSION=0.2
 ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
 ROOT=${ROOT%/}/
 DB=${ROOT}var/lib/kpkg/db
@@ -177,7 +178,9 @@ cmd_install() {
   # 이미 설치돼 있으면 업그레이드
   local old="$DB/$NAME/files" oldver=""
   [ -f "$DB/$NAME/meta" ] && oldver=$(. "$DB/$NAME/meta" ; echo "$VERSION")
-  if [ -n "$oldver" ] ; then msg "업그레이드: $NAME $oldver → $VERSION" ; else msg "설치: $NAME $VERSION" ; fi
+  if [ -z "$oldver" ] ; then msg "설치: $NAME $VERSION"
+  elif [ "$oldver" = "$VERSION" ] ; then msg "재설치: $NAME $VERSION"
+  else msg "업그레이드: $NAME $oldver → $VERSION" ; fi
 
   # 충돌 검사: 다른 패키지(base 제외)가 가진 파일
   : > "$tmp/conflicts" ; : > "$tmp/frombase"
@@ -231,11 +234,11 @@ cmd_install() {
 
   # 업그레이드: 옛 버전에만 있던 파일 정리
   if [ -f "$old" ] ; then
-    LC_ALL=C comm -23 <(LC_ALL=C sort "$old") "$tmp/new" | grep -v '/$' | while IFS= read -r f ; do
+    LC_ALL=C comm -23 <(LC_ALL=C sort "$old") "$tmp/new" | { grep -v '/$' || true ; } | while IFS= read -r f ; do
       case "$f" in /etc/*) continue ;; esac
       rm -f -- "${ROOT%/}$f"
     done
-    LC_ALL=C comm -23 <(LC_ALL=C sort "$old") "$tmp/new" | grep '/$' | sort -r | while IFS= read -r f ; do
+    LC_ALL=C comm -23 <(LC_ALL=C sort "$old") "$tmp/new" | { grep '/$' || true ; } | sort -r | while IFS= read -r f ; do
       dir_in_use "$f" "$NAME" && continue
       rmdir -- "${ROOT%/}$f" 2>/dev/null || true
     done
@@ -311,7 +314,7 @@ cmd_remove() {
 
   msg "삭제: $NAME"
   local f real
-  grep -v '/$' "$DB/$NAME/files" | while IFS= read -r f ; do
+  { grep -v '/$' "$DB/$NAME/files" || true ; } | while IFS= read -r f ; do
     real="${ROOT%/}$f"
     [ -e "$real" ] || [ -L "$real" ] || continue
     case "$f" in
@@ -324,7 +327,7 @@ cmd_remove() {
     esac
     rm -f -- "$real"
   done
-  grep '/$' "$DB/$NAME/files" | sort -r | while IFS= read -r f ; do
+  { grep '/$' "$DB/$NAME/files" || true ; } | sort -r | while IFS= read -r f ; do
     dir_in_use "$f" "$NAME" && continue
     rmdir -- "${ROOT%/}$f" 2>/dev/null || true
   done
@@ -370,7 +373,7 @@ cmd_adopt_base() {
 cmd_register_versions() {
   need_root register-versions "$@"
   lock
-  local src=${1:-} added=0 line name ver
+  local src=${1:-} line name ver cur curtype
   {
     if [ -n "$src" ] ; then [ -f "$src" ] || die "목록 파일이 없습니다: $src" ; grep -v '^#' "$src" || true
     elif [ -d /sources ] ; then ls /sources ; fi
@@ -379,12 +382,22 @@ cmd_register_versions() {
     if [[ "$line" =~ ^(.+)-v?([0-9][0-9A-Za-z.]*)$ ]] ; then
       name=${BASH_REMATCH[1]} ; ver=${BASH_REMATCH[2]}
       name=${name%-libhangul} ; name=$(echo "$name" | tr 'A-Z' 'a-z')
-      [ -d "$DB/$name" ] && continue
-      mkdir -p "$DB/$name"
-      { echo "NAME=$name" ; echo "VERSION=$ver" ; echo "TYPE=version-only" ; echo "INSTALLDATE=" ; } > "$DB/$name/meta"
+      printf '%s\t%s\n' "$name" "$ver"
+    fi
+  done | sort -t$'\t' -k1,1 -k2,2V | awk -F'\t' '{v[$1]=$2} END{for(n in v) print n "\t" v[n]}' | sort > /tmp/kpkg-reg.$$
+  while IFS=$'\t' read -r name ver ; do
+    if [ -f "$DB/$name/meta" ] ; then
+      curtype=$(. "$DB/$name/meta" ; echo "${TYPE:-package}") ; cur=$(. "$DB/$name/meta" ; echo "$VERSION")
+      [ "$curtype" = "version-only" ] || continue                       # 실제 패키지 기록은 건드리지 않음
+      [ "$(printf '%s\n%s\n' "$cur" "$ver" | sort -V | tail -1)" = "$cur" ] && continue
+      echo "  갱신: $name $cur → $ver"
+    else
       echo "  등록: $name $ver"
     fi
-  done
+    mkdir -p "$DB/$name"
+    { echo "NAME=$name" ; echo "VERSION=$ver" ; echo "TYPE=version-only" ; echo "INSTALLDATE=" ; } > "$DB/$name/meta"
+  done < /tmp/kpkg-reg.$$
+  rm -f /tmp/kpkg-reg.$$
   msg "완료"
 }
 
