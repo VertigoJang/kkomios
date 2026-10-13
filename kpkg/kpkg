@@ -15,11 +15,13 @@
 #    kpkg owns    <파일경로>           이 파일이 어느 패키지 소속인지
 #    kpkg adopt-base                   지금 시스템 파일 전체를 'base' 로 등록
 #    kpkg register-versions [목록파일] 이름-버전 형태의 목록을 '버전만' 등록
+#    kpkg register-lfs [13.1]          LFS 책의 기본 패키지 버전을 '버전만' 등록
+#    kpkg check-updates [--all|--quiet] BLFS·LFS 최신판과 버전 비교
 # =====================================================================
 set -Eeuo pipefail
 trap 'echo "kpkg: ${BASH_SOURCE[0]##*/} ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
 
-KPKG_VERSION=0.3
+KPKG_VERSION=0.4
 ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
 ROOT=${ROOT%/}/
 DB=${ROOT}var/lib/kpkg/db
@@ -418,6 +420,8 @@ case "${1:-}" in
   owns)              shift ; cmd_owns "$@" ;;
   adopt-base)        shift ; cmd_adopt_base ;;
   register-versions) shift ; cmd_register_versions "$@" ;;
+  register-lfs)      shift ; need_root register-lfs "$@" ; exec /usr/local/bin/kpkg-check register-lfs "$@" ;;
+  check-updates)     shift ; exec /usr/local/bin/kpkg-check check "$@" ;;
   version|--version) echo "kpkg $KPKG_VERSION" ;;
-  *) sed -n '3,20p' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
+  *) awk 'NR>=3 && /^# =====/{exit} NR>=3' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
 esac

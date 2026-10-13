@@ -1,0 +1,8 @@
+[Unit]
+Description=kpkg 업데이트 점검 (BLFS/LFS 최신판과 비교)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/kpkg-check check --quiet

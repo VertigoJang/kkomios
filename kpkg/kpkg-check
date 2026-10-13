@@ -1,0 +1,221 @@
+#!/usr/bin/env python3
+# =====================================================================
+#  kpkg-check — KkomiOS 업데이트 점검 (kpkg 0.4 부속)
+#
+#  kpkg 기록(/var/lib/kpkg/db)의 버전을
+#    - BLFS 최신판(systemd) 패키지 목록
+#    - LFS 최신판(systemd) 패키지 목록 (LFS 기본 패키지용)
+#  과 비교해서 업데이트가 있는 패키지를 보여준다.
+#
+#  사용:  kpkg check-updates            결과 표 출력
+#         kpkg check-updates --all      최신인 것까지 전부 출력
+#         kpkg check-updates --quiet    요약 한 줄만 (자동 실행용)
+#         kpkg register-lfs [13.1]      LFS 책의 기본 패키지 버전을 '버전만' 등록
+# =====================================================================
+import os, re, sys, subprocess, html, datetime
+
+ROOT = os.environ.get("KPKG_ROOT", "/").rstrip("/") + "/"
+DB = ROOT + "var/lib/kpkg/db"
+STATE = ROOT + "var/lib/kpkg/updates.txt"
+ALIASES = ROOT + "etc/kpkg/aliases"
+
+BLFS_INDEX = "https://www.linuxfromscratch.org/blfs/view/systemd/longindex.html"
+LFS_PKGS = "https://www.linuxfromscratch.org/lfs/view/{ver}/chapter03/packages.html"
+
+# 폴더 이름과 BLFS 표기가 다른 것들 (kpkg 이름 → BLFS/LFS 이름). /etc/kpkg/aliases 로 추가 가능
+DEFAULT_ALIASES = {
+    "libhangul": "libhangul",
+    "linux": "linux",            # LFS 의 커널
+}
+
+
+def fetch(url):
+    """wget 으로 받아오기 (시스템 인증서 사용)"""
+    try:
+        out = subprocess.run(["wget", "-qO-", "--timeout=30", url],
+                             capture_output=True, check=True)
+        return out.stdout.decode("utf-8", "replace")
+    except Exception as e:
+        sys.exit(f"==> 오류: 내려받기 실패: {url} ({e})")
+
+
+def norm(name):
+    return re.sub(r"[_\s]+", "-", name.strip().lower())
+
+
+VER_RE = re.compile(r"^(.+?)-v?(\d[0-9A-Za-z.+~]*)$")
+
+
+def parse_blfs(text):
+    """longindex 의 <a>이름-버전</a> 들을 {이름: [버전...]} 으로"""
+    out = {}
+    for m in re.finditer(r'<a\b[^>]*href="([^"]+\.html)"[^>]*>(.*?)</a>', text, re.S | re.I):
+        href, label = m.group(1), m.group(2)
+        label = html.unescape(re.sub(r"<[^>]+>", "", label)).strip()
+        label = re.sub(r"\s+", " ", label)
+        if " " in label:
+            continue
+        mm = VER_RE.match(label)
+        if not mm:
+            continue
+        out.setdefault(norm(mm.group(1)), set()).add(mm.group(2))
+    return out
+
+
+def parse_lfs(text):
+    """LFS 패키지 목록의 '이름 (버전) - 크기' 를 {이름: [버전]} 으로"""
+    plain = html.unescape(re.sub(r"<[^>]+>", " ", text))
+    plain = re.sub(r"\s+", " ", plain)
+    out = {}
+    for m in re.finditer(r"([A-Za-z][A-Za-z0-9+_.-]*) \((\d[0-9A-Za-z.+~-]*)\) - [\d,]+ ?KB", plain):
+        out.setdefault(norm(m.group(1)), set()).add(m.group(2))
+    return out
+
+
+def vkey(v):
+    """버전 비교용 키 (sort -V 와 비슷하게)"""
+    parts = re.findall(r"\d+|[A-Za-z]+", v)
+    k = [(0, int(p)) if p.isdigit() else (-1, p) for p in parts]
+    return k + [(0, 0)] * (12 - len(k))      # 1.4rc5 < 1.4 가 되도록 길이 맞춤
+
+
+def pick(installed, cands):
+    """같은 계열(앞 두 자리 → 앞 한 자리)을 우선해서 비교 대상 버전을 고른다
+       예: glibmm 2.66.x 는 2.90.x 가 아니라 2.66.x 와 비교"""
+    cands = sorted(cands, key=vkey)
+    ip = installed.split(".")
+    for n in (2, 1):
+        same = [c for c in cands if c.split(".")[:n] == ip[:n]]
+        if same:
+            return same[-1]
+    return cands[-1]
+
+
+def read_db():
+    pk = {}
+    if not os.path.isdir(DB):
+        sys.exit("==> 오류: kpkg 기록이 없습니다")
+    for name in sorted(os.listdir(DB)):
+        meta = os.path.join(DB, name, "meta")
+        if not os.path.isfile(meta):
+            continue
+        d = {}
+        for line in open(meta, encoding="utf-8", errors="replace"):
+            if "=" in line:
+                k, v = line.rstrip("\n").split("=", 1)
+                d[k] = v.strip('"')
+        if d.get("TYPE") == "base":
+            continue
+        pk[name] = d
+    return pk
+
+
+def load_aliases():
+    a = dict(DEFAULT_ALIASES)
+    if os.path.isfile(ALIASES):
+        for line in open(ALIASES, encoding="utf-8"):
+            line = line.split("#", 1)[0].strip()
+            if "=" in line:
+                k, v = line.split("=", 1)
+                a[norm(k)] = norm(v)
+    return a
+
+
+def lfs_book_version():
+    try:
+        v = open(ROOT + "etc/lfs-release").read().split()[0]
+    except Exception:
+        v = "13.1-systemd"
+    return v if "systemd" in v else v + "-systemd"
+
+
+def cmd_check(args):
+    quiet = "--quiet" in args
+    show_all = "--all" in args
+    if not quiet:
+        print("==> BLFS·LFS 최신판 목록을 받는 중...")
+    blfs = parse_blfs(fetch(BLFS_INDEX))
+    lfs = parse_lfs(fetch(LFS_PKGS.format(ver="systemd")))
+    if len(blfs) < 100 or len(lfs) < 50:
+        sys.exit(f"==> 오류: 목록 해석 실패 (BLFS {len(blfs)}개, LFS {len(lfs)}개) — 사이트 형식이 바뀌었을 수 있습니다")
+    aliases = load_aliases()
+    rows, updates, unknown = [], [], []
+    for name, d in read_db().items():
+        inst = d.get("VERSION", "")
+        key = aliases.get(name, name)
+        src, cands = None, None
+        if key in blfs:
+            src, cands = "BLFS", blfs[key]
+        elif key in lfs:
+            src, cands = "LFS", lfs[key]
+        if not cands:
+            unknown.append(name)
+            continue
+        new = pick(inst, cands)
+        newer = vkey(new) > vkey(inst)
+        rows.append((name, inst, new, src, d.get("TYPE", "package"), newer))
+        if newer:
+            updates.append((name, inst, new, src))
+
+    stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+    try:
+        with open(STATE, "w", encoding="utf-8") as f:
+            f.write(f"# {stamp} 점검\n")
+            for n, i, v, s in updates:
+                f.write(f"{n}\t{i}\t{v}\t{s}\n")
+    except PermissionError:
+        pass
+
+    if quiet:
+        print(f"업데이트 {len(updates)}개" + (": " + ", ".join(u[0] for u in updates[:8]) + (" ..." if len(updates) > 8 else "") if updates else ""))
+        return
+    print(f"==> 비교 기준: BLFS {len(blfs)}개, LFS {len(lfs)}개 패키지 ({stamp})\n")
+    print(f"{'이름':<26}{'설치됨':<16}{'최신':<16}{'출처':<6}{'기록 종류'}")
+    print("-" * 78)
+    for name, inst, new, src, typ, newer in rows:
+        if newer or show_all:
+            mark = "↑ " if newer else "  "
+            print(f"{mark}{name:<24}{inst:<16}{new:<16}{src:<6}{typ}")
+    print("-" * 78)
+    print(f"업데이트 있음: {len(updates)}개 / 비교한 패키지: {len(rows)}개")
+    if unknown:
+        print(f"\nBLFS·LFS 목록에서 이름을 못 찾음 ({len(unknown)}개): {' '.join(unknown)}")
+        print("  → 이름이 다르게 적힌 경우 /etc/kpkg/aliases 에 '우리이름=BLFS이름' 형태로 추가하세요")
+    print("\n참고: 이 점검은 '새 버전이 있는지'만 봅니다. 보안 공지 대조는 다음 단계에서 추가합니다.")
+
+
+def cmd_register_lfs(args):
+    ver = args[0] if args else lfs_book_version()
+    if "systemd" not in ver:
+        ver += "-systemd"
+    print(f"==> LFS {ver} 책의 패키지 목록을 받는 중...")
+    lfs = parse_lfs(fetch(LFS_PKGS.format(ver=ver)))
+    if len(lfs) < 50:
+        sys.exit(f"==> 오류: 목록 해석 실패 ({len(lfs)}개)")
+    added = 0
+    for name, vers in sorted(lfs.items()):
+        d = os.path.join(DB, name)
+        if os.path.exists(os.path.join(d, "meta")):
+            continue
+        os.makedirs(d, exist_ok=True)
+        v = sorted(vers, key=vkey)[-1]
+        with open(os.path.join(d, "meta"), "w") as f:
+            f.write(f"NAME={name}\nVERSION={v}\nTYPE=version-only\nINSTALLDATE=\nSOURCE=lfs-{ver}\n")
+        print(f"  등록: {name} {v}")
+        added += 1
+    print(f"==> 완료: {added}개 등록 (이미 기록된 것은 건너뜀)")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        sys.exit(__doc__ if __doc__ else "사용법: kpkg-check check|register-lfs")
+    cmd, rest = sys.argv[1], sys.argv[2:]
+    if cmd == "check":
+        cmd_check(rest)
+    elif cmd == "register-lfs":
+        cmd_register_lfs(rest)
+    elif cmd == "selftest":
+        b = parse_blfs(open(rest[0]).read()); l = parse_lfs(open(rest[1]).read())
+        print(len(b), len(l)); print(sorted(b.items())[:5]); print(sorted(l.items())[:5])
+    else:
+        sys.exit("알 수 없는 명령: " + cmd)

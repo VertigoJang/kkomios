@@ -1,0 +1,2 @@
+# kpkg 기록 이름과 BLFS/LFS 목록 이름이 다를 때  우리이름=BLFS이름
+# 'kpkg check-updates' 끝에 "이름을 못 찾음" 으로 나온 것을 여기에 추가하세요
