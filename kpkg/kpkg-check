@@ -49,7 +49,8 @@ VER_RE = re.compile(r"^(.+?)-v?(\d[0-9A-Za-z.+~]*)$")
 def parse_blfs(text):
     """longindex 의 <a>이름-버전</a> 들을 {이름: [버전...]} 으로"""
     out = {}
-    for m in re.finditer(r'<a\b[^>]*href="([^"]+\.html)"[^>]*>(.*?)</a>', text, re.S | re.I):
+    # 속성이 여러 줄에 걸치고(href=\n"..."), 주소에 #조각이 붙는 경우까지 처리
+    for m in re.finditer(r'<a\b[^>]*?href\s*=\s*"([^"]+\.html(?:#[^"]*)?)"[^>]*>(.*?)</a>', text, re.S | re.I):
         href, label = m.group(1), m.group(2)
         label = html.unescape(re.sub(r"<[^>]+>", "", label)).strip()
         label = re.sub(r"\s+", " ", label)
@@ -67,7 +68,8 @@ def parse_lfs(text):
     plain = html.unescape(re.sub(r"<[^>]+>", " ", text))
     plain = re.sub(r"\s+", " ", plain)
     out = {}
-    for m in re.finditer(r"([A-Za-z][A-Za-z0-9+_.-]*) \((\d[0-9A-Za-z.+~-]*)\) - [\d,]+ ?KB", plain):
+    # 'Time Zone Data (2026c)', 'Xz Utils (5.8.3)' 처럼 여러 단어 이름도 처리 (각 단어는 대문자로 시작)
+    for m in re.finditer(r"(?<![\w:/.-])([A-Z][A-Za-z0-9+_.-]*(?: [A-Z][A-Za-z0-9+_.-]*)*) \((\d[0-9A-Za-z.+~-]*)\) - [\d,]+ ?KB", plain):
         out.setdefault(norm(m.group(1)), set()).add(m.group(2))
     return out
 
