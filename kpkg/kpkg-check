@@ -5,7 +5,9 @@
 #  kpkg 기록(/var/lib/kpkg/db)의 버전을
 #    - BLFS 최신판(systemd) 패키지 목록
 #    - LFS 최신판(systemd) 패키지 목록 (LFS 기본 패키지용)
-#  과 비교해서 업데이트가 있는 패키지를 보여준다.
+#  과 비교해서 업데이트가 있는 패키지를 보여주고,
+#  LFS/BLFS 보안 공지(linuxfromscratch.org/advisories)와 대조해서
+#  보안 문제가 걸린 패키지를 위험도와 함께 맨 위에 강조한다.
 #
 #  사용:  kpkg check-updates            결과 표 출력
 #         kpkg check-updates --all      최신인 것까지 전부 출력
@@ -21,19 +23,25 @@ ALIASES = ROOT + "etc/kpkg/aliases"
 
 BLFS_INDEX = "https://www.linuxfromscratch.org/blfs/view/systemd/longindex.html"
 LFS_PKGS = "https://www.linuxfromscratch.org/lfs/view/{ver}/chapter03/packages.html"
+ADV_URL = "https://www.linuxfromscratch.org/advisories/index.php"
+SEV_ORDER = {"Critical": 4, "High": 3, "Medium": 2, "Low": 1}
+SEV_KO = {"Critical": "심각", "High": "높음", "Medium": "중간", "Low": "낮음"}
+# 보안 공지에 쓰는 이름 → kpkg 이름
+ADV_ALIASES = {"glib2": "glib", "xz": "xz-utils", "gtk3": "gtk", "freetype2": "freetype"}
 
 # 폴더 이름과 BLFS 표기가 다른 것들 (kpkg 이름 → BLFS/LFS 이름). /etc/kpkg/aliases 로 추가 가능
 DEFAULT_ALIASES = {
-    "libhangul": "libhangul",
-    "linux": "linux",            # LFS 의 커널
+    "xkeyboard-config": "xkeyboardconfig",
 }
 
 
-def fetch(url):
+def fetch(url, post=None):
     """wget 으로 받아오기 (시스템 인증서 사용)"""
+    cmd = ["wget", "-qO-", "--timeout=30", url]
+    if post:
+        cmd.insert(1, "--post-data=" + post)
     try:
-        out = subprocess.run(["wget", "-qO-", "--timeout=30", url],
-                             capture_output=True, check=True)
+        out = subprocess.run(cmd, capture_output=True, check=True)
         return out.stdout.decode("utf-8", "replace")
     except Exception as e:
         sys.exit(f"==> 오류: 내려받기 실패: {url} ({e})")
@@ -54,7 +62,10 @@ def parse_blfs(text):
         href, label = m.group(1), m.group(2)
         label = html.unescape(re.sub(r"<[^>]+>", "", label)).strip()
         label = re.sub(r"\s+", " ", label)
-        if " " in label:
+        inner = re.search(r"\(([^()]+)\)\s*$", label)       # 'libcairomm-1.0 (cairomm-1.14.6)'
+        if inner:
+            label = inner.group(1).strip()
+        if label.count(" ") > 2:                              # 문장(안내 링크 등)은 건너뜀
             continue
         mm = VER_RE.match(label)
         if not mm:
@@ -69,7 +80,7 @@ def parse_lfs(text):
     plain = re.sub(r"\s+", " ", plain)
     out = {}
     # 'Time Zone Data (2026c)', 'Xz Utils (5.8.3)' 처럼 여러 단어 이름도 처리 (각 단어는 대문자로 시작)
-    for m in re.finditer(r"(?<![\w:/.-])([A-Z][A-Za-z0-9+_.-]*(?: [A-Z][A-Za-z0-9+_.-]*)*) \((\d[0-9A-Za-z.+~-]*)\) - [\d,]+ ?KB", plain):
+    for m in re.finditer(r"(?<![\w:/.-])([A-Z][A-Za-z0-9+_.-]*(?: [A-Z][A-Za-z0-9+_.-]*)*|[a-z][A-Za-z0-9+_.-]*) \((\d[0-9A-Za-z.+~-]*)\) - [\d,]+ ?KB", plain):
         out.setdefault(norm(m.group(1)), set()).add(m.group(2))
     return out
 
@@ -131,19 +142,47 @@ def lfs_book_version():
     return v if "systemd" in v else v + "-systemd"
 
 
+def parse_adv(text):
+    """보안 공지 결과 표: [(ID, 패키지, 날짜, 위험도)]"""
+    rows = []
+    for m in re.finditer(r"<tr>\s*<td>\s*(sa-[^<]+?)\s*</td>\s*<td>\s*([^<]+?)\s*</td>\s*<td>\s*([^<]+?)\s*</td>\s*<td>\s*([^<]+?)\s*</td>",
+                         text, re.S | re.I):
+        rows.append(tuple(x.strip() for x in m.groups()))
+    return rows
+
+
 def cmd_check(args):
     quiet = "--quiet" in args
     show_all = "--all" in args
     if not quiet:
-        print("==> BLFS·LFS 최신판 목록을 받는 중...")
+        print("==> BLFS·LFS 최신판 목록과 보안 공지를 받는 중...")
     blfs = parse_blfs(fetch(BLFS_INDEX))
     lfs = parse_lfs(fetch(LFS_PKGS.format(ver="systemd")))
     if len(blfs) < 100 or len(lfs) < 50:
         sys.exit(f"==> 오류: 목록 해석 실패 (BLFS {len(blfs)}개, LFS {len(lfs)}개) — 사이트 형식이 바뀌었을 수 있습니다")
+    release = lfs_book_version().split("-")[0]
+    adv_text = fetch(ADV_URL, f"stype=Book&release={release}&level=Medium&submit=Search")
+    advs = parse_adv(adv_text)
+    if not advs and "sa-" in adv_text:
+        print("==> 경고: 보안 공지 표를 해석하지 못했습니다 (사이트 형식 변경?)", file=sys.stderr)
     aliases = load_aliases()
-    rows, updates, unknown = [], [], []
-    for name, d in read_db().items():
+    db = read_db()
+
+    # 패키지별 보안 공지 모으기
+    adv_by = {}
+    for aid, pkg, date, sev in advs:
+        n = norm(pkg)
+        n = ADV_ALIASES.get(n, n)
+        if n not in db:
+            n = {v: k for k, v in aliases.items()}.get(n, n)
+        if n in db:
+            adv_by.setdefault(n, []).append((aid, date, sev))
+
+    rows, updates, unknown = [], {}, []
+    for name, d in db.items():
         inst = d.get("VERSION", "")
+        if d.get("SOURCE") == "mozilla":            # BLFS 와 배포 경로가 다른 것은 버전 비교 안 함
+            continue
         key = aliases.get(name, name)
         src, cands = None, None
         if key in blfs:
@@ -157,33 +196,63 @@ def cmd_check(args):
         newer = vkey(new) > vkey(inst)
         rows.append((name, inst, new, src, d.get("TYPE", "package"), newer))
         if newer:
-            updates.append((name, inst, new, src))
+            updates[name] = (inst, new, src)
+
+    # 보안: 공지가 있는 패키지
+    sec_update, sec_check = [], []
+    for name, lst in adv_by.items():
+        top = max(lst, key=lambda x: SEV_ORDER.get(x[2], 0))
+        ids = ", ".join(a[0] for a in sorted(lst))
+        if name in updates:
+            sec_update.append((SEV_ORDER.get(top[2], 0), name, top[2], updates[name], ids))
+        else:
+            sec_check.append((SEV_ORDER.get(top[2], 0), name, top[2], db[name].get("VERSION", ""), ids, db[name].get("SOURCE", "")))
+    sec_update.sort(reverse=True)
+    sec_check.sort(reverse=True)
 
     stamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     try:
         with open(STATE, "w", encoding="utf-8") as f:
-            f.write(f"# {stamp} 점검\n")
-            for n, i, v, s in updates:
-                f.write(f"{n}\t{i}\t{v}\t{s}\n")
+            f.write(f"# {stamp} 점검 (보안 공지: LFS/BLFS {release})\n")
+            secnames = {x[1]: x[2] for x in sec_update}
+            for n, (i, v, s) in sorted(updates.items()):
+                f.write(f"{n}\t{i}\t{v}\t{s}\t{secnames.get(n, '-')}\n")
     except PermissionError:
         pass
 
     if quiet:
-        print(f"업데이트 {len(updates)}개" + (": " + ", ".join(u[0] for u in updates[:8]) + (" ..." if len(updates) > 8 else "") if updates else ""))
+        crit = sum(1 for x in sec_update if x[2] in ("Critical", "High"))
+        print(f"보안 업데이트 {len(sec_update)}개(심각·높음 {crit}개), 확인 필요 {len(sec_check)}개, 일반 업데이트 {len(updates) - len(sec_update)}개")
         return
-    print(f"==> 비교 기준: BLFS {len(blfs)}개, LFS {len(lfs)}개 패키지 ({stamp})\n")
+
+    print(f"==> 비교 기준: BLFS {len(blfs)}개, LFS {len(lfs)}개 패키지, 보안 공지 {len(advs)}건 (LFS/BLFS {release}, {stamp})\n")
+    if sec_update:
+        print("################  보안 업데이트 필요  ################")
+        print(f"{'위험도':<8}{'이름':<20}{'설치됨':<14}{'최신':<14}공지")
+        for _, name, sev, (i, v, s), ids in sec_update:
+            print(f"{SEV_KO.get(sev, sev):<8}{name:<20}{i:<14}{v:<14}{ids}")
+        print()
+    if sec_check:
+        print("################  보안 공지 있음 — 직접 확인 필요  ################")
+        print("  (버전 번호는 최신과 같지만 공지가 있음: BLFS 가 패치로 고쳤거나, 별도 경로로 받은 프로그램)")
+        for _, name, sev, i, ids, src in sec_check:
+            note = " ← Mozilla 에서 받은 버전, 최신 여부 직접 확인" if src == "mozilla" else ""
+            print(f"  {SEV_KO.get(sev, sev):<6}{name:<20}{i:<14}{ids}{note}")
+        print("  공지 내용: https://www.linuxfromscratch.org/advisories/ 에서 ID 로 검색\n")
+
+    print("################  일반 업데이트  ################")
     print(f"{'이름':<26}{'설치됨':<16}{'최신':<16}{'출처':<6}{'기록 종류'}")
     print("-" * 78)
+    sec_set = {x[1] for x in sec_update}
     for name, inst, new, src, typ, newer in rows:
-        if newer or show_all:
+        if (newer and name not in sec_set) or show_all:
             mark = "↑ " if newer else "  "
             print(f"{mark}{name:<24}{inst:<16}{new:<16}{src:<6}{typ}")
     print("-" * 78)
-    print(f"업데이트 있음: {len(updates)}개 / 비교한 패키지: {len(rows)}개")
+    print(f"보안 업데이트 {len(sec_update)}개 / 일반 업데이트 {len(updates) - len(sec_update)}개 / 비교한 패키지 {len(rows)}개")
     if unknown:
         print(f"\nBLFS·LFS 목록에서 이름을 못 찾음 ({len(unknown)}개): {' '.join(unknown)}")
-        print("  → 이름이 다르게 적힌 경우 /etc/kpkg/aliases 에 '우리이름=BLFS이름' 형태로 추가하세요")
-    print("\n참고: 이 점검은 '새 버전이 있는지'만 봅니다. 보안 공지 대조는 다음 단계에서 추가합니다.")
+        print("  → BLFS 에 없는 패키지(dwm 등)는 정상. 이름만 다른 경우 /etc/kpkg/aliases 에 '우리이름=BLFS이름' 추가")
 
 
 def cmd_register_lfs(args):
@@ -218,6 +287,8 @@ if __name__ == "__main__":
         cmd_register_lfs(rest)
     elif cmd == "selftest":
         b = parse_blfs(open(rest[0]).read()); l = parse_lfs(open(rest[1]).read())
-        print(len(b), len(l)); print(sorted(b.items())[:5]); print(sorted(l.items())[:5])
+        print(len(b), len(l)); print(sorted(b.items())[:8]); print(sorted(l.items())[:8])
+        if len(rest) > 2:
+            a = parse_adv(open(rest[2], encoding="latin-1").read()); print(len(a), a[:3])
     else:
         sys.exit("알 수 없는 명령: " + cmd)
