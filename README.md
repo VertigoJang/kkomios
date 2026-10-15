@@ -71,7 +71,7 @@ kpkg list | info 이름 | files 이름 | owns 경로      # 조회
 kpkg check-updates                                  # 업데이트·보안 점검
 ```
 
-### 진행 상황 (솔직하게)
+### 진행 상황
 
 **된 것**
 - LFS 기본 시스템, 커널, GRUB 부팅
@@ -176,7 +176,7 @@ Rather than customizing an existing distribution, this is a learning project: th
 - **kpkg**: a home-made package manager (recipe → DESTDIR → package → install with file tracking, conflict checks, `/etc` protection) plus `kpkg-check`, a daily update and **LFS security advisory** checker
 - **Branding**: GRUB theme, three login-screen themes and three icon themes (A · B · D)
 
-### Status (honestly)
+### Status
 
 - Works in a VM only — **not yet tested on real hardware**
 - **No installer ISO yet**; you need an LFS 13.1 systemd system to use this repository
