@@ -1,0 +1,12 @@
+#!/bin/sh
+# fastfetch 용: kpkg 와 brew 패키지 수를 한 줄로 출력
+k=0
+for m in /var/lib/kpkg/db/*/meta ; do
+  [ -f "$m" ] || continue
+  case "$m" in */base/meta) continue ;; esac
+  k=$((k+1))
+done
+out="$k (kpkg)"
+b=/home/linuxbrew/.linuxbrew/Cellar
+[ -d "$b" ] && out="$out, $(ls -1 "$b" | wc -l) (brew)"
+echo "$out"
