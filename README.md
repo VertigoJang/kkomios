@@ -8,6 +8,10 @@
 </p>
 
 <p align="center">
+  현재 버전 <b>0.1 "Poodle"</b> · 개발판 (가상 머신 전용) · <a href="CHANGELOG.md">버전 기록</a>
+</p>
+
+<p align="center">
   <a href="#한국어">한국어</a> · <a href="#english">English</a>
 </p>
 
@@ -71,7 +75,7 @@ kpkg list | info 이름 | files 이름 | owns 경로      # 조회
 kpkg check-updates                                  # 업데이트·보안 점검
 ```
 
-### 진행 상황
+### 진행 상황 (0.1 "Poodle" 기준)
 
 **된 것**
 - LFS 기본 시스템, 커널, GRUB 부팅
@@ -89,6 +93,8 @@ kpkg check-updates                                  # 업데이트·보안 점�
 - 노트북용 드라이버는 커널에 넣어 두었지만 실제 기기에서 확인 전
 
 ### 로드맵
+
+버전 계획: 0.2 GTK4·로그인 화면 → 0.3 데스크톱 5종 → 0.5 첫 라이브 ISO → 0.8 설치 프로그램·실제 노트북 → **1.0** 실사용 가능
 
 1. **기반**: gobject-introspection 다시 켜기 → GTK4 → kpkg 묶음(그룹) 기능 → LightDM(로그인 테마 A·B·D 적용)
 2. **데스크톱 추가**: Openbox → MATE → KDE Plasma → GNOME(Wayland). 설치할 때 원하는 것을 고를 수 있게
@@ -142,6 +148,8 @@ branding/          로고, 배경화면, 글꼴, 출처(CREDITS.md)
   logo/            단색 로고
   themes/          로그인 화면 3종, 아이콘 테마 3종 (themes/README.md)
 docs/              README 용 배너와 스크린샷
+tools/             보조 스크립트 (set-os-release.sh: 버전 정보를 /etc/os-release 에 반영)
+VERSION            현재 버전 번호
 ```
 
 ### 라이선스
@@ -176,7 +184,7 @@ Rather than customizing an existing distribution, this is a learning project: th
 - **kpkg**: a home-made package manager (recipe → DESTDIR → package → install with file tracking, conflict checks, `/etc` protection) plus `kpkg-check`, a daily update and **LFS security advisory** checker
 - **Branding**: GRUB theme, three login-screen themes and three icon themes (A · B · D)
 
-### Status
+### Status (0.1 "Poodle")
 
 - Works in a VM only — **not yet tested on real hardware**
 - **No installer ISO yet**; you need an LFS 13.1 systemd system to use this repository
