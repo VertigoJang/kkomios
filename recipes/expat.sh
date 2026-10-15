@@ -1,6 +1,6 @@
 # Expat — LFS 방식 (보안 업데이트: sa-13.1-022, sa-13.1-045)
 NAME=expat
-VERSION=2.8.5
+VERSION=2.9.0
 URL=https://github.com/libexpat/libexpat/releases/download/R_${VERSION//./_}/expat-$VERSION.tar.xz
 DEPENDS=""
 
