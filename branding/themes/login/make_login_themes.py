@@ -21,10 +21,11 @@ W, H, S = 1920, 1200, 2
 def font(path, size, wght=None):
     f = ImageFont.truetype(path, size)
     if wght:
-        try: f.set_variation_by_axes([wght] + [100] * (len(f.get_variation_axes()) - 1) if len(f.get_variation_axes()) > 1 and "eight" not in str(f.get_variation_axes()[0].get("name")) else [wght])
+        try:
+            axes = f.get_variation_axes()
+            f.set_variation_by_axes([wght if b"eight" in ax.get("name", b"") else ax.get("default", 100) for ax in axes])
         except Exception:
-            try: f.set_variation_by_axes([100, wght])
-            except Exception: pass
+            pass
     return f
 
 def logo(height, stroke=3):

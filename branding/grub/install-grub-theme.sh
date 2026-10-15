@@ -21,10 +21,10 @@ done
 
 echo "===== 3. grub.cfg 백업 → $CFG.before-theme ====="
 [ -f "$CFG.before-theme" ] || $SUDO cp "$CFG" "$CFG.before-theme"
-SRC="$CFG.before-theme"          # 항상 테마 적용 전 원본을 기준으로 다시 만듦
-
-# 원본에서 머리말(첫 menuentry 전까지)과 각 항목의 본문을 뽑음
-HEAD=$(awk '/^[[:space:]]*menuentry/{exit} {print}' "$SRC" | grep -vE '^[[:space:]]*(set theme|loadfont|terminal_output|set gfxmode|insmod (png|gfxterm|all_video))')
+# 머리말은 항상 테마 적용 전 원본에서, 부팅 항목(커널 줄)은 지금 grub.cfg 에서 가져옴
+# (테마 적용 뒤 직접 고친 커널 경로가 다시 설치해도 유지되도록)
+SRC="$CFG"
+HEAD=$(awk '/^[[:space:]]*menuentry/{exit} {print}' "$CFG.before-theme" | grep -vE '^# ---- KkomiOS|^[[:space:]]*(set theme|loadfont|terminal_output|set gfxmode|insmod (png|gfxterm|all_video))')
 body() {  # $1 = 몇 번째 항목(1부터)
   awk -v want="$1" '
     /^[[:space:]]*menuentry/ { n++ ; inb = (n == want) ; next }
@@ -43,7 +43,7 @@ NEW=$(mktemp)
 insmod all_video
 insmod gfxterm
 insmod png
-set gfxmode=1920x1200,1920x1080,1280x800,auto
+set gfxmode=1920x1200,1920x1080,1280x1024,1280x800,1024x768,auto
 terminal_output gfxterm
 loadfont /boot/grub/themes/kkomios/dejavu_mono_16.pf2
 loadfont /boot/grub/themes/kkomios/dejavu_mono_22.pf2
@@ -54,7 +54,7 @@ EOF
   echo 'menuentry "KkomiOS" --class kkomios {'
   echo "$B1"
   echo '}'
-  echo 'submenu "Advanced options for KkomiOS" --class settings {'
+  echo 'submenu "Advanced options" --class settings {'
   if [ -n "$B2" ] ; then
     echo '    menuentry "KkomiOS (backup kernel)" --class kkomios {'
     echo "$B2"
