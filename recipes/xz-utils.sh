@@ -1,4 +1,4 @@
-NAME=xz
+NAME=xz-utils
 VERSION=5.8.4
 URL=https://github.com/tukaani-project/xz/releases/download/v$VERSION/xz-$VERSION.tar.xz
 DEPENDS=""
