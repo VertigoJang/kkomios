@@ -1,0 +1,65 @@
+# KkomiOS GRUB 테마 (시안 A)
+title-text: ""
+desktop-image: "background.png"
+desktop-image-scale-method: "stretch"
+desktop-color: "#111a29"
+terminal-font: "DejaVu Sans Mono Regular 16"
+
++ boot_menu {
+    left = 36%
+    top = 37%
+    width = 30%
+    height = 36%
+    item_font = "DejaVu Sans Mono Regular 22"
+    item_color = "#e8e1d6"
+    selected_item_font = "DejaVu Sans Mono Bold 22"
+    selected_item_color = "#111a29"
+    item_height = 52
+    item_padding = 14
+    item_spacing = 10
+    icon_width = 32
+    icon_height = 32
+    item_icon_space = 16
+    selected_item_pixmap_style = "select_*.png"
+    scrollbar = false
+}
+
++ label {
+    id = "__timeout__"
+    left = 36%
+    top = 74%
+    width = 30%
+    height = 24
+    align = "left"
+    color = "#9b9ea6"
+    font = "DejaVu Sans Mono Regular 16"
+    text = "Booting in %d seconds"
+}
+
++ label {
+    left = 36%
+    top = 85%
+    width = 60%
+    height = 20
+    color = "#8a93a6"
+    font = "DejaVu Sans Mono Regular 16"
+    text = "Use the Up and Down arrow keys to select an entry."
+}
++ label {
+    left = 36%
+    top = 87%
+    width = 60%
+    height = 20
+    color = "#8a93a6"
+    font = "DejaVu Sans Mono Regular 16"
+    text = "Press Enter to boot the selected OS, 'e' to edit the commands"
+}
++ label {
+    left = 36%
+    top = 89%
+    width = 60%
+    height = 20
+    color = "#8a93a6"
+    font = "DejaVu Sans Mono Regular 16"
+    text = "before booting or 'c' for a command-line."
+}
