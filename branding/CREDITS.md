@@ -18,3 +18,11 @@
 | 앰버(강조) | `#f9ca85`, `#fcd598` |
 
 문구: **The House Always Wins**
+
+## 에셋 목록
+| 폴더 | 내용 | 다시 만들기 |
+|---|---|---|
+| `grub/` | GRUB 테마 (시안 A) | `python3 branding/grub/make_theme.py` |
+| `logo/` | 단색 로고 2종: `kkomios-mono.png`(남색+흰색), `kkomios-symbolic.png`(한 색 실루엣), 크기별 폴더 | `python3 branding/logo/make_logos.py` |
+| `icons/` | 시스템 아이콘 20개 (시안 D), `svg/` 원본 + 크기별 PNG. 파일 이름은 freedesktop 아이콘 이름 | `python3 branding/icons/make_icons.py` |
+| `login/` | 로그인 화면 (시안 B): 글자 없는 배경, 프로필 이미지 | `python3 branding/login/make_login.py` |
