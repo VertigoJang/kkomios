@@ -1,0 +1,29 @@
+#!/bin/bash
+# kkomios-accel — 그래픽 가속(VMware 3D, Mesa svga) 켜기·끄기
+#   kkomios-accel on                가속 켬: 0.1 때 넣은 '가속 끄기' 설정을 치움 (재로그인/재부팅 후 적용)
+#   kkomios-accel off               가속 끔: 그 설정을 되돌려 놓음
+#   kkomios-accel compositing on|off  창 효과(그림자·투명) 켜기/끄기 — 화면 모양이 바뀌는 부분이라 따로 둠
+#   kkomios-accel status            지금 상태
+set -u
+CONF=/etc/X11/xorg.conf.d/20-kkomios-noaccel.conf
+OFF=/etc/X11/kkomios-noaccel.conf.off
+case "${1:-status}" in
+  on)
+    if [ -f "$CONF" ] ; then sudo mv "$CONF" "$OFF" && echo "가속 끄기 설정을 치웠습니다 → $OFF 에 보관"
+    else echo "가속 끄기 설정이 이미 없습니다" ; fi
+    echo "재로그인(또는 재부팅) 후 'kkomios-accel status' 로 확인하세요" ;;
+  off)
+    if [ -f "$OFF" ] ; then sudo mv "$OFF" "$CONF" && echo "가속 끄기 설정을 되돌렸습니다 (재로그인 후 적용)"
+    else echo "보관된 설정이 없습니다 ($OFF)" ; fi ;;
+  compositing)
+    case "${2:-}" in on) v=true ;; off) v=false ;; *) echo "사용법: kkomios-accel compositing on|off" ; exit 1 ;; esac
+    xfconf-query -c xfwm4 -p /general/use_compositing -s $v && echo "창 효과(컴포지팅): $2" ;;
+  status)
+    echo "가속 끄기 설정: $([ -f "$CONF" ] && echo '있음 (가속 꺼짐)' || echo '없음 (가속 사용)')"
+    echo "창 효과(컴포지팅): $(xfconf-query -c xfwm4 -p /general/use_compositing 2>/dev/null || echo 알 수 없음)"
+    if command -v glxinfo > /dev/null ; then
+      glxinfo -B 2>/dev/null | grep -E 'OpenGL renderer|OpenGL core profile version|Accelerated' | sed 's/^ */  /'
+    else echo "  glxinfo 없음" ; fi
+    grep -E 'glamor|AccelMethod|Using.*(glamor|shadow)' /var/log/Xorg.0.log ~/.local/share/xorg/Xorg.0.log 2>/dev/null | tail -3 | sed 's/^/  Xorg: /' ;;
+  *) sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
+esac

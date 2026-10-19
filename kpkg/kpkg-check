@@ -13,6 +13,9 @@
 #         kpkg check-updates --all      최신인 것까지 전부 출력
 #         kpkg check-updates --quiet    요약 한 줄만 (자동 실행용)
 #         kpkg register-lfs [13.1]      LFS 책의 기본 패키지 버전을 '버전만' 등록
+#         kpkg ack <공지ID...>          확인한 보안 공지를 '직접 확인 필요' 목록에서 숨김
+#  보안 공지 이후에 kpkg 로 최신 버전을 설치한 패키지는 이미 반영된 것으로 보고 자동으로 숨김
+#  (--all 을 주면 숨긴 것까지 표시)
 # =====================================================================
 import os, re, sys, subprocess, html, datetime
 
@@ -20,6 +23,7 @@ ROOT = os.environ.get("KPKG_ROOT", "/").rstrip("/") + "/"
 DB = ROOT + "var/lib/kpkg/db"
 STATE = ROOT + "var/lib/kpkg/updates.txt"
 ALIASES = ROOT + "etc/kpkg/aliases"
+ACKS = ROOT + "var/lib/kpkg/advisories-ack"
 
 BLFS_INDEX = "https://www.linuxfromscratch.org/blfs/view/systemd/longindex.html"
 LFS_PKGS = "https://www.linuxfromscratch.org/lfs/view/{ver}/chapter03/packages.html"
@@ -151,6 +155,38 @@ def parse_adv(text):
     return rows
 
 
+def parse_date(s):
+    """공지 날짜 → date (형식이 여러 가지라 몇 가지를 시도, 실패하면 None)"""
+    s = s.strip()
+    for fmt in ("%Y-%m-%d", "%Y/%m/%d", "%d %b %Y", "%d %B %Y", "%b %d, %Y", "%B %d, %Y", "%Y-%m-%d %H:%M"):
+        try:
+            return datetime.datetime.strptime(s, fmt).date()
+        except ValueError:
+            pass
+    m = re.search(r"(\d{4})-(\d{2})-(\d{2})", s)
+    return datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3))) if m else None
+
+
+def read_acks():
+    if not os.path.isfile(ACKS):
+        return set()
+    return {l.split("#", 1)[0].strip() for l in open(ACKS, encoding="utf-8") if l.split("#", 1)[0].strip()}
+
+
+def cmd_ack(args):
+    if not args:
+        sys.exit("사용법: kpkg ack <공지ID...>   (예: kpkg ack sa-13.1-012)")
+    have = read_acks()
+    os.makedirs(os.path.dirname(ACKS), exist_ok=True)
+    with open(ACKS, "a", encoding="utf-8") as f:
+        for a in args:
+            if a in have:
+                print(f"  이미 확인됨: {a}")
+                continue
+            f.write(f"{a}  # {datetime.datetime.now():%Y-%m-%d} 확인\n")
+            print(f"  확인 처리: {a} (점검 결과에서 숨김, 다시 보려면 {ACKS} 에서 줄 삭제)")
+
+
 def cmd_check(args):
     quiet = "--quiet" in args
     show_all = "--all" in args
@@ -199,7 +235,24 @@ def cmd_check(args):
             updates[name] = (inst, new, src)
 
     # 보안: 공지가 있는 패키지
-    sec_update, sec_check = [], []
+    sec_update, sec_check, hidden = [], [], []
+    acks = read_acks()
+    for name in list(adv_by):
+        keep = []
+        for aid, date, sev in adv_by[name]:
+            d = db[name]
+            inst_date = parse_date(d.get("INSTALLDATE", "")) if d.get("TYPE", "package") == "package" else None
+            adv_date = parse_date(date)
+            if aid in acks:
+                hidden.append((name, aid, "직접 확인함"))
+            elif name not in updates and inst_date and adv_date and inst_date >= adv_date:
+                hidden.append((name, aid, f"공지({adv_date}) 이후 {inst_date} 에 kpkg 로 설치"))
+            else:
+                keep.append((aid, date, sev))
+        if keep:
+            adv_by[name] = keep
+        else:
+            del adv_by[name]
     for name, lst in adv_by.items():
         top = max(lst, key=lambda x: SEV_ORDER.get(x[2], 0))
         ids = ", ".join(a[0] for a in sorted(lst))
@@ -222,7 +275,7 @@ def cmd_check(args):
 
     if quiet:
         crit = sum(1 for x in sec_update if x[2] in ("Critical", "High"))
-        print(f"보안 업데이트 {len(sec_update)}개(심각·높음 {crit}개), 확인 필요 {len(sec_check)}개, 일반 업데이트 {len(updates) - len(sec_update)}개")
+        print(f"보안 업데이트 {len(sec_update)}개(심각·높음 {crit}개), 확인 필요 {len(sec_check)}개, 일반 업데이트 {len(updates) - len(sec_update)}개 (이미 반영된 공지 {len(hidden)}건은 숨김)")
         return
 
     print(f"==> 비교 기준: BLFS {len(blfs)}개, LFS {len(lfs)}개 패키지, 보안 공지 {len(advs)}건 (LFS/BLFS {release}, {stamp})\n")
@@ -238,7 +291,16 @@ def cmd_check(args):
         for _, name, sev, i, ids, src in sec_check:
             note = " ← Mozilla 에서 받은 버전, 최신 여부 직접 확인" if src == "mozilla" else ""
             print(f"  {SEV_KO.get(sev, sev):<6}{name:<20}{i:<14}{ids}{note}")
-        print("  공지 내용: https://www.linuxfromscratch.org/advisories/ 에서 ID 로 검색\n")
+        print("  공지 내용: https://www.linuxfromscratch.org/advisories/ 에서 ID 로 검색")
+        print("  확인을 마친 공지는 'kpkg ack <ID>' 로 숨길 수 있음\n")
+    if hidden:
+        if show_all:
+            print("################  이미 반영된 보안 공지 (숨김)  ################")
+            for name, aid, why in sorted(hidden):
+                print(f"  {name:<20}{aid:<18}{why}")
+            print()
+        else:
+            print(f"(이미 반영된 보안 공지 {len(hidden)}건은 숨김 — 보려면 --all)\n")
 
     print("################  일반 업데이트  ################")
     print(f"{'이름':<26}{'설치됨':<16}{'최신':<16}{'출처':<6}{'기록 종류'}")
@@ -283,6 +345,8 @@ if __name__ == "__main__":
     cmd, rest = sys.argv[1], sys.argv[2:]
     if cmd == "check":
         cmd_check(rest)
+    elif cmd == "ack":
+        cmd_ack(rest)
     elif cmd == "register-lfs":
         cmd_register_lfs(rest)
     elif cmd == "selftest":

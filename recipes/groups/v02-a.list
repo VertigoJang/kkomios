@@ -1,0 +1,19 @@
+# 0.2 묶음 A — Xfce 마무리
+# 실행: kpkg group ~/kkomios/recipes/groups/v02-a.list   (미리 보기: 끝에 --dry)
+
+# 1. 터미널 (sakura 의 GnuTLS 경고 해결, GTK4 판 VTE 추가)
+libunistring nettle gnutls icu vte
+# 2. 입력기 (GTK4 앱에서도 한글 입력)
+fcitx5-gtk
+# 3. 그래픽 (VMware 3D 가속 드라이버 svga)
+mesa
+# 4. 로그인 화면 (LightDM)
+perl-class-inspector perl-file-sharedir-install perl-file-sharedir perl-xml-parser intltool
+libgpg-error libgcrypt iso-codes libxklavier accountsservice lightdm lightdm-gtk-greeter
+# 5. Xfce 기본 도구: 알림, 전원 관리, 음량 플러그인, 사진 보기
+libogg libvorbis libcanberra sound-theme-freedesktop xfce4-notifyd
+libusb upower xfce4-power-manager
+libsndfile pulseaudio xfce4-pulseaudio-plugin
+libexif ristretto
+# 6. KkomiOS 테마·관리 명령
+kkomios-themes kkomios-tools

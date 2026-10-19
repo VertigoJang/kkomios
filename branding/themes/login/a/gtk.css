@@ -1,0 +1,24 @@
+/* KkomiOS 로그인 화면 (lightdm-gtk-greeter, GTK3) — 기본은 Adwaita 어두운 테마 위에 덮어씀 */
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");
+
+* { font-family: "Nunito", sans-serif; }
+#panel_window { background-color: transparent; background-image: none; color: #f8f3ea; box-shadow: none; }
+#panel_window menubar, #panel_window menubar > menuitem { background: transparent; color: #f8f3ea; border: none; box-shadow: none; }
+#panel_window menubar > menuitem:hover { background-color: rgba(248, 243, 234, 0.15); border-radius: 8px; }
+#login_window label, #power_window label { color: #f8f3ea; }
+#content_frame, #buttonbox_frame, #power_content_frame, #power_buttonbox_frame { background: transparent; border: none; }
+#login_window entry, #login_window combobox button {
+  background-image: none; background-color: #111a29; color: #f8f3ea;
+  border: 1px solid #788296; border-radius: 12px; min-height: 40px; box-shadow: none; }
+#login_window entry:focus { border-color: #f6debe; }
+#login_button, #power_ok_button {
+  background-image: none; background-color: #f6debe; color: #111a29;
+  border: none; border-radius: 12px; min-height: 40px; font-weight: bold; box-shadow: none; text-shadow: none; }
+#login_button label, #power_ok_button label { color: #111a29; }
+#login_button:hover, #power_ok_button:hover { background-color: #fbe9d0; }
+#cancel_button, #power_cancel_button { background-image: none; background-color: transparent; color: #c8c8d2; border: none; box-shadow: none; }
+#power_window { background-color: rgba(30, 42, 62, 0.95); border-radius: 18px; }
+#greeter_infobar { border-radius: 10px; }
+
+/* A 카드형: 오른쪽 반투명 남색 카드 */
+#login_window { background-color: rgba(30, 42, 62, 0.90); border-radius: 24px; padding: 28px 32px; box-shadow: none; border: none; }

@@ -1,0 +1,32 @@
+#!/bin/bash
+# kkomios-login-theme — 로그인 화면 테마 고르기
+#   kkomios-login-theme a     A 카드형 (오른쪽 카드, 사용자 목록)
+#   kkomios-login-theme b     B 원형   (가운데 프로필 + 비밀번호)
+#   kkomios-login-theme d     D 입력형 (사용자 이름·비밀번호 직접 입력)
+#   kkomios-login-theme off   LightDM 기본 모양으로 되돌림
+#   kkomios-login-theme       지금 테마 보기
+set -u
+D=/usr/share/kkomios/login
+G=/etc/lightdm/lightdm-gtk-greeter.conf
+SEL=/etc/lightdm/kkomios-login-theme
+HIDE=/etc/lightdm/lightdm.conf.d/50-kkomios-login.conf
+S=$([ "$(id -u)" -eq 0 ] || echo sudo)
+case "${1:-}" in
+  a|b|d|A|B|D)
+    x=$(echo "$1" | tr A-Z a-z)
+    [ -f "$D/$x/greeter.conf" ] || { echo "테마 파일이 없습니다: $D/$x (kkomios-themes 설치 필요)" ; exit 1 ; }
+    [ -f "$G" ] && [ ! -f "$G.orig" ] && $S cp "$G" "$G.orig"
+    $S cp "$D/$x/greeter.conf" "$G"
+    $S mkdir -p "$(dirname "$HIDE")"
+    [ "$x" = d ] && h=true || h=false
+    printf '# kkomios-login-theme 이 관리\n[Seat:*]\ngreeter-hide-users=%s\n' "$h" | $S tee "$HIDE" > /dev/null
+    echo "$x" | $S tee "$SEL" > /dev/null
+    echo "로그인 테마: $(echo "$x" | tr a-z A-Z) — 다음 로그인 화면부터 적용 (지금 보려면: dm-tool lock)" ;;
+  off)
+    if [ -f "$G.orig" ] ; then $S cp "$G.orig" "$G" ; else $S rm -f "$G" ; fi
+    $S rm -f "$HIDE" "$SEL"
+    echo "로그인 테마: LightDM 기본 모양" ;;
+  "")
+    echo "지금 로그인 테마: $(cat "$SEL" 2>/dev/null | tr a-z A-Z || true)$( [ -f "$SEL" ] || echo 기본)" ;;
+  *) sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
+esac

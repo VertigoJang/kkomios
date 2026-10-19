@@ -1,0 +1,68 @@
+#!/bin/bash
+# kkomios-lightdm — 로그인 방식 전환 (일반 사용자로 실행, 필요할 때 sudo 사용)
+#   kkomios-lightdm on              LightDM 로그인 화면 사용 (재부팅 후 적용)
+#   kkomios-lightdm off             예전 방식(tty1 자동 로그인 + startx)으로 되돌림
+#   kkomios-lightdm autologin on|off  LightDM 에서 비밀번호 없이 자동 로그인
+#   kkomios-lightdm status          현재 상태
+set -u
+[ "$(id -u)" -ne 0 ] || { echo "일반 사용자로 실행하세요 (sudo 없이)" ; exit 1 ; }
+CONFD=/etc/lightdm/lightdm.conf.d
+AUTO=$CONFD/60-kkomios-autologin.conf
+
+make_xprofile() {
+  # LightDM 은 ~/.xinitrc 를 읽지 않으므로, 거기서 하던 준비(입력기·VMware 도구 등)를 ~/.xprofile 로 옮김
+  if [ -f ~/.xprofile ] ; then echo "  ~/.xprofile 이 이미 있어 그대로 둡니다" ; return ; fi
+  [ -f ~/.xinitrc ] || { echo "  ~/.xinitrc 가 없어 ~/.xprofile 을 만들지 않습니다" ; return ; }
+  {
+    echo "# KkomiOS: LightDM 로그인 때 세션 시작 전에 실행 (~/.xinitrc 에서 옮겨 옴, $(date +%F))"
+    grep -vE '^\s*(#|$)|^\s*exec\b|dbus-launch|startxfce4|startx\b' ~/.xinitrc
+  } > ~/.xprofile
+  if ! sh -n ~/.xprofile 2>/dev/null ; then
+    mv ~/.xprofile ~/.xprofile.check
+    echo "  경고: 옮긴 내용에 문법 문제가 있어 ~/.xprofile.check 로 저장만 했습니다. 내용을 확인해 주세요" ; return
+  fi
+  echo "  ~/.xinitrc 를 바탕으로 ~/.xprofile 을 만들었습니다:"
+  sed 's/^/    | /' ~/.xprofile
+}
+
+lock_cmd() {  # Xfce 화면 잠금 명령 (xflock4 가 LightDM 잠금을 쓰게)
+  command -v xfconf-query > /dev/null || return 0
+  if [ "$1" = on ] ; then
+    xfconf-query -c xfce4-session -p /general/LockCommand -n -t string -s "dm-tool lock" 2>/dev/null \
+      && echo "  화면 잠금: dm-tool lock (Xfce 의 잠금 버튼·xflock4 가 LightDM 잠금 화면 사용)"
+  else
+    xfconf-query -c xfce4-session -p /general/LockCommand -r 2>/dev/null ; true
+  fi
+}
+
+case "${1:-status}" in
+  on)
+    command -v lightdm > /dev/null || { echo "LightDM 이 설치돼 있지 않습니다" ; exit 1 ; }
+    [ -f /usr/share/xsessions/xfce.desktop ] || echo "  경고: /usr/share/xsessions/xfce.desktop 이 없어 세션 목록이 비어 있을 수 있습니다"
+    make_xprofile
+    lock_cmd on
+    sudo systemctl enable lightdm.service && echo "  LightDM 켜짐 → 재부팅하면 로그인 화면이 나옵니다"
+    [ -f /etc/lightdm/kkomios-login-theme ] || echo "  로그인 테마는 아직 기본 모양입니다. 고르기: kkomios-login-theme a|b|d"
+    ;;
+  off)
+    sudo systemctl disable lightdm.service
+    sudo rm -f "$AUTO"
+    lock_cmd off
+    echo "  LightDM 꺼짐 → 재부팅하면 예전처럼 tty1 자동 로그인 + startx 로 시작합니다 (~/.xprofile 은 남겨 둠)"
+    ;;
+  autologin)
+    case "${2:-}" in
+      on)  sudo mkdir -p "$CONFD"
+           printf '[Seat:*]\nautologin-user=%s\nautologin-session=xfce\n' "$(id -un)" | sudo tee "$AUTO" > /dev/null
+           echo "  자동 로그인 켬 ($(id -un), Xfce). 잠금 화면에서는 여전히 비밀번호를 묻습니다" ;;
+      off) sudo rm -f "$AUTO" ; echo "  자동 로그인 끔 (로그인 화면에서 비밀번호 입력)" ;;
+      *)   echo "사용법: kkomios-lightdm autologin on|off" ; exit 1 ;;
+    esac ;;
+  status)
+    echo "LightDM: $(systemctl is-enabled lightdm.service 2>/dev/null || echo 없음) / 실행 중: $(systemctl is-active lightdm.service 2>/dev/null)"
+    echo "자동 로그인: $([ -f "$AUTO" ] && echo 켬 || echo 끔)"
+    echo "로그인 테마: $(cat /etc/lightdm/kkomios-login-theme 2>/dev/null || echo 기본)"
+    echo "~/.xprofile: $([ -f ~/.xprofile ] && echo 있음 || echo 없음)"
+    ;;
+  *) sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
+esac

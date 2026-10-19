@@ -17,11 +17,13 @@
 #    kpkg register-versions [목록파일] 이름-버전 형태의 목록을 '버전만' 등록
 #    kpkg register-lfs [13.1]          LFS 책의 기본 패키지 버전을 '버전만' 등록
 #    kpkg check-updates [--all|--quiet] BLFS·LFS 최신판과 버전 비교
+#    kpkg group <목록파일> [--dry]     목록의 레시피를 차례로 빌드·설치 (이미 된 것은 건너뜀)
+#    kpkg ack <공지ID...>              확인한 보안 공지를 점검 결과에서 숨김
 # =====================================================================
 set -Eeuo pipefail
 trap 'echo "kpkg: ${BASH_SOURCE[0]##*/} ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
 
-KPKG_VERSION=0.7
+KPKG_VERSION=0.8
 ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
 ROOT=${ROOT%/}/
 DB=${ROOT}var/lib/kpkg/db
@@ -53,7 +55,7 @@ lock() {
 load_recipe() {
   local r=$1
   [ -f "$r" ] || die "레시피 파일이 없습니다: $r"
-  unset NAME VERSION URL DEPENDS SOURCES
+  unset NAME VERSION URL DEPENDS SOURCES SKIP_IF
   # shellcheck disable=SC1090
   source "$r"
   [ -n "${NAME:-}" ] && [ -n "${VERSION:-}" ] || die "레시피에 NAME 과 VERSION 이 필요합니다"
@@ -412,6 +414,53 @@ cmd_register_versions() {
   msg "완료"
 }
 
+# ---------- group (묶음 빌드) ----------
+# 목록 파일: 한 줄에 레시피 이름 하나 (# 뒤는 설명). 레시피는 목록 파일의 상위 폴더(recipes/)에서 찾음
+# 건너뛰는 경우: 같은 버전이 이미 'package' 로 설치됨 / 레시피의 SKIP_IF 명령이 성공(다른 방법으로 이미 있음)
+cmd_group() {
+  local list=${1:?목록 파일을 지정하세요} dry=no
+  [ "${2:-}" = "--dry" ] && dry=yes
+  [ "$(id -u)" -ne 0 ] || die "group 은 일반 사용자로 실행하세요 (설치 단계에서만 sudo 를 씀)"
+  list=$(readlink -f "$list") ; [ -f "$list" ] || die "목록 파일이 없습니다: $list"
+  local rdir ; rdir=$(dirname "$(dirname "$list")")
+  export KPKG_BUILDDIR=${KPKG_BUILDDIR:-/var/tmp/kpkg-build}
+  BUILDROOT=$KPKG_BUILDDIR ; mkdir -p "$BUILDROOT"
+  local names ; names=$(sed 's/#.*//' "$list" | tr -s ' \t' '\n' | grep -v '^$' || true)
+  [ -n "$names" ] || die "목록이 비어 있습니다"
+
+  local n r info v skip todo=() total=0
+  printf '%-28s %-14s %s\n' "레시피" "버전" "상태"
+  for n in $names ; do
+    r="$rdir/$n.sh" ; [ -f "$r" ] || die "레시피가 없습니다: $r"
+    info=$( load_recipe "$r" > /dev/null ; printf '%s\n%s\n%s\n' "$NAME" "$VERSION" "${SKIP_IF:-}" ) || die "레시피를 읽지 못했습니다: $r"
+    { read -r n ; read -r v ; read -r skip || true ; } <<< "$info"
+    total=$((total+1))
+    if [ -f "$DB/$n/meta" ] && [ "$(. "$DB/$n/meta" ; echo "$VERSION|${TYPE:-package}")" = "$v|package" ] ; then
+      printf '%-28s %-14s %s\n' "$n" "$v" "이미 설치됨" ; continue
+    fi
+    if [ -n "$skip" ] && ( eval "$skip" ) > /dev/null 2>&1 ; then
+      printf '%-28s %-14s %s\n' "$n" "$v" "시스템에 이미 있음 (건너뜀)" ; continue
+    fi
+    printf '%-28s %-14s %s\n' "$n" "$v" "할 일" ; todo+=("$r")
+  done
+  msg "전체 ${total}개 중 할 일 ${#todo[@]}개"
+  if [ "$dry" = yes ] || [ ${#todo[@]} -eq 0 ] ; then return 0 ; fi
+
+  sudo -v || die "sudo 비밀번호가 필요합니다"
+  ( while sleep 50 ; do sudo -n true 2> /dev/null || exit ; done ) & local keep=$!
+  trap "kill $keep 2> /dev/null" EXIT
+  local start i=0 t0 ; start=$(date +%s)
+  for r in "${todo[@]}" ; do
+    i=$((i+1)) ; info=$( load_recipe "$r" > /dev/null ; printf '%s\n%s\n' "$NAME" "$VERSION" ) ; { read -r n ; read -r v ; } <<< "$info"
+    echo ; msg "[$i/${#todo[@]}] $n $v  ($(date +%H:%M))" ; t0=$(date +%s)
+    "$0" build "$r" || die "$n 빌드 실패 — 고친 뒤 같은 명령을 다시 실행하면 여기부터 이어서 합니다"
+    "$0" install "$CACHE/$n-$v.kpkg.tar" || die "$n 설치 실패 — 다시 실행하면 여기부터 이어서 합니다"
+    rm -rf "${BUILDROOT:?}/$n-$v"
+    msg "$n 완료 ($(( ($(date +%s) - t0) / 60 ))분)"
+  done
+  echo ; msg "묶음 완료: ${#todo[@]}개, $(( ($(date +%s) - start) / 60 ))분"
+}
+
 # ---------- 진입점 ----------
 case "${1:-}" in
   build)             shift ; cmd_build "$@" ;;
@@ -425,6 +474,8 @@ case "${1:-}" in
   register-versions) shift ; cmd_register_versions "$@" ;;
   register-lfs)      shift ; need_root register-lfs "$@" ; exec /usr/local/bin/kpkg-check register-lfs "$@" ;;
   check-updates)     shift ; exec /usr/local/bin/kpkg-check check "$@" ;;
+  group)             shift ; cmd_group "$@" ;;
+  ack)               shift ; need_root ack "$@" ; exec /usr/local/bin/kpkg-check ack "$@" ;;
   version|--version) echo "kpkg $KPKG_VERSION" ;;
   *) awk 'NR>=3 && /^# =====/{exit} NR>=3' "$0" | sed 's/^# \{0,1\}//' ; exit 1 ;;
 esac
