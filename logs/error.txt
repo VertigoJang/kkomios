@@ -1,0 +1,253 @@
+===== /home/aetes/v02-b2.log 마지막 50줄 =====
+drkonqi                      6.7.4          할 일
+plasma-vault                 6.7.4          할 일
+kde-cli-tools                6.7.4          할 일
+systemsettings               6.7.4          할 일
+plasma-firewall              6.7.4          할 일
+plasma-systemmonitor         6.7.4          할 일
+qqc2-breeze-style            6.7.4          할 일
+ksystemstats                 6.7.4          할 일
+oxygen-sounds                6.7.4          할 일
+kdeplasma-addons             6.7.4          할 일
+plasma-welcome               6.7.4          할 일
+ocean-sound-theme            6.7.4          할 일
+print-manager                6.7.4          할 일
+wacomtablet                  6.7.4          할 일
+oxygen                       6.7.4          할 일
+spectacle                    6.7.4          할 일
+plasma-setup                 6.7.4          할 일
+kinfocenter                  6.7.4          할 일
+plasma-thunderbolt           6.7.4          할 일
+plasma-config                6.7.4          할 일
+konsole                      26.04.3        할 일
+dolphin                      26.04.3        할 일
+seven-zip                    26.03          할 일
+cpio                         2.15           할 일
+unrar                        7.2.4          할 일
+zip                          3.0            할 일
+ark                          26.04.3        할 일
+kcolorpicker                 0.3.1          할 일
+kimageannotator              0.7.2          할 일
+libraw                       0.22.2         할 일
+libkdcraw                    26.04.3        할 일
+gwenview                     26.04.3        할 일
+okular                       26.04.3        할 일
+==> 전체 343개 중 할 일 312개
+
+==> [1/312] gcr 3.41.2  (17:39)
+==> gcr 3.41.2 빌드 (로그: /var/tmp/kpkg-build/gcr-3.41.2/build.log)
+==> 완성: /var/cache/kpkg/gcr-3.41.2.kpkg.tar (1.1M, 파일 212개)
+/var/cache/kpkg/gcr-3.41.2.kpkg.tar
+==> 설치: gcr 3.41.2
+==> 완료: gcr 3.41.2
+==> gcr 완료 (0분)
+
+==> [2/312] gnome-keyring 51.1  (17:39)
+==> 내려받기: https://download.gnome.org/sources/gnome-keyring/51/gnome-keyring-51.1.tar.xz
+2026-10-19 17:39:47 URL:https://download.gnome.org/sources/gnome-keyring/51/gnome-keyring-51.1.tar.xz [772640/772640] -> "/sources/kpkg-src/gnome-keyring-51.1.tar.xz.part" [1]
+==> gnome-keyring 51.1 빌드 (로그: /var/tmp/kpkg-build/gnome-keyring-51.1/build.log)
+==> 오류: package() 가 아무 파일도 설치하지 않았습니다
+==> 오류: gnome-keyring 빌드 실패 — 고친 뒤 같은 명령을 다시 실행하면 여기부터 이어서 합니다
+*** 묶음이 중간에 멈췄습니다. 로그를 올려 주세요 (다시 실행하면 이어서 함)
+
+===== 가장 최근 빌드 로그: /var/tmp/kpkg-build/gnome-keyring-51.1/ =====
+[277/458] Compiling C object tool/gnome-keyring-3.p/gkr-tool-version.c.o
+[278/458] Linking target egg/asn1x
+[279/458] Linking target egg/cleanup
+[280/458] Linking target egg/dn
+[281/458] Linking target egg/asn1
+[282/458] Linking target egg/hex
+[283/458] Compiling C object tool/gnome-keyring-3.p/gkr-tool-trust.c.o
+[284/458] Compiling C object pam/pam_gnome_keyring.so.p/gkr-pam-client.c.o
+[285/458] Linking target egg/secmem
+[286/458] Linking target egg/oid
+[287/458] Linking target egg/armor
+[288/458] Linking target egg/symkey
+[289/458] Building translation po/ab/LC_MESSAGES/gnome-keyring-ab.mo
+[290/458] Building translation po/af/LC_MESSAGES/gnome-keyring-af.mo
+[291/458] Compiling C object pam/pam_gnome_keyring.so.p/gkr-pam-module.c.o
+[292/458] Linking target egg/file-tracker
+[293/458] Linking target egg/hkdf
+[294/458] Linking target egg/padding
+[295/458] Building translation po/ar/LC_MESSAGES/gnome-keyring-ar.mo
+[296/458] Building translation po/az/LC_MESSAGES/gnome-keyring-az.mo
+[297/458] Building translation po/as/LC_MESSAGES/gnome-keyring-as.mo
+[298/458] Building translation po/ast/LC_MESSAGES/gnome-keyring-ast.mo
+[299/458] Linking target egg/dh
+[300/458] Building translation po/be@latin/LC_MESSAGES/gnome-keyring-be@latin.mo
+[301/458] Building translation po/be/LC_MESSAGES/gnome-keyring-be.mo
+[302/458] Linking target egg/openssl
+[303/458] Building translation po/bn/LC_MESSAGES/gnome-keyring-bn.mo
+[304/458] Building translation po/bg/LC_MESSAGES/gnome-keyring-bg.mo
+[305/458] Building translation po/bn_IN/LC_MESSAGES/gnome-keyring-bn_IN.mo
+[306/458] Building translation po/bs/LC_MESSAGES/gnome-keyring-bs.mo
+[307/458] Building translation po/cs/LC_MESSAGES/gnome-keyring-cs.mo
+[308/458] Building translation po/cy/LC_MESSAGES/gnome-keyring-cy.mo
+[309/458] Building translation po/ckb/LC_MESSAGES/gnome-keyring-ckb.mo
+[310/458] Building translation po/ca@valencia/LC_MESSAGES/gnome-keyring-ca@valencia.mo
+[311/458] Building translation po/ca/LC_MESSAGES/gnome-keyring-ca.mo
+[312/458] Building translation po/da/LC_MESSAGES/gnome-keyring-da.mo
+[313/458] Building translation po/de/LC_MESSAGES/gnome-keyring-de.mo
+[314/458] Building translation po/en_GB/LC_MESSAGES/gnome-keyring-en_GB.mo
+[315/458] Building translation po/dz/LC_MESSAGES/gnome-keyring-dz.mo
+[316/458] Building translation po/el/LC_MESSAGES/gnome-keyring-el.mo
+[317/458] Building translation po/en@shaw/LC_MESSAGES/gnome-keyring-en@shaw.mo
+[318/458] Building translation po/eo/LC_MESSAGES/gnome-keyring-eo.mo
+[319/458] Building translation po/en_CA/LC_MESSAGES/gnome-keyring-en_CA.mo
+[320/458] Building translation po/et/LC_MESSAGES/gnome-keyring-et.mo
+[321/458] Building translation po/fa/LC_MESSAGES/gnome-keyring-fa.mo
+[322/458] Building translation po/es/LC_MESSAGES/gnome-keyring-es.mo
+[323/458] Building translation po/eu/LC_MESSAGES/gnome-keyring-eu.mo
+[324/458] Building translation po/ga/LC_MESSAGES/gnome-keyring-ga.mo
+[325/458] Building translation po/fi/LC_MESSAGES/gnome-keyring-fi.mo
+[326/458] Building translation po/fur/LC_MESSAGES/gnome-keyring-fur.mo
+[327/458] Building translation po/fr/LC_MESSAGES/gnome-keyring-fr.mo
+[328/458] Building translation po/gd/LC_MESSAGES/gnome-keyring-gd.mo
+[329/458] Building translation po/gu/LC_MESSAGES/gnome-keyring-gu.mo
+[330/458] Building translation po/hi/LC_MESSAGES/gnome-keyring-hi.mo
+[331/458] Building translation po/he/LC_MESSAGES/gnome-keyring-he.mo
+[332/458] Building translation po/gl/LC_MESSAGES/gnome-keyring-gl.mo
+[333/458] Building translation po/id/LC_MESSAGES/gnome-keyring-id.mo
+[334/458] Building translation po/hu/LC_MESSAGES/gnome-keyring-hu.mo
+[335/458] Building translation po/is/LC_MESSAGES/gnome-keyring-is.mo
+[336/458] Building translation po/hr/LC_MESSAGES/gnome-keyring-hr.mo
+[337/458] Building translation po/it/LC_MESSAGES/gnome-keyring-it.mo
+[338/458] Building translation po/ja/LC_MESSAGES/gnome-keyring-ja.mo
+[339/458] Building translation po/ka/LC_MESSAGES/gnome-keyring-ka.mo
+[340/458] Building translation po/kab/LC_MESSAGES/gnome-keyring-kab.mo
+[341/458] Building translation po/km/LC_MESSAGES/gnome-keyring-km.mo
+[342/458] Building translation po/kn/LC_MESSAGES/gnome-keyring-kn.mo
+[343/458] Building translation po/ko/LC_MESSAGES/gnome-keyring-ko.mo
+[344/458] Building translation po/kk/LC_MESSAGES/gnome-keyring-kk.mo
+[345/458] Building translation po/lo/LC_MESSAGES/gnome-keyring-lo.mo
+[346/458] Building translation po/lv/LC_MESSAGES/gnome-keyring-lv.mo
+[347/458] Building translation po/lt/LC_MESSAGES/gnome-keyring-lt.mo
+[348/458] Building translation po/kw/LC_MESSAGES/gnome-keyring-kw.mo
+[349/458] Building translation po/mai/LC_MESSAGES/gnome-keyring-mai.mo
+[350/458] Building translation po/mg/LC_MESSAGES/gnome-keyring-mg.mo
+[351/458] Building translation po/mjw/LC_MESSAGES/gnome-keyring-mjw.mo
+[352/458] Building translation po/mk/LC_MESSAGES/gnome-keyring-mk.mo
+[353/458] Building translation po/mn/LC_MESSAGES/gnome-keyring-mn.mo
+[354/458] Building translation po/ml/LC_MESSAGES/gnome-keyring-ml.mo
+[355/458] Building translation po/mr/LC_MESSAGES/gnome-keyring-mr.mo
+[356/458] Building translation po/ms/LC_MESSAGES/gnome-keyring-ms.mo
+[357/458] Building translation po/nb/LC_MESSAGES/gnome-keyring-nb.mo
+[358/458] Building translation po/ne/LC_MESSAGES/gnome-keyring-ne.mo
+[359/458] Building translation po/nl/LC_MESSAGES/gnome-keyring-nl.mo
+[360/458] Building translation po/oc/LC_MESSAGES/gnome-keyring-oc.mo
+[361/458] Building translation po/or/LC_MESSAGES/gnome-keyring-or.mo
+[362/458] Building translation po/nn/LC_MESSAGES/gnome-keyring-nn.mo
+[363/458] Building translation po/pa/LC_MESSAGES/gnome-keyring-pa.mo
+[364/458] Building translation po/pl/LC_MESSAGES/gnome-keyring-pl.mo
+[365/458] Building translation po/pt/LC_MESSAGES/gnome-keyring-pt.mo
+[366/458] Building translation po/pt_BR/LC_MESSAGES/gnome-keyring-pt_BR.mo
+[367/458] Building translation po/ro/LC_MESSAGES/gnome-keyring-ro.mo
+[368/458] Building translation po/ru/LC_MESSAGES/gnome-keyring-ru.mo
+[369/458] Building translation po/rw/LC_MESSAGES/gnome-keyring-rw.mo
+[370/458] Building translation po/sk/LC_MESSAGES/gnome-keyring-sk.mo
+[371/458] Building translation po/si/LC_MESSAGES/gnome-keyring-si.mo
+[372/458] Building translation po/sl/LC_MESSAGES/gnome-keyring-sl.mo
+[373/458] Building translation po/sq/LC_MESSAGES/gnome-keyring-sq.mo
+[374/458] Building translation po/sr/LC_MESSAGES/gnome-keyring-sr.mo
+[375/458] Building translation po/sr@latin/LC_MESSAGES/gnome-keyring-sr@latin.mo
+[376/458] Building translation po/sv/LC_MESSAGES/gnome-keyring-sv.mo
+[377/458] Building translation po/ta/LC_MESSAGES/gnome-keyring-ta.mo
+[378/458] Building translation po/tg/LC_MESSAGES/gnome-keyring-tg.mo
+[379/458] Building translation po/te/LC_MESSAGES/gnome-keyring-te.mo
+[380/458] Building translation po/th/LC_MESSAGES/gnome-keyring-th.mo
+[381/458] Building translation po/tr/LC_MESSAGES/gnome-keyring-tr.mo
+[382/458] Building translation po/ug/LC_MESSAGES/gnome-keyring-ug.mo
+[383/458] Building translation po/uk/LC_MESSAGES/gnome-keyring-uk.mo
+[384/458] Building translation po/uz/LC_MESSAGES/gnome-keyring-uz.mo
+[385/458] Building translation po/vi/LC_MESSAGES/gnome-keyring-vi.mo
+[386/458] Building translation po/xh/LC_MESSAGES/gnome-keyring-xh.mo
+[387/458] Building translation po/zh_CN/LC_MESSAGES/gnome-keyring-zh_CN.mo
+[388/458] Building translation po/zh_HK/LC_MESSAGES/gnome-keyring-zh_HK.mo
+[389/458] Building translation po/zh_TW/LC_MESSAGES/gnome-keyring-zh_TW.mo
+[390/458] Linking target pkcs11/gkm/attributes
+[391/458] Linking target pkcs11/gkm/data-asn1
+[392/458] Linking target pkcs11/gkm/data-der
+[393/458] Linking target pkcs11/gkm/secret
+[394/458] Linking target pkcs11/gkm/memory-store
+[395/458] Linking target pkcs11/gkm/credential
+[396/458] Linking target pkcs11/gkm/certificate
+[397/458] Linking target pkcs11/gkm/object
+[398/458] Linking target pkcs11/gkm/store
+[399/458] Linking target pkcs11/gkm/timer
+[400/458] Linking target pkcs11/gkm/sexp
+[401/458] Linking target pkcs11/gkm/transaction
+[402/458] Linking target pkcs11/rpc-layer/gnome-keyring-pkcs11.so
+[403/458] Compiling C object pam/test-pam.p/test-pam.c.o
+[404/458] Linking target pkcs11/rpc-layer/initialize
+[405/458] Linking target pkcs11/wrap-layer/init-pin
+[406/458] Linking target pkcs11/wrap-layer/login-specific
+[407/458] Linking target pkcs11/wrap-layer/login-keyring
+[408/458] Linking target pkcs11/wrap-layer/create-credential
+[409/458] Linking target pkcs11/gnome2-store/gnome2-file
+[410/458] Linking target pkcs11/wrap-layer/login-user
+[411/458] Linking target pkcs11/wrap-layer/set-pin
+[412/458] Linking target pkcs11/wrap-layer/login-auto
+[413/458] Linking target pkcs11/wrap-layer/login-hints
+[414/458] Linking target pkcs11/gnome2-store/gkm-gnome2-store-standalone.so
+[415/458] Linking target pkcs11/secret-store/dump-keyring0-format
+[416/458] Linking target pkcs11/secret-store/secret-fields
+[417/458] Linking target pkcs11/secret-store/gkm-secret-store-standalone.so
+[418/458] Linking target pkcs11/gnome2-store/gnome2-storage
+[419/458] Linking target pkcs11/gnome2-store/gnome2-private-key
+[420/458] Linking target pkcs11/secret-store/secret-compat
+[421/458] Linking target pkcs11/gnome2-store/import
+[422/458] Linking target pkcs11/secret-store/secret-data
+[423/458] Linking target pkcs11/secret-store/secret-object
+[424/458] Linking target pkcs11/secret-store/secret-item
+[425/458] Linking target pkcs11/secret-store/secret-schema
+[426/458] Linking target pkcs11/secret-store/secret-collection
+[427/458] Linking target pkcs11/secret-store/secret-search
+[428/458] Linking target pkcs11/secret-store/secret-textual
+[429/458] Linking target pkcs11/secret-store/secret-binary
+[430/458] Linking target pkcs11/ssh-store/private-key
+[431/458] Linking target pkcs11/ssh-store/gkm-ssh-store-standalone.so
+[432/458] Linking target pkcs11/xdg-store/gkm-xdg-store-standalone.so
+[433/458] Linking target pkcs11/xdg-store/dump-trust-file
+[434/458] Linking target pkcs11/ssh-store/ssh-openssh
+[435/458] Linking target pkcs11/xdg-store/xdg-trust
+[436/458] Linking target daemon/control/frob-control-quit
+[437/458] Linking target daemon/dbus/dbus-util
+[438/458] Linking target daemon/control/frob-control-change
+[439/458] Linking target pkcs11/xdg-store/frob-trust-file
+[440/458] Linking target daemon/dbus/dbus-items
+[441/458] Linking target daemon/control/frob-control-unlock
+[442/458] Linking target daemon/dbus/dbus-lock
+[443/458] Linking target pkcs11/xdg-store/xdg-module
+[444/458] Linking target daemon/control/frob-control-init
+[445/458] Linking target daemon/dbus/dbus-search
+[446/458] Linking target daemon/dbus/dbus-signals
+[447/458] Compiling gschemas schema/gsettings-compile-schema
+[448/458] Linking target daemon/dbus/dbus-portal
+[449/458] Linking target daemon/startup
+[450/458] Generating docs/manpage-gnome-keyring-daemon.xml with a custom command
+FAILED: [code=4] docs/gnome-keyring-daemon.1 
+/usr/bin/xsltproc --nonet --stringparam man.output.quietly 1 --stringparam funcsynopsis.style ansi --stringparam man.th.extra1.suppress 1 --stringparam man.authors.section.enabled 0 --stringparam man.copyright.section.enabled 0 -o docs/gnome-keyring-daemon.1 http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl ../docs/gnome-keyring-daemon.xml
+I/O error : failed to load "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl": Attempt to load network entity
+warning: failed to load external entity "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
+cannot parse http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+[451/458] Linking target tool/gnome-keyring-3
+[452/458] Linking target pam/pam_gnome_keyring.so
+[453/458] Linking target pam/test-pam
+[454/458] Linking target daemon/gnome-keyring-daemon
+[455/458] Linking target daemon/shutdown
+[456/458] Merging translations for daemon/gnome-keyring-pkcs11.desktop
+[457/458] Merging translations for daemon/gnome-keyring-secrets.desktop
+ninja: build stopped: subcommand failed.
+[1/3] Generating docs/manpage-gnome-keyring-daemon.xml with a custom command
+FAILED: [code=4] docs/gnome-keyring-daemon.1 
+/usr/bin/xsltproc --nonet --stringparam man.output.quietly 1 --stringparam funcsynopsis.style ansi --stringparam man.th.extra1.suppress 1 --stringparam man.authors.section.enabled 0 --stringparam man.copyright.section.enabled 0 -o docs/gnome-keyring-daemon.1 http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl ../docs/gnome-keyring-daemon.xml
+I/O error : failed to load "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl": Attempt to load network entity
+warning: failed to load external entity "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
+cannot parse http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+[2/3] Generating docs/manpage-gnome-keyring.xml with a custom command
+FAILED: [code=4] docs/gnome-keyring.1 
+/usr/bin/xsltproc --nonet --stringparam man.output.quietly 1 --stringparam funcsynopsis.style ansi --stringparam man.th.extra1.suppress 1 --stringparam man.authors.section.enabled 0 --stringparam man.copyright.section.enabled 0 -o docs/gnome-keyring.1 http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl ../docs/gnome-keyring.xml
+I/O error : failed to load "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl": Attempt to load network entity
+warning: failed to load external entity "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl"
+cannot parse http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
+ninja: build stopped: subcommand failed.
