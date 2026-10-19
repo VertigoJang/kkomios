@@ -1,8 +1,8 @@
-# openbox-3.6.1 — BLFS x/wm/openbox.xml 에서 자동 생성 (tools/blfs-gen)
+# openbox-3.6.1 — 원본은 openbox.org 대신 데비안 보관소(같은 원본 파일) / BLFS x/wm/openbox.xml 에서 자동 생성 (tools/blfs-gen)
 NAME=openbox
 VERSION=3.6.1
 SOURCES=(
-  http://openbox.org/dist/openbox/openbox-$VERSION.tar.gz
+  https://deb.debian.org/debian/pool/main/o/openbox/openbox_$VERSION.orig.tar.gz
   https://www.linuxfromscratch.org/patches/blfs/svn/openbox-$VERSION-py3-1.patch
 )
 DEPENDS="x-window-system pango"
