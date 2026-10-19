@@ -1,6 +1,9 @@
 # 0.2 묶음 B 2단계 — MATE (Qt6 등 공용 라이브러리 포함) + KDE Plasma
 # 실행: bash tools/v02-b.sh 2   (1단계를 마치고 재부팅한 뒤)
 
+# ===== B2-0 설명서 도구 (여러 패키지가 man 페이지를 만들 때 필요 — 맨 앞으로 옮김) =====
+docbook docbook-xsl
+
 # ===== B2 MATE 준비 (BLFS 라이브러리, Qt6 포함) (80개) =====
 dbus-glib libpeas gtksourceview4 libgtop libaio lvm2 popt cryptsetup
 keyutils libatasmart pathspec vcs_versioning setuptools_scm pluggy poetry-core tomlkit
@@ -9,7 +12,7 @@ libksba npth lmdb cyrus-sasl openldap pinentry gnupg2 gcr
 gnome-keyring libsecret libarchive startup-notification which boost gpgme gpgmepp
 lcms2 tiff nspr nss openjpeg2 gs brotli glu
 freeglut mupdf pdfio qpdf libcupsfilters libppd cups-filters libgusb
-colord docbook docbook-xsl xmlto xdg-utils cups double-conversion lame
+colord   xmlto xdg-utils cups double-conversion lame
 gsettings-desktop-schemas glib-networking nghttp2 libsoup3 yasm nasm
 libvpx mpg123 gst10-plugins-good jasper libmng libwebp qt6 poppler
 
