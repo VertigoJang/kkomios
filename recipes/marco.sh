@@ -1,7 +1,7 @@
 # marco 1.28.2 — MATE 데스크톱 (BLFS 에 없어 직접 작성)
 NAME=marco
 VERSION=1.28.2
-URL=https://pub.mate-desktop.org/releases/1.28/marco-$VERSION.tar.xz
+URL=https://github.com/mate-desktop/marco/releases/download/v$VERSION/marco-$VERSION.tar.xz   # 1.28.x 소수 버전은 GitHub 에만 올라옴
 DEPENDS="gtk3 dconf"
 package() {
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/libexec --disable-static 
