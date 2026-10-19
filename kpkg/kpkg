@@ -76,7 +76,7 @@ cmd_build() {
   local s f
   for s in "${SOURCES[@]}" ; do
     f="$SRCDIR/$(basename "$s")"
-    if [ ! -f "$f" ] ; then msg "내려받기: $s" ; wget -q --show-progress -O "$f.part" "$s" && mv "$f.part" "$f" ; fi
+    if [ ! -f "$f" ] ; then msg "내려받기: $s" ; wget $( [ -t 1 ] && echo "-q --show-progress" || echo "-nv" ) -O "$f.part" "$s" && mv "$f.part" "$f" ; fi
     case "$f" in
       *.tar.*|*.tgz|*.tar) tar -xf "$f" -C "$work/src" ;;
       *) cp "$f" "$work/src/" ;;
@@ -100,6 +100,8 @@ cmd_build() {
     cd "$SRCTOP" ; package
   ) > "$log" 2>&1 || { tail -25 "$log" ; die "빌드 실패: $NAME (전체 로그: $log)" ; }
 
+  # info 목차(/usr/share/info/dir)는 여러 패키지가 함께 쓰는 파일이라 패키지에 넣지 않음 (설치 때 kpkg 가 목차에 등록)
+  rm -f "$PKG/usr/share/info/dir"
   [ -n "$(find "$PKG" -mindepth 1 -print -quit)" ] || die "package() 가 아무 파일도 설치하지 않았습니다"
   # 'lib' 'bin' 'sbin' 이 최상위에 실제 폴더로 있으면 /usr 쪽으로 옮김 (LFS 는 /lib → usr/lib 링크)
   local d
@@ -181,6 +183,7 @@ cmd_install() {
   [ "$NAME" != "base" ] || die "'base' 는 예약된 이름입니다"
 
   pkg_listing "$file" > "$tmp/new"
+  grep -vx '/usr/share/info/dir' "$tmp/new" > "$tmp/new2" || true ; mv "$tmp/new2" "$tmp/new"   # 공용 info 목차는 기록·충돌 검사에서 제외
   grep -v '/$' "$tmp/new" > "$tmp/newfiles" || true
 
   # 이미 설치돼 있으면 업그레이드
@@ -231,7 +234,7 @@ cmd_install() {
   done < "$tmp/newfiles"
 
   # 시스템에 풀기 (디렉터리 심볼릭 링크 유지, 정보 파일 제외)
-  tar -C "$ROOT" -xpf "$file" --keep-directory-symlink --no-overwrite-dir \
+  tar -C "$ROOT" -xpf "$file" --keep-directory-symlink --no-overwrite-dir --exclude=usr/share/info/dir \
       --exclude=.KPKGINFO --exclude=.KPKGRECIPE -X "$tmp/etckeep"
   if [ -s "$tmp/etckeep" ] ; then
     while IFS= read -r f ; do
@@ -295,6 +298,11 @@ run_hooks() {
   grep -q '^/usr/share/mime/' "$list" && command -v update-mime-database > /dev/null && update-mime-database /usr/share/mime
   grep -q '^/usr/share/glib-2.0/schemas/' "$list" && command -v glib-compile-schemas > /dev/null && glib-compile-schemas /usr/share/glib-2.0/schemas
   grep -q '^/usr/share/fonts/' "$list" && command -v fc-cache > /dev/null && fc-cache -f
+  if command -v install-info > /dev/null ; then   # info 설명서를 공용 목차에 등록
+    { grep -E '^/usr/share/info/[^/]+\.info(\.(gz|xz|bz2))?$' "$list" || true ; } | while IFS= read -r i ; do
+      install-info --info-dir="${ROOT}usr/share/info" "${ROOT%/}$i" > /dev/null 2>&1 || true
+    done
+  fi
   grep -qE '^/usr/lib/systemd/|^/etc/systemd/' "$list" && command -v systemctl > /dev/null && systemctl daemon-reload
   grep -q '^/usr/lib/gtk-3.0/3.0.0/immodules/' "$list" && command -v gtk-query-immodules-3.0 > /dev/null && gtk-query-immodules-3.0 --update-cache
   return 0

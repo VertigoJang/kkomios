@@ -10,6 +10,8 @@ cd "$REPO" || exit 1
 echo "===== 1. kpkg 0.8 설치 (group·ack 명령 추가, 보안 점검 개선) ====="
 sudo install -m755 kpkg/kpkg kpkg/kpkg-check /usr/local/bin/ || exit 1
 kpkg version
+# 이전 kpkg 가 패키지 소유로 기록한 공용 info 목차(/usr/share/info/dir)를 기록에서 뺌 (파일은 그대로)
+sudo sed -i '\#^/usr/share/info/dir$#d' /var/lib/kpkg/db/*/files
 
 echo ; echo "===== 2. 묶음 빌드·설치 ====="
 kpkg group recipes/groups/v02-a.list || { echo "*** 묶음이 중간에 멈췄습니다. 위 오류를 알려 주세요 (다시 실행하면 이어서 함)" ; exit 1 ; }
