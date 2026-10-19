@@ -10,7 +10,7 @@ package() {
 make PREFIX=/usr        \
      BUILD_STATIC_LIB=0 \
      MANDIR=/usr/share/man
-make PREFIX=/usr        \
+make DESTDIR="$PKG" PREFIX=/usr        \
      BUILD_STATIC_LIB=0 \
      MANDIR=/usr/share/man install &&
 

@@ -26,13 +26,13 @@ EOF
 export XCFLAGS=-fPIC                      &&
 make build=release shared=yes verbose=yes &&
 unset XCFLAGS
-make prefix=/usr                         \
+make DESTDIR="$PKG" prefix=/usr                         \
      shared=yes                          \
      docdir=/usr/share/doc/mupdf-1.26.12 \
      install                             &&
 
 ln -sfv libmupdf.so.26.12 "$PKG"/usr/lib/libmupdf.so.26 &&
-ln -sfv libmupdf.so.26   /usr/lib/libmupdf.so     &&
+ln -sfv libmupdf.so.26   "$PKG"/usr/lib/libmupdf.so     &&
 chmod 755 "$PKG"/usr/lib/libmupdf.so.26.12              &&
 
 ln -sfv mupdf-x11 "$PKG"/usr/bin/mupdf

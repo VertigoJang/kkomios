@@ -19,7 +19,7 @@ make DESTDIR="$PKG" install
 xzcat ../cracklib-words-2.10.3.xz \
 mkdir -p "$PKG"/usr/share/dict
                        > "$PKG"/usr/share/dict/cracklib-words       &&
-ln -v -sf cracklib-words /usr/share/dict/words                &&
+ln -v -sf cracklib-words "$PKG"/usr/share/dict/words                &&
 mkdir -p "$PKG"/usr/share/dict
 echo $(hostname) >>      "$PKG"/usr/share/dict/cracklib-extra-words &&
 install -v -m755 -d      "$PKG"/usr/lib/cracklib                    &&

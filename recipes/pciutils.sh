@@ -12,7 +12,7 @@ sed -r '/INSTALL/{/PCI_IDS|update-pciids /d; s/update-pciids.8//}' \
 make PREFIX=/usr                \
      SHAREDIR=/usr/share/hwdata \
      SHARED=yes
-make PREFIX=/usr                \
+make DESTDIR="$PKG" PREFIX=/usr                \
      SHAREDIR=/usr/share/hwdata \
      SHARED=yes                 \
      install install-lib        &&
