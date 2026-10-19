@@ -27,7 +27,7 @@ corrosion breeze-icons libdmtx libical oxygen-icons qca qrencode plasma-wayland-
 perl-mime-base32 perl-uri wget aspell libdaemon avahi libmbim libqmi
 modemmanager libndp iptables slang newt libnl wpa_supplicant networkmanager
 polkit-qt vulkan-headers vulkan-loader zxing-cpp charset-normalizer idna hatch-vcs urllib3
-requests attica kapidox karchive kcodecs kconfig kcoreaddons kdbusaddons
+requests attica karchive kcodecs kconfig kcoreaddons kdbusaddons
 kdnssd kguiaddons ki18n kidletime kimageformats kitemmodels kitemviews kplotting
 kwidgetsaddons kwindowsystem networkmanager-qt solid sonnet threadweaver kauth kcompletion
 kcrash kdoctools kpty kunitconversion kcolorscheme kconfigwidgets kservice kglobalaccel
@@ -39,10 +39,10 @@ kquickcharts knotifyconfig kdav kstatusnotifieritem ksvg ktexttemplate kuserfeed
 kirigami-addons kquickimageeditor cracklib libpwquality libqalculate dav1d svt-av1 libaom
 libavif v4l-utils libdvdread libdvdnav xine-lib opencv desktop-file-utils liba52
 libmad lua vlc phonon-backend-vlc phonon pulseaudio-qt qcoro qtkeychain
-utfcpp taglib tesseract xdotool xorg-evdev-driver bolt libpcap libwacom
+utfcpp taglib leptonica tesseract xdotool xorg-evdev-driver bolt libpcap libwacom
 xorg-wacom-driver lm_sensors pciutils power-profiles-daemon psutil pygdbmi certifi sentry-sdk
 kdsoap kdsoap-ws-discovery-client libproxy plasma-activities plasma-activities-stats inih exiv2 libkexiv2
-kio-extras smartmontools fuse3 libseccomp bubblewrap gnome-desktop xdg-desktop-portal-gtk xdg-desktop-portal-wlr
+kio-extras smartmontools fuse3 libseccomp bubblewrap gnome-desktop xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr
 xdg-desktop-portal-gnome docutils xdg-desktop-portal xwayland kdecoration libkscreen libksysguard breeze
 breeze-gtk layer-shell-qt libplasma kscreenlocker kglobalacceld kwayland aurorae knighttime
 plasma-keyboard kwin kwin-x11 plasma5support kpipewire plasma-workspace plasma-disks bluedevil

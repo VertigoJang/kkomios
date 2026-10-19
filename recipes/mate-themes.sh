@@ -5,8 +5,14 @@ URL=https://github.com/mate-desktop/mate-themes/releases/download/v$VERSION/mate
 DEPENDS="gtk3 dconf"
 package() {
   sed -i "s/gtk+-2.0 >= 2.0.0//" configure   # GTK2 엔진 검사 빼기 (GTK2 없음, GTK3 테마만 씀)
-  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/libexec --disable-static 
-  make
-  make DESTDIR="$PKG" install
+  if [ -x ./configure ] ; then
+    ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/libexec --disable-static 
+    make
+    make DESTDIR="$PKG" install
+  else   # 이 판 원본에는 meson 빌드만 들어 있음
+    meson setup build --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/libexec --buildtype=release
+    ninja -C build
+    DESTDIR="$PKG" ninja -C build install
+  fi
 }
 

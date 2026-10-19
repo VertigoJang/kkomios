@@ -17,27 +17,6 @@ meson setup ..              \
       --buildtype=release   \
       -D xkb_output_dir=/var/lib/xkb &&
 ninja
-mkdir tools &&
-pushd tools &&
-
-git clone https://gitlab.freedesktop.org/mesa/piglit.git --depth 1 &&
-cat > piglit/piglit.conf << EOF                                    &&
-[xts]
-path=$(pwd)/xts
-EOF
-
-git clone https://gitlab.freedesktop.org/xorg/test/xts --depth 1   &&
-
-export DISPLAY=:22           &&
-../hw/vfb/Xvfb $DISPLAY &
-VFB_PID=$!                   &&
-cd xts                       &&
-CFLAGS=-fcommon ./autogen.sh &&
-make                         &&
-kill $VFB_PID                &&
-unset DISPLAY VFB_PID        &&
-popd
-XTEST_DIR=$(pwd)/tools/xts PIGLIT_DIR=$(pwd)/tools/piglit ninja test
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

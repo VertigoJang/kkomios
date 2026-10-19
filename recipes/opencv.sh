@@ -18,6 +18,7 @@ mkdir build &&
 cd    build &&
 
 cmake -D CMAKE_INSTALL_PREFIX=/usr      \
+      -D WITH_FFMPEG=OFF                  \
       -D CMAKE_BUILD_TYPE=Release       \
       -D ENABLE_CXX11=ON                \
       -D BUILD_PERF_TESTS=OFF           \

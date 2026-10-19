@@ -23,7 +23,7 @@
 set -Eeuo pipefail
 trap 'echo "kpkg: ${BASH_SOURCE[0]##*/} ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
 
-KPKG_VERSION=0.8.6
+KPKG_VERSION=0.8.7
 ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
 ROOT=${ROOT%/}/
 DB=${ROOT}var/lib/kpkg/db
@@ -213,6 +213,10 @@ cmd_install() {
     [ "$o" = "$NAME" ] && continue
     if [ "$o" = "base" ] ; then
       LC_ALL=C comm -12 "$tmp/newfiles" <(LC_ALL=C sort "$f") >> "$tmp/frombase"
+    elif grep -qxF "$o" "${ROOT}etc/kpkg/yield" 2>/dev/null ; then
+      # 양보 목록(/etc/kpkg/yield)의 패키지가 실수로 가져간 파일은 새 패키지 소유로 넘김
+      LC_ALL=C comm -12 "$tmp/newfiles" <(LC_ALL=C sort "$f") > "$tmp/yield.$o"
+      [ -s "$tmp/yield.$o" ] && msg "$o 가 갖고 있던 파일 $(wc -l < "$tmp/yield.$o")개를 이 패키지 소유로 넘깁니다"
     else
       LC_ALL=C comm -12 "$tmp/newfiles" <(LC_ALL=C sort "$f") | sed "s#\$#  ← $o#" >> "$tmp/conflicts"
     fi
@@ -283,6 +287,13 @@ cmd_install() {
     if grep -qxF -- "$f" "$tmp/keptabs" ; then awk -v p="$f" '$2==p' "$tmp/oldsums"
     elif [ -f "${ROOT%/}$f" ] ; then echo "$(sha256sum < "${ROOT%/}$f" | cut -d' ' -f1)  $f" ; fi
   done > "$DB/$NAME/etcsums" || true
+  # 양보 목록 패키지에서 소유권 넘기기
+  local y
+  for y in "$tmp"/yield.* ; do
+    [ -s "$y" ] || continue
+    o=${y##*/yield.}
+    LC_ALL=C comm -23 <(LC_ALL=C sort "$DB/$o/files") <(LC_ALL=C sort "$y") > "$DB/$o/files.new" && mv "$DB/$o/files.new" "$DB/$o/files"
+  done
   # base 에서 소유권 넘기기
   if [ -s "$tmp/frombase" ] && [ -f "$DB/base/files" ] ; then
     LC_ALL=C sort -u "$tmp/frombase" > "$tmp/fb"

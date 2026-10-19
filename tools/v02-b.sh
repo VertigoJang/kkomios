@@ -26,6 +26,9 @@ for f in kpkg kpkg-check ; do   # 새 파일로 바꿔치기 — 실행 중인 k
   sudo cp kpkg/$f /usr/local/bin/$f.new && sudo chmod 755 /usr/local/bin/$f.new && sudo mv /usr/local/bin/$f.new /usr/local/bin/$f || exit 1
 done
 kpkg version
+# gtk4 가 빌드 중에 함께 설치해 버린 다른 패키지 파일(gstreamer 플러그인·lame 등)은 해당 패키지에 넘겨줌
+sudo mkdir -p /etc/kpkg && { cat /etc/kpkg/yield 2>/dev/null ; echo gtk4 ; } | sort -u | sudo tee /etc/kpkg/yield.new > /dev/null && sudo mv /etc/kpkg/yield.new /etc/kpkg/yield
+echo "Qt6 상태: $(kpkg list | awk '$1=="qt6"{print $2, $3}') / $(ls -d /opt/qt6/lib/cmake/Qt6 2>/dev/null || echo '/opt/qt6/lib/cmake/Qt6 없음')"
 
 if [ "$STAGE" = 1 ] ; then
 echo ; echo "===== 2. 커널 다시 빌드 (USER_NS·FUSE·암호화 디스크·가상 네트워크 장치·루나 레이크 핀 제어 등) ====="

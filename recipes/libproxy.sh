@@ -13,7 +13,8 @@ cd    build &&
 meson setup ..            \
       --prefix=/usr       \
       --buildtype=release \
-      -D release=true     &&
+      -D release=true     \
+      -D docs=false       &&
 
 ninja
 DESTDIR="$PKG" ninja install
