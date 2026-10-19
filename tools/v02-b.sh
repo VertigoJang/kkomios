@@ -1,10 +1,12 @@
 #!/bin/bash
-# 0.2 묶음 B — 두 단계로 나눔
-#   1단계: 커널 다시 빌드 + Openbox + MATE (Qt6 등 공용 라이브러리 포함)  → 끝나면 재부팅
-#   2단계: KDE Plasma + GNOME + 공통 앱
+# 0.2 묶음 B — 세 단계로 나눔
+#   1단계: 커널 다시 빌드 + Openbox  → 끝나면 재부팅
+#   2단계: MATE + KDE Plasma (Qt6 등 공용 라이브러리 포함)
+#   3단계: GNOME + 공통 앱
 # 사용법 (tmux 안에서 권장):
 #   cd ~/kkomios && git pull && bash tools/v02-b.sh 1 2>&1 | tee -a ~/v02-b1.log
 #   cd ~/kkomios && git pull && bash tools/v02-b.sh 2 2>&1 | tee -a ~/v02-b2.log
+#   cd ~/kkomios && git pull && bash tools/v02-b.sh 3 2>&1 | tee -a ~/v02-b3.log
 # - 중간에 멈추거나 꺼져도 같은 명령을 다시 실행하면 끝난 것은 건너뛰고 이어서 함
 # - 화면 모양·네트워크 방식은 바꾸지 않음: 새 로그인 세션이 LightDM 목록에 추가될 뿐,
 #   NetworkManager·GDM·CUPS 같은 서비스는 설치만 하고 켜지 않음
@@ -12,7 +14,7 @@ set -u
 REPO=$(cd "$(dirname "$0")/.." && pwd)
 cd "$REPO" || exit 1
 STAGE=${1:-}
-case "$STAGE" in 1|2) ;; *) echo "사용법: bash tools/v02-b.sh 1   또는   bash tools/v02-b.sh 2" ; exit 1 ;; esac
+case "$STAGE" in 1|2|3) ;; *) echo "사용법: bash tools/v02-b.sh 1 | 2 | 3" ; exit 1 ;; esac
 LIST=recipes/groups/v02-b$STAGE.list
 
 sudo -v || exit 1
@@ -79,6 +81,6 @@ echo
 if [ "$STAGE" = 1 ] ; then
   echo "===== 1단계 끝 — 재부팅해서 새 커널을 적용한 뒤 2단계를 실행하세요: sudo reboot ====="
 else
-  echo "===== 2단계 끝 ====="
+  echo "===== $STAGE단계 끝 ====="
 fi
 echo "LightDM 로그인 화면의 세션 메뉴에서 데스크톱을 고를 수 있습니다 (기본은 지금처럼 Xfce)."

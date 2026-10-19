@@ -1,0 +1,17 @@
+# 0.2 묶음 B 3단계 — GNOME + 공통 앱
+# 실행: bash tools/v02-b.sh 3
+
+# ===== B4 GNOME 51 (Wayland) (69개) =====
+gnome-session gcr4 librest gnome-online-accounts geocode-glib gweather-locations libgweather evolution-data-server
+cbindgen llvm spidermonkey gjs ibus geoclue2 gnome-settings-daemon libei
+mutter adwaita-icon-theme gdm libnma gnome-autoar gsound gnome-bluetooth gnome-menus
+gnome-shell blueprint-compiler colord-gtk mitkrb perl-parse-yapp jansson samba tecla
+gnome-control-center gexiv2 libde265 x265 libheif giflib highway libjxl
+glycin glycin-gtk4 libportal exempi libgxps localsearch tinysparql libcloudproviders
+libcdio gvfs nautilus gnome-backgrounds libhandy1 gnome-terminal evince loupe
+file-roller gtksourceview5 libgee gnome-calculator libsigc3 cairomm-1.16 glibmm2 pangomm2
+gtkmm4 gnome-system-monitor baobab gnome-disk-utility gnome-tweaks
+
+# ===== B5 공통 앱 (mpv, 음량 조절, 사용자 폴더) (12개) =====
+libass glad spirv-headers spirv-tools glslang libplacebo libva luajit
+uchardet mpv pavucontrol xdg-user-dirs
