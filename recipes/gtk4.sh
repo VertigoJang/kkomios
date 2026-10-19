@@ -8,5 +8,9 @@ build() {
     -D documentation=false -D man-pages=false
   ninja -C build
 }
-package() { DESTDIR="$PKG" ninja -C build install ; }
+package() {
+  DESTDIR="$PKG" ninja -C build install
+  # GTK4 가 같이 설치하는 OpenGL 표준 헤더는 Mesa 몫이라 뺌 (0.2 묶음 A 에서 Mesa 설치와 겹쳤음)
+  rm -rf "$PKG/usr/include/KHR" "$PKG/usr/include/GL/glext.h"
+}
 post_install() { glib-compile-schemas /usr/share/glib-2.0/schemas ; return 0 ; }
