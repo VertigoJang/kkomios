@@ -22,7 +22,9 @@ sudo -v || exit 1
 trap 'kill $KEEP 2> /dev/null' EXIT
 
 echo "===== 1. kpkg 0.8.1 설치 ====="
-sudo install -m755 kpkg/kpkg kpkg/kpkg-check /usr/local/bin/ || exit 1
+for f in kpkg kpkg-check ; do   # 새 파일로 바꿔치기 — 실행 중인 kpkg 는 영향 없음
+  sudo cp kpkg/$f /usr/local/bin/$f.new && sudo chmod 755 /usr/local/bin/$f.new && sudo mv /usr/local/bin/$f.new /usr/local/bin/$f || exit 1
+done
 kpkg version
 
 if [ "$STAGE" = 1 ] ; then
