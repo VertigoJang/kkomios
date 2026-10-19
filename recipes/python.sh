@@ -31,6 +31,7 @@ package() {
   cd Python-$VERSION
   make DESTDIR="$PKG" install
   install -v -dm755 "$PKG/usr/share/doc/python-$VERSION/html"
+  [ -d ../python-$VERSION-docs-html ] || tar -xf ../python-$VERSION-docs-html.tar.bz2 -C ..   # kpkg 0.8.1 부터 둘째 원본은 압축 그대로
   cp -R --no-preserve=ownership ../python-$VERSION-docs-html/. "$PKG/usr/share/doc/python-$VERSION/html/"
 }
 post_install() {

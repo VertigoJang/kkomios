@@ -23,7 +23,7 @@
 set -Eeuo pipefail
 trap 'echo "kpkg: ${BASH_SOURCE[0]##*/} ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
 
-KPKG_VERSION=0.8
+KPKG_VERSION=0.8.1
 ROOT=${KPKG_ROOT:-/}                       # 시험용으로만 바꿈. 평소엔 /
 ROOT=${ROOT%/}/
 DB=${ROOT}var/lib/kpkg/db
@@ -73,12 +73,16 @@ cmd_build() {
   rm -rf "$work" ; mkdir -p "$work/src" "$PKG" "$SRCDIR" "$CACHE" 2>/dev/null || sudo mkdir -p "$CACHE"
 
   # 내려받기 + 풀기
-  local s f
+  # 첫 번째 원본만 풀고, 나머지(패치·추가 압축 파일)는 그대로 복사 — BLFS 처럼 ../파일 로 씀
+  local s f n=0
   for s in "${SOURCES[@]}" ; do
     f="$SRCDIR/$(basename "$s")"
     if [ ! -f "$f" ] ; then msg "내려받기: $s" ; wget $( [ -t 1 ] && echo "-q --show-progress" || echo "-nv" ) -O "$f.part" "$s" && mv "$f.part" "$f" ; fi
-    case "$f" in
-      *.tar.*|*.tgz|*.tar) tar -xf "$f" -C "$work/src" ;;
+    [ -f "$f" ] || die "내려받기 실패: $s"
+    n=$((n+1))
+    case "$n:$f" in
+      1:*.tar.*|1:*.tgz|1:*.tar) tar -xf "$f" -C "$work/src" ;;
+      1:*.zip) python3 -m zipfile -e "$f" "$work/src" ;;
       *) cp "$f" "$work/src/" ;;
     esac
   done
