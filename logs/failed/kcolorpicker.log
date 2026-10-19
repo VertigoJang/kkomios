@@ -1,0 +1,43 @@
+##### kcolorpicker 0.3.1 (2026-10-20 00:43)
+[1;32m==>[0m 내려받기: https://github.com/ksnip/kColorPicker/archive/v0.3.1/kColorPicker-0.3.1.tar.gz
+2026-10-20 00:43:22 URL:https://codeload.github.com/ksnip/kColorPicker/tar.gz/refs/tags/v0.3.1 [12861] -> "/sources/kpkg-src/kColorPicker-0.3.1.tar.gz.part" [1]
+[1;32m==>[0m kcolorpicker 0.3.1 빌드 (로그: /var/tmp/kpkg-build/kcolorpicker-0.3.1/build.log)
+[1;31m==> 오류:[0m package() 가 아무 파일도 설치하지 않았습니다
+##### 빌드 로그
+CMake Warning (deprecated) at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+This warning is for project developers.  Use -Wno-author or -Wno-deprecated
+to suppress it.
+
+-- The CXX compiler identification is GNU 16.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Error at CMakeLists.txt:23 (find_package):
+  By not providing "FindQt6.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "Qt6", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "Qt6" (requested
+  version 5.15.2) with any of the following names:
+
+    Qt6.cps
+    qt6.cps
+    Qt6Config.cmake
+    qt6-config.cmake
+
+  Add the installation prefix of "Qt6" to CMAKE_PREFIX_PATH or set "Qt6_DIR"
+  to a directory containing one of the above files.  If "Qt6" provides a
+  separate development package or SDK, be sure it has been installed.
+
+
+-- Configuring incomplete, errors occurred!
+make: *** 타겟 'install'을(를) 만들 규칙이 없습니다.  멈춤.
+##### 설치 단계

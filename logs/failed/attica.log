@@ -1,0 +1,57 @@
+##### attica 6.29.0 (2026-10-20 00:20)
+  CMakeLists.txt:14 (include)
+
+
+CMake Error at /usr/share/ECM/modules/ECMQueryQt.cmake:84 (message):
+  No Qt6 qtpaths executable found.  Can't check QT_INSTALL_PREFIX as required
+Call Stack (most recent call first):
+  /usr/share/ECM/kde-modules/KDEInstallDirs6.cmake:212 (ecm_query_qt)
+  /usr/share/ECM/kde-modules/KDEInstallDirs.cmake:17 (include)
+  CMakeLists.txt:14 (include)
+
+
+-- Configuring incomplete, errors occurred!
+make: *** 타겟이 지정되지 않았고 메이크파일이 없습니다.  멈춤.
+make: *** 타겟 'install'을(를) 만들 규칙이 없습니다.  멈춤.
+[1;31m==> 오류:[0m 빌드 실패: attica (전체 로그: /var/tmp/kpkg-build/attica-6.29.0/build.log)
+##### 빌드 로그
+-- The C compiler identification is GNU 16.2.0
+-- The CXX compiler identification is GNU 16.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- 
+
+CMake Warning at /usr/share/ECM/kde-modules/KDEInstallDirsCommon.cmake:169 (message):
+  KDE_INSTALL_LIBEXECDIR got its value from CMAKE_INSTALL_LIBEXECDIR.  In
+  most cases this is unintended, check if you included GNUInstallDirs before
+  KDEInstallDirs.  Some third party modules include GNUInstallDirs too so eg.
+  find_package(Qt6 ...) is equivalent to include(GNUInstallDirs).  If you set
+  CMAKE_INSTALL_LIBEXECDIR deliberately before including KDEInstallDirs its
+  recommended to use KDE_INSTALL_LIBEXECDIR instead to suppress this message.
+Call Stack (most recent call first):
+  /usr/share/ECM/kde-modules/KDEInstallDirsCommon.cmake:270 (_define_relative)
+  /usr/share/ECM/kde-modules/KDEInstallDirs6.cmake:203 (include)
+  /usr/share/ECM/kde-modules/KDEInstallDirs.cmake:17 (include)
+  CMakeLists.txt:14 (include)
+
+
+CMake Error at /usr/share/ECM/modules/ECMQueryQt.cmake:84 (message):
+  No Qt6 qtpaths executable found.  Can't check QT_INSTALL_PREFIX as required
+Call Stack (most recent call first):
+  /usr/share/ECM/kde-modules/KDEInstallDirs6.cmake:212 (ecm_query_qt)
+  /usr/share/ECM/kde-modules/KDEInstallDirs.cmake:17 (include)
+  CMakeLists.txt:14 (include)
+
+
+-- Configuring incomplete, errors occurred!
+make: *** 타겟이 지정되지 않았고 메이크파일이 없습니다.  멈춤.
+make: *** 타겟 'install'을(를) 만들 규칙이 없습니다.  멈춤.
+##### 설치 단계

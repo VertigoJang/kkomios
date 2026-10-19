@@ -1,0 +1,29 @@
+##### kdsoap 2.3.0 (2026-10-20 00:37)
+[1;32m==>[0m 내려받기: https://github.com/KDAB/KDSoap/releases/download/kdsoap-2.3.0/kdsoap-2.3.0.tar.gz
+2026-10-20 00:37:02 URL:https://release-assets.githubusercontent.com/github-production-release-asset/5067171/a4c7035b-463d-457d-bddd-7aaafe5d1caa?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-19T16%3A33%3A38Z&rscd=attachment%3B+filename%3Dkdsoap-2.3.0.tar.gz&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-19T15%3A33%3A18Z&ske=2026-10-19T16%3A33%3A38Z&sks=b&skv=2018-11-09&sig=TCVXXzTI0oskk%2Fy%2F2SBw06KKQAKazq3MMsUMUku54nc%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MjQyNDUyMSwibmJmIjoxNzkyNDI0MjIxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.XatBgBH6E1k34zlRGbbNfrvRcHl1WN0PD_Lb2u5pfkM&response-content-disposition=attachment%3B%20filename%3Dkdsoap-2.3.0.tar.gz&response-content-type=application%2Foctet-stream [1151999/1151999] -> "/sources/kpkg-src/kdsoap-2.3.0.tar.gz.part" [1]
+[1;32m==>[0m kdsoap 2.3.0 빌드 (로그: /var/tmp/kpkg-build/kdsoap-2.3.0/build.log)
+[1;31m==> 오류:[0m package() 가 아무 파일도 설치하지 않았습니다
+##### 빌드 로그
+-- The CXX compiler identification is GNU 16.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Error at CMakeLists.txt:122 (find_package):
+  Could not find a package configuration file provided by "Qt6" (requested
+  version 6.0.0) with any of the following names:
+
+    Qt6.cps
+    qt6.cps
+    Qt6Config.cmake
+    qt6-config.cmake
+
+  Add the installation prefix of "Qt6" to CMAKE_PREFIX_PATH or set "Qt6_DIR"
+  to a directory containing one of the above files.  If "Qt6" provides a
+  separate development package or SDK, be sure it has been installed.
+
+
+-- Configuring incomplete, errors occurred!
+make: *** 타겟 'install'을(를) 만들 규칙이 없습니다.  멈춤.
+##### 설치 단계

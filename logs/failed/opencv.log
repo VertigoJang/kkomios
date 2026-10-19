@@ -1,0 +1,131 @@
+##### opencv 4.13.0 (2026-10-20 00:33)
+[1;32m==>[0m 내려받기: https://github.com/opencv/opencv/archive/4.13.0/opencv-4.13.0.tar.gz
+2026-10-20 00:28:50 URL:https://codeload.github.com/opencv/opencv/tar.gz/refs/tags/4.13.0 [95420275/95420275] -> "/sources/kpkg-src/opencv-4.13.0.tar.gz.part" [1]
+[1;32m==>[0m 내려받기: https://www.linuxfromscratch.org/patches/blfs/svn/opencv-4.13.0-ffmpeg-9.0.patch
+2026-10-20 00:28:51 URL:https://www.linuxfromscratch.org/patches/blfs/svn/opencv-4.13.0-ffmpeg-9.0.patch [5816/5816] -> "/sources/kpkg-src/opencv-4.13.0-ffmpeg-9.0.patch.part" [1]
+[1;32m==>[0m 내려받기: https://github.com/opencv/opencv_contrib/archive/4.13.0/opencv_contrib-4.13.0.tar.gz
+2026-10-20 00:29:00 URL:https://codeload.github.com/opencv/opencv_contrib/tar.gz/refs/tags/4.13.0 [55516112/55516112] -> "/sources/kpkg-src/opencv_contrib-4.13.0.tar.gz.part" [1]
+[1;32m==>[0m opencv 4.13.0 빌드 (로그: /var/tmp/kpkg-build/opencv-4.13.0/build.log)
+[1;31m==> 오류:[0m package() 가 아무 파일도 설치하지 않았습니다
+##### 빌드 로그
+[ 66%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/shader/conv_depthwise_3x3_spv.cpp.o
+[ 66%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/shader/conv_depthwise_spv.cpp.o
+[ 66%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/shader/conv_implicit_gemm_spv.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/shader/gemm_spv.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/shader/nary_eltwise_binary_forward_spv.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/shader/spv_shader.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/buffer.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/command.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/context.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/fence.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/internal.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/op_base.cpp.o
+[ 67%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/op_conv.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/op_matmul.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/op_naryEltwise.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/pipeline.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/src/tensor.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/vulkan/vk_functions.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/src/vkcom/vulkan/vk_loader.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/opencl_kernels_dnn.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/layers_common.avx.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/conv_block.avx.cpp.o
+[ 68%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/conv_depthwise.avx.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/conv_winograd_f63.avx.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/fast_gemm_kernels.avx.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/layers_common.avx2.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/int8layers/layers_common.avx2.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/conv_block.avx2.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/conv_depthwise.avx2.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/conv_winograd_f63.avx2.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/cpu_kernels/fast_gemm_kernels.avx2.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/layers/layers_common.avx512_skx.cpp.o
+[ 69%] Building CXX object modules/dnn/CMakeFiles/opencv_dnn.dir/int8layers/layers_common.avx512_skx.cpp.o
+[ 70%] Linking CXX shared library ../../lib/libopencv_dnn.so
+[ 70%] Built target opencv_dnn
+[ 70%] Linking CXX shared library ../../lib/libopencv_features2d.so
+[ 70%] Built target opencv_features2d
+make: *** [Makefile:166: all] 오류 2
+[  0%] Built target opencv_videoio_plugins
+[  0%] Built target opencv_highgui_plugins
+[  0%] Built target gen-pkgconfig
+[  0%] Built target opencv_dnn_plugins
+[  3%] Built target ippiw
+[  3%] Built target ittnotify
+[  4%] Built target ipphal
+[  6%] Built target ade
+[ 10%] Built target libprotobuf
+[ 20%] Built target IlmImf
+[ 32%] Built target opencv_core
+[ 33%] Built target opencv_version
+[ 33%] Built target opencv_flann
+[ 34%] Built target opencv_ml
+[ 44%] Built target opencv_imgproc
+[ 46%] Built target opencv_photo
+[ 49%] Built target opencv_imgcodecs
+[ 52%] Built target opencv_features2d
+[ 52%] Processing OpenCL kernels (calib3d)
+[ 52%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.o
+[ 53%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.o
+[ 53%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.o
+[ 53%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration_base.cpp.o
+[ 53%] Linking CXX shared library ../../lib/libopencv_videoio.so
+[ 70%] Built target opencv_dnn
+[ 70%] Building CXX object apps/model-diagnostics/CMakeFiles/opencv_model_diagnostics.dir/model_diagnostics.cpp.o
+/usr/bin/ld: /usr/lib/libavcodec.a(libavcodec_x86_cavsdsp.c.o): warning: relocation against `ff_pw_4' in read-only section `.text'
+/usr/bin/ld: /usr/lib/libavcodec.a(libavcodec_x86_cavsdsp.c.o): relocation R_X86_64_PC32 against symbol `ff_pw_5' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld: final link failed: bad value
+collect2: error: ld returned 1 exit status
+make[2]: *** [modules/videoio/CMakeFiles/opencv_videoio.dir/build.make:395: lib/libopencv_videoio.so.4.13.0] 오류 1
+make[1]: *** [CMakeFiles/Makefile2:2232: modules/videoio/CMakeFiles/opencv_videoio.dir/all] 오류 2
+make[1]: *** 끝나지 않은 작업을 기다리고 있습니다....
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration_handeye.cpp.o
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.o
+[ 70%] Linking CXX executable ../../bin/opencv_model_diagnostics
+[ 70%] Built target opencv_model_diagnostics
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/chessboard.cpp.o
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.o
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.o
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.o
+[ 70%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ippe.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.o
+[ 71%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/sqpnp.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereo_geom.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/undistort.dispatch.cpp.o
+[ 72%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/bundle.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/degeneracy.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/dls_solver.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/essential_solver.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/estimator.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/fundamental_solver.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/gamma_values.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/homography_solver.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/local_optimization.cpp.o
+[ 73%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/pnp_solver.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/quality.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/ransac_solvers.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/sampler.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/termination.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/usac/utils.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.o
+[ 74%] Building CXX object modules/calib3d/CMakeFiles/opencv_calib3d.dir/undistort.avx2.cpp.o
+[ 74%] Linking CXX shared library ../../lib/libopencv_calib3d.so
+[ 74%] Built target opencv_calib3d
+make: *** [Makefile:166: all] 오류 2
+##### 설치 단계

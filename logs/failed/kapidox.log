@@ -1,0 +1,32 @@
+##### kapidox 6.29.0 (2026-10-20 00:20)
+Processing ./.
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: kapidox
+  Building wheel for kapidox (pyproject.toml): started
+  Building wheel for kapidox (pyproject.toml): finished with status 'done'
+  Created wheel for kapidox: filename=kapidox-6.29.0-py3-none-any.whl size=35231 sha256=3781ae930ce1719f19130d8053033a4381d907377096d0acbf28d8080316e193
+  Stored in directory: /tmp/pip-ephem-wheel-cache-g2knyik6/wheels/18/48/d1/df66084d7698d718c69d0fed4a57aba260a318fb3191fc9ba4
+Successfully built kapidox
+Looking in links: dist
+Processing ./dist/kapidox-6.29.0-py3-none-any.whl
+INFO: pip is looking at multiple versions of kapidox to determine which version is compatible with other requirements. This could take a while.
+ERROR: Could not find a version that satisfies the requirement doxypypy (from kapidox) (from versions: none)
+ERROR: No matching distribution found for doxypypy
+[1;31m==> 오류:[0m 빌드 실패: kapidox (전체 로그: /var/tmp/kpkg-build/kapidox-6.29.0/build.log)
+##### 빌드 로그
+Processing ./.
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: kapidox
+  Building wheel for kapidox (pyproject.toml): started
+  Building wheel for kapidox (pyproject.toml): finished with status 'done'
+  Created wheel for kapidox: filename=kapidox-6.29.0-py3-none-any.whl size=35231 sha256=3781ae930ce1719f19130d8053033a4381d907377096d0acbf28d8080316e193
+  Stored in directory: /tmp/pip-ephem-wheel-cache-g2knyik6/wheels/18/48/d1/df66084d7698d718c69d0fed4a57aba260a318fb3191fc9ba4
+Successfully built kapidox
+Looking in links: dist
+Processing ./dist/kapidox-6.29.0-py3-none-any.whl
+INFO: pip is looking at multiple versions of kapidox to determine which version is compatible with other requirements. This could take a while.
+ERROR: Could not find a version that satisfies the requirement doxypypy (from kapidox) (from versions: none)
+ERROR: No matching distribution found for doxypypy
+##### 설치 단계

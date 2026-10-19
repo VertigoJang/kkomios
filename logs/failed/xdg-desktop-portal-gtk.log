@@ -1,0 +1,26 @@
+##### xdg-desktop-portal-gtk 1.15.3 (2026-10-20 00:38)
+[1;32m==>[0m 내려받기: https://github.com/flatpak/xdg-desktop-portal-gtk/releases/download/1.15.3/xdg-desktop-portal-gtk-1.15.3.tar.xz
+2026-10-20 00:38:34 URL:https://release-assets.githubusercontent.com/github-production-release-asset/61550529/bb30366a-b745-44f8-ac42-c8ddd40c4c40?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-19T16%3A37%3A02Z&rscd=attachment%3B+filename%3Dxdg-desktop-portal-gtk-1.15.3.tar.xz&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-19T15%3A36%3A12Z&ske=2026-10-19T16%3A37%3A02Z&sks=b&skv=2018-11-09&sig=M%2FOFX8Zi2KzetnNNjD0brWV726ulS3sWlmFX8kv%2FJCs%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MjQyNDYxNCwibmJmIjoxNzkyNDI0MzE0LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.9y_2L-cgs-RDI4MBja1Gq2zDNiWhkLnnKWR3wWn7pJM&response-content-disposition=attachment%3B%20filename%3Dxdg-desktop-portal-gtk-1.15.3.tar.xz&response-content-type=application%2Foctet-stream [94556/94556] -> "/sources/kpkg-src/xdg-desktop-portal-gtk-1.15.3.tar.xz.part" [1]
+[1;32m==>[0m xdg-desktop-portal-gtk 1.15.3 빌드 (로그: /var/tmp/kpkg-build/xdg-desktop-portal-gtk-1.15.3/build.log)
+[1;31m==> 오류:[0m package() 가 아무 파일도 설치하지 않았습니다
+##### 빌드 로그
+The Meson build system
+Version: 1.12.0
+Source dir: /var/tmp/kpkg-build/xdg-desktop-portal-gtk-1.15.3/src/xdg-desktop-portal-gtk-1.15.3
+Build dir: /var/tmp/kpkg-build/xdg-desktop-portal-gtk-1.15.3/src/xdg-desktop-portal-gtk-1.15.3/build
+Build type: native build
+Project name: xdg-desktop-portal-gtk
+Project version: 1.15.3
+C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
+C linker for the host machine: cc ld.bfd 2.47.20260726
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency xdg-desktop-portal found: NO  (tried pkg-config and cmake)
+
+../meson.build:50:10: ERROR: Dependency "xdg-desktop-portal" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/xdg-desktop-portal-gtk-1.15.3/src/xdg-desktop-portal-gtk-1.15.3/build/meson-logs/meson-log.txt
+ninja: error: loading 'build.ninja': No such file or directory
+##### 설치 단계
