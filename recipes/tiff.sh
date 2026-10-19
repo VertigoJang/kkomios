@@ -2,6 +2,7 @@
 NAME=tiff
 VERSION=4.7.2
 URL=https://download.osgeo.org/libtiff/tiff-$VERSION.tar.gz
+SKIP_IF='pkg-config --exists libtiff-4'   # 시스템에 libtiff 가 이미 있음 (4.7.0)
 DEPENDS="cmake"
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr

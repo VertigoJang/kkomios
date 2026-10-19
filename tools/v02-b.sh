@@ -68,7 +68,17 @@ fi
 fi   # 1단계에서만 커널
 
 echo ; echo "===== 3. 묶음 $STAGE단계 빌드·설치 ($(grep -v '^#' $LIST | wc -w)개) ====="
-kpkg group "$LIST" || { echo "*** 묶음이 중간에 멈췄습니다. 로그를 올려 주세요 (다시 실행하면 이어서 함)" ; exit 1 ; }
+# 실패해도 멈추지 않고 끝까지 진행 (--keep-going). 실패한 것들의 로그는 끝나고 한꺼번에 GitHub 로 올림
+if kpkg group "$LIST" --keep-going ; then
+  FAILED=no
+else
+  FAILED=yes
+  echo ; echo "===== 실패한 패키지 로그를 GitHub 에 올립니다 ====="
+  { echo "단계 $STAGE, $(date '+%F %H:%M')" ; ls logs/failed/ 2>/dev/null ; } > logs/failed/README.txt 2>/dev/null
+  git add logs && git commit -qm "로그: $STAGE단계 실패 목록 ($(ls logs/failed | grep -c '\.log$')개)" && git push -q \
+    && echo "올리기 완료 — 채팅에 '올렸어요' 라고만 알려 주세요" \
+    || echo "*** 올리기 실패 (인터넷 확인 후: cd ~/kkomios && git push)"
+fi
 
 echo ; echo "===== 4. 확인 ====="
 echo "로그인 세션 목록 (LightDM 에서 고를 수 있음):"
@@ -78,7 +88,9 @@ for c in openbox mate-session startplasma-x11 startplasma-wayland gnome-shell gn
 done ; echo
 echo "Qt6: $(/opt/qt6/bin/qmake6 -query QT_VERSION 2>/dev/null || echo 없음)  KF6: $(pkg-config --modversion KF6CoreAddons 2>/dev/null || echo ?)  Plasma: $(pkg-config --modversion libplasma 2>/dev/null || plasmashell --version 2>/dev/null || echo ?)  GNOME Shell: $(gnome-shell --version 2>/dev/null || echo ?)"
 echo
-if [ "$STAGE" = 1 ] ; then
+if [ "$FAILED" = yes ] ; then
+  echo "===== $STAGE단계: 일부 실패 — 고친 뒤 같은 명령을 다시 실행하면 실패한 것만 다시 시도합니다 ====="
+elif [ "$STAGE" = 1 ] ; then
   echo "===== 1단계 끝 — 재부팅해서 새 커널을 적용한 뒤 2단계를 실행하세요: sudo reboot ====="
 else
   echo "===== $STAGE단계 끝 ====="
