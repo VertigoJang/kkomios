@@ -29,8 +29,7 @@ sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test &&
             --enable-dns-for-realm   \
             --disable-rpath          &&
 make
-make DESTDIR="$PKG" install &&
-cp -vfr ../doc -T "$PKG"/usr/share/doc/krb5-1.22.2
+make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }
 # ---- BLFS 설정 단계 중 자동으로 하지 않은 것 (필요하면 직접) ----

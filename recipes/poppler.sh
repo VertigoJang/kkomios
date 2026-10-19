@@ -22,8 +22,6 @@ cmake -D CMAKE_BUILD_TYPE=Release   \
       -G Ninja ..                   &&
 ninja
 DESTDIR="$PKG" ninja install
-install -v -m755 -d           "$PKG"/usr/share/doc/poppler-26.09.0 &&
-cp -vr ../glib/reference/html "$PKG"/usr/share/doc/poppler-26.09.0
 tar -xf ../../poppler-data-0.4.12.tar.gz &&
 cd poppler-data-0.4.12
 make DESTDIR="$PKG" prefix=/usr install

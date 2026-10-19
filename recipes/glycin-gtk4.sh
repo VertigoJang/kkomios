@@ -20,7 +20,6 @@ ninja
 sed "/install_dir:.*doc/s|,$| / 'glycin-' + meson.project_version()&|" \
     -i ../libglycin/meson.build &&
 
-meson configure -D capi_docs=true &&
 ninja
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

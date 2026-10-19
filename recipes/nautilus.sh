@@ -18,7 +18,6 @@ meson setup --prefix=/usr       \
 
 ninja
 sed "/docdir =/s@\$@ / 'nautilus-51.0.1'@" -i ../meson.build &&
-meson configure -D docs=true &&
 ninja
 DESTDIR="$PKG" ninja install
 

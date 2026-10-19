@@ -27,6 +27,5 @@ EOF
     chmod 755 "$PKG"/usr/bin/$i || exit
 done) &&
 
-cp -rv DOC -T "$PKG"/usr/share/doc/7zip-26.03
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

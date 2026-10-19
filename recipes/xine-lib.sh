@@ -22,10 +22,6 @@ patch -Np1 -i ../xine-lib-1.2.13-ffmpeg8.patch
             --with-external-dvdnav \
             --docdir=/usr/share/doc/xine-lib-1.2.13 &&
 make
-doxygen doc/Doxyfile
 make DESTDIR="$PKG" install
-install -v -m755 -d "$PKG"/usr/share/doc/xine-lib-1.2.13/api &&
-install -v -m644    doc/api/* \
-                    "$PKG"/usr/share/doc/xine-lib-1.2.13/api
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

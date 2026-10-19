@@ -23,7 +23,6 @@ meson setup --prefix=/usr             \
             -D functional_tests=false \
             ..                        &&
 ninja
-meson configure -D man=true -D functional_tests=true &&
 ninja                                                &&
 dbus-run-session env LC_ALL=C.UTF-8 TRACKER_TESTS_AWAIT_TIMEOUT=20 \
 DESTDIR="$PKG" ninja install

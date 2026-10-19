@@ -11,7 +11,5 @@ package() {
 make
 make DESTDIR="$PKG" install &&
 
-install -v -m755 -d        "$PKG"/usr/share/doc/libmng-2.0.3 &&
-install -v -m644 doc/*.txt "$PKG"/usr/share/doc/libmng-2.0.3
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

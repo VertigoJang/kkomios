@@ -16,13 +16,8 @@ make
 make DESTDIR="$PKG" install &&
 ln -svfn aspell-0.60 "$PKG"/usr/lib/aspell &&
 
-install -v -m755 -d "$PKG"/usr/share/doc/aspell-0.60.8.2/aspell{,-dev}.html &&
 
-install -v -m644 manual/aspell.html/* \
-    "$PKG"/usr/share/doc/aspell-0.60.8.2/aspell.html &&
 
-install -v -m644 manual/aspell-dev.html/* \
-    "$PKG"/usr/share/doc/aspell-0.60.8.2/aspell-dev.html
 install -v -m 755 scripts/ispell "$PKG"/usr/bin/
 install -v -m 755 scripts/spell "$PKG"/usr/bin/
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

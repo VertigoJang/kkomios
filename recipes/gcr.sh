@@ -21,7 +21,6 @@ meson setup --prefix=/usr       \
 ninja
 sed -e "/install_dir/s@,\$@ / 'gcr-3.41.2'&@" \
     -i ../docs/*/meson.build                  &&
-meson configure -D gtk_doc=true               &&
 ninja
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

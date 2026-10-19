@@ -23,11 +23,8 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr  \
       -D LIBICAL_GOBJECT_INTROSPECTION=true \
       .. &&
 make -j1
-make docs
 cmake .. -D LIBICAL_BUILD_TESTING=ON &&
 make
 make DESTDIR="$PKG" install
-install -vdm755 "$PKG"/usr/share/doc/libical-4.0.5/html &&
-cp -vr apidocs/html/* "$PKG"/usr/share/doc/libical-4.0.5/html
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

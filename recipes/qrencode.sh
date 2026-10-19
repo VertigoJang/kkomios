@@ -10,9 +10,7 @@ package() {
 sh autogen.sh             &&
 ./configure --prefix=/usr &&
 make
-doxygen
 make DESTDIR="$PKG" install
-install -vdm 755 "$PKG"/usr/share/doc/libqrencode-4.1.1 &&
 mv html/*        "$PKG"/usr/share/doc/libqrencode-4.1.1
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

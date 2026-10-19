@@ -15,8 +15,5 @@ tar -xf ../nasm-3.02-xdoc.tar.xz --strip-components=1
 ./configure --prefix=/usr &&
 make
 make DESTDIR="$PKG" install
-install -m755 -d         "$PKG"/usr/share/doc/nasm-3.02/html  &&
-cp -v doc/html/*.html    "$PKG"/usr/share/doc/nasm-3.02/html  &&
-cp -v doc/*.{txt,ps,pdf} "$PKG"/usr/share/doc/nasm-3.02
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

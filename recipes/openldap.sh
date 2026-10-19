@@ -46,9 +46,6 @@ install -v -dm700 "$PKG"/var/lib/openldap     &&
 install -v -dm700 "$PKG"/etc/openldap/slapd.d &&
 chmod   -v    640     "$PKG"/etc/openldap/slapd.{conf,ldif}
 
-install -v -dm755 "$PKG"/usr/share/doc/openldap-2.7.1 &&
-cp      -vfr      doc/{drafts,rfc,guide} \
-                  "$PKG"/usr/share/doc/openldap-2.7.1
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }
 post_install() {

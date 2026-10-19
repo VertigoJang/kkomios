@@ -14,8 +14,5 @@ make PREFIX=/usr        \
      BUILD_STATIC_LIB=0 \
      MANDIR=/usr/share/man install &&
 
-install -v -m755 -d "$PKG"/usr/share/doc/lm-sensors-3-6-2 &&
-cp -rv              README INSTALL doc/* \
-                    "$PKG"/usr/share/doc/lm-sensors-3-6-2
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

@@ -14,8 +14,6 @@ package() {
             CFLAGS="${CFLAGS:--g -O3} -fPIC" &&
 make
 make DESTDIR="$PKG" install &&
-cp liba52/a52_internal.h "$PKG"/usr/include/a52dec &&
-install -v -m644 -D doc/liba52.txt \
-    "$PKG"/usr/share/doc/liba52-0.8.0/liba52.txt
+cp liba52/a52_internal.h "$PKG"/usr/include/a52dec
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

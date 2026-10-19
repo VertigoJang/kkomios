@@ -16,20 +16,7 @@ cd    build &&
              --docdir=/usr/share/doc/gnupg-2.5.24 &&
 make &&
 
-makeinfo --html --no-split -I doc -o doc/gnupg_nochunks.html ../doc/gnupg.texi &&
-makeinfo --plaintext       -I doc -o doc/gnupg.txt           ../doc/gnupg.texi &&
-make -C doc html
-make -C doc pdf
 make DESTDIR="$PKG" install &&
 
-install -v -m755 -d "$PKG"/usr/share/doc/gnupg-2.5.24/html            &&
-install -v -m644    doc/gnupg_nochunks.html \
-                    "$PKG"/usr/share/doc/gnupg-2.5.24/html/gnupg.html &&
-install -v -m644    ../doc/*.texi doc/gnupg.txt \
-                    "$PKG"/usr/share/doc/gnupg-2.5.24 &&
-install -v -m644    doc/gnupg.html/* \
-                    "$PKG"/usr/share/doc/gnupg-2.5.24/html
-install -v -m644 doc/gnupg.pdf \
-                 "$PKG"/usr/share/doc/gnupg-2.5.24
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

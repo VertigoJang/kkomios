@@ -25,9 +25,6 @@ sed '/plugin_common/a #include <time.h>' -i plugins/cram.c
             --with-saslauthd=/var/run/saslauthd &&
 make -j1
 make DESTDIR="$PKG" install &&
-install -v -dm755                          "$PKG"/usr/share/doc/cyrus-sasl-2.1.28/html &&
-install -v -m644  saslauthd/LDAP_SASLAUTHD "$PKG"/usr/share/doc/cyrus-sasl-2.1.28      &&
-install -v -m644  doc/legacy/*.html        "$PKG"/usr/share/doc/cyrus-sasl-2.1.28/html &&
 install -v -dm700 "$PKG"/var/lib/sasl
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

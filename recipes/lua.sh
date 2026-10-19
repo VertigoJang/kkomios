@@ -42,8 +42,6 @@ make INSTALL_TOP=/usr                \
      TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.8" \
      install &&
 
-mkdir -pv                      "$PKG"/usr/share/doc/lua-5.4.8 &&
-cp -v doc/*.{html,css,gif,png} "$PKG"/usr/share/doc/lua-5.4.8 &&
 
 install -v -m644 -D lua.pc "$PKG"/usr/lib/pkgconfig/lua.pc
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

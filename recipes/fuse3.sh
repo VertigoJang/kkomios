@@ -15,15 +15,11 @@ cd    build &&
 meson setup --prefix=/usr --buildtype=release .. &&
 ninja
 pushd .. &&
-  doxygen doc/Doxyfile &&
 popd
 DESTDIR="$PKG" ninja install                  &&
 chmod u+s "$PKG"/usr/bin/fusermount3 &&
 
-cd ..                          &&
-cp -Rv doc/html -T "$PKG"/usr/share/doc/fuse-3.18.3  &&
-install -v -m644   doc/{README.NFS,kernel.txt} \
-                   "$PKG"/usr/share/doc/fuse-3.18.3
+cd ..
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }
 # ---- BLFS 설정 단계 중 자동으로 하지 않은 것 (필요하면 직접) ----

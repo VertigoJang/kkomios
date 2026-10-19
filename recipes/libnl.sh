@@ -16,7 +16,6 @@ package() {
             --disable-static  &&
 make
 make DESTDIR="$PKG" install
-mkdir -vp "$PKG"/usr/share/doc/libnl-3.12.0 &&
 tar -xf ../libnl-doc-3.12.0.tar.gz --strip-components=1 --no-same-owner \
     -C  "$PKG"/usr/share/doc/libnl-3.12.0
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

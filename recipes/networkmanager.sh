@@ -34,7 +34,6 @@ for file in $(echo ../man/*.[1578]); do
     install -vdm 755 "$PKG"/usr/share/man/man$section
     install -vm 644 $file "$PKG"/usr/share/man/man$section/
 done
-cp -Rv ../docs/{api,libnm} "$PKG"/usr/share/doc/NetworkManager-1.58.1
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }
 # ---- BLFS 설정 단계 중 자동으로 하지 않은 것 (필요하면 직접) ----

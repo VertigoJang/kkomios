@@ -9,10 +9,7 @@ package() {
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 ./configure --prefix=/usr --disable-static &&
 make
-sed -i 's@\./@src/@' Doxyfile &&
-doxygen
+sed -i 's@\./@src/@' Doxyfile
 make DESTDIR="$PKG" install
-install -v -m755 -d "$PKG"/usr/share/doc/popt-1.19 &&
-install -v -m644 doxygen/html/* "$PKG"/usr/share/doc/popt-1.19
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

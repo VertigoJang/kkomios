@@ -9,10 +9,7 @@ package() {
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 ./configure --prefix=/usr --disable-static &&
 make
-make -C doc doxygen
 make DESTDIR="$PKG" docdir=/usr/share/doc/libdaemon-0.14 install
-install -v -m755 -d "$PKG"/usr/share/doc/libdaemon-0.14/reference/html &&
-install -v -m644 doc/reference/html/* "$PKG"/usr/share/doc/libdaemon-0.14/reference/html &&
 install -v -m644 doc/reference/man/man3/* "$PKG"/usr/share/man/man3
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }
