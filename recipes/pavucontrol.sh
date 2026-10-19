@@ -13,6 +13,6 @@ cd    build &&
 meson setup --prefix=/usr --buildtype=release -D lynx=disabled .. &&
 ninja
 DESTDIR="$PKG" ninja install &&
-mv "$PKG"/usr/share/doc/pavucontrol "$PKG"/usr/share/doc/pavucontrol-6.2
+mv "$PKG"/usr/share/doc/pavucontrol "$PKG"/usr/share/doc/pavucontrol-6.2 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

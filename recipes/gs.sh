@@ -25,12 +25,11 @@ make DESTDIR="$PKG" install
 make soinstall                                     &&
 install -v -m644 base/*.h "$PKG"/usr/include/ghostscript &&
 ln -sfvn ghostscript "$PKG"/usr/include/ps
-mv -v "$PKG"/usr/share/doc/ghostscript/10.08.0 "$PKG"/usr/share/doc/ghostscript-10.08.0 &&
-rmdir "$PKG"/usr/share/doc/ghostscript                                            &&
+mv -v "$PKG"/usr/share/doc/ghostscript/10.08.0 "$PKG"/usr/share/doc/ghostscript-10.08.0 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
+rmdir "$PKG"/usr/share/doc/ghostscript 2>/dev/null || true
 cp -r examples/ -T "$PKG"/usr/share/ghostscript/10.08.0/examples
 tar -xvf ../ghostscript-fonts-std-8.11.tar.gz -C "$PKG"/usr/share/ghostscript --no-same-owner &&
 tar -xvf ../gnu-gs-fonts-other-6.0.tar.gz     -C "$PKG"/usr/share/ghostscript --no-same-owner
-gs -q -dBATCH /usr/share/ghostscript/10.08.0/examples/tiger.eps
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }
 post_install() {

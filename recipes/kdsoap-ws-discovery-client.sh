@@ -17,6 +17,6 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr    \
       -W no-author .. &&
 make
 make DESTDIR="$PKG" install &&
-mv -v "$PKG"/usr/share/doc/KDSoapWSDiscoveryClient{,-0.4.0}
+mv -v "$PKG"/usr/share/doc/KDSoapWSDiscoveryClient{,-0.4.0} 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

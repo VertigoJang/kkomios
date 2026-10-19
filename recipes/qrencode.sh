@@ -11,6 +11,6 @@ sh autogen.sh             &&
 ./configure --prefix=/usr &&
 make
 make DESTDIR="$PKG" install
-mv html/*        "$PKG"/usr/share/doc/libqrencode-4.1.1
+mv html/*        "$PKG"/usr/share/doc/libqrencode-4.1.1 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

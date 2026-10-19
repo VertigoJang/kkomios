@@ -12,6 +12,6 @@ package() {
             --enable-shared  &&
 make
 make DESTDIR="$PKG" install &&
-mv -v "$PKG"/usr/share/doc/pdfio{,-1.6.4}
+mv -v "$PKG"/usr/share/doc/pdfio{,-1.6.4} 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

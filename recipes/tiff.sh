@@ -15,6 +15,6 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr \
       -W no-author -G Ninja ..
 ninja
 DESTDIR="$PKG" ninja install &&
-mv -v "$PKG"/usr/share/doc/tiff{,-4.7.2}
+mv -v "$PKG"/usr/share/doc/tiff{,-4.7.2} 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

@@ -17,6 +17,6 @@ meson setup --prefix=/usr       \
             ..                  &&
 ninja
 DESTDIR="$PKG" ninja install
-mv -v "$PKG"/usr/share/doc/gnome-session{,-51.0}
+mv -v "$PKG"/usr/share/doc/gnome-session{,-51.0} 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

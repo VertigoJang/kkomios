@@ -28,7 +28,7 @@ meson setup ..                    \
 ninja
 DESTDIR="$PKG" ninja install &&
 rm -rf "$PKG"/usr/share/doc/NetworkManager-1.58.1 &&
-mv -v "$PKG"/usr/share/doc/NetworkManager{,-1.58.1}
+mv -v "$PKG"/usr/share/doc/NetworkManager{,-1.58.1} 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 for file in $(echo ../man/*.[1578]); do
     section=${file##*.} &&
     install -vdm 755 "$PKG"/usr/share/man/man$section
