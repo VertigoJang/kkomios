@@ -1,0 +1,133 @@
+##### lame 3.100 (2026-10-19 21:01)
+[1;32m==>[0m lame 3.100 빌드 (로그: /var/tmp/kpkg-build/lame-3.100/build.log)
+[1;32m==>[0m 완성: /var/cache/kpkg/lame-3.100.kpkg.tar (304K, 파일 22개)
+/var/cache/kpkg/lame-3.100.kpkg.tar
+##### 빌드 로그
+Making install in doc
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc' 들어감
+Making install in html
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/html' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/html' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/lame-3.100/pkg/usr/share/doc/lame-3.100'
+ /usr/bin/install -c -m 644 about.html abr.html cbr.html contact.html contributors.html detailed.html history.html index.html introduction.html links.html list.html ms_stereo.html usage.html vbr.html '/var/tmp/kpkg-build/lame-3.100/pkg/usr/share/doc/lame-3.100'
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/html' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/html' 나감
+Making install in man
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/man' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/man' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/lame-3.100/pkg/usr/share/man/man1'
+ /usr/bin/install -c -m 644 lame.1 '/var/tmp/kpkg-build/lame-3.100/pkg/usr/share/man/man1'
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/man' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc/man' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/doc' 나감
+Making install in include
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/include' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/include' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/lame-3.100/pkg/usr/include/lame'
+ /usr/bin/install -c -m 644 lame.h '/var/tmp/kpkg-build/lame-3.100/pkg/usr/include/lame'
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/include' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/include' 나감
+Making install in misc
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/misc' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/misc' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/misc' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/misc' 나감
+Making install in dshow
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/dshow' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/dshow' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/dshow' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/dshow' 나감
+Making install in ACM
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM' 들어감
+Making install in ADbg
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ADbg' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ADbg' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ADbg' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ADbg' 나감
+Making install in ddk
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ddk' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ddk' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ddk' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/ddk' 나감
+Making install in tinyxml
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/tinyxml' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/tinyxml' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/tinyxml' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM/tinyxml' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/ACM' 나감
+Making install in mac
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/mac' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/mac' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/mac' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/mac' 나감
+Making install in macosx
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx' 들어감
+Making install in English.lproj
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/English.lproj' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/English.lproj' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/English.lproj' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/English.lproj' 나감
+Making install in LAME.xcodeproj
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/LAME.xcodeproj' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/LAME.xcodeproj' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/LAME.xcodeproj' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx/LAME.xcodeproj' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/macosx' 나감
+Making install in vc_solution
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/vc_solution' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/vc_solution' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/vc_solution' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100/vc_solution' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[2]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[2]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/lame-3.100/src/lame-3.100' 나감
+##### 설치 단계
+[1;32m==>[0m 설치: lame 3.100
+다른 패키지가 가진 파일과 겹칩니다:
+/usr/include/lame/lame.h  ← gtk4
+/usr/lib/libmp3lame.so  ← gtk4
+/usr/lib/libmp3lame.so.0  ← gtk4
+/usr/lib/libmp3lame.so.0.0.0  ← gtk4
+[1;31m==> 오류:[0m 중단합니다 (--force 로 강행 가능)
