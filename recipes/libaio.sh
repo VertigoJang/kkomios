@@ -1,7 +1,7 @@
 # libaio-0.3.113 — BLFS general/genlib/genlib.xml 에서 자동 생성 (tools/blfs-gen)
 NAME=libaio
 VERSION=0.3.113
-URL=https://releases.pagure.org/libaio/libaio-$VERSION.tar.gz
+URL=https://codeberg.org/jmoyer/libaio/releases/download/libaio-$VERSION/libaio-$VERSION.tar.gz   # pagure 에서 codeberg 로 옮김 (BLFS 최신판 기준)
 DEPENDS=""
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
