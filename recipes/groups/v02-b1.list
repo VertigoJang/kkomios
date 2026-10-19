@@ -1,0 +1,24 @@
+# 0.2 묶음 B 1단계 — Openbox + MATE (Qt6 등 공용 라이브러리 포함)
+# 실행: bash tools/v02-b.sh 1
+
+# ===== B1 Openbox (1개) =====
+openbox
+
+# ===== B2 MATE 준비 (BLFS 라이브러리, Qt6 포함) (80개) =====
+dbus-glib libpeas gtksourceview4 libgtop libaio lvm2 popt cryptsetup
+keyutils libatasmart pathspec vcs_versioning setuptools_scm pluggy poetry-core tomlkit
+trove-classifiers hatchling pygments libbytesize libnvme libblockdev udisks2 libassuan
+libksba npth lmdb cyrus-sasl openldap pinentry gnupg2 gcr
+gnome-keyring libsecret libarchive startup-notification which boost gpgme gpgmepp
+lcms2 tiff nspr nss openjpeg2 gs brotli glu
+freeglut mupdf pdfio qpdf libcupsfilters libppd cups-filters libgusb
+colord docbook docbook-xsl xmlto xdg-utils cups double-conversion lame
+gsettings-desktop-schemas glib-networking nghttp2 libsoup3 yasm nasm
+libvpx mpg123 gst10-plugins-good jasper libmng libwebp qt6 poppler
+
+# ===== B2 MATE 데스크톱 (30개) =====
+mate-common mate-desktop mate-icon-theme mate-themes mate-backgrounds libmatekbd libmatemixer libsoup2
+libmateweather mate-menus mate-settings-daemon mate-session-manager marco caja mate-panel mate-control-center
+mate-notification-daemon mate-polkit mate-power-manager mate-screensaver mate-media mate-terminal pluma eom
+atril engrampa mate-system-monitor mate-calc mate-utils mozo
+

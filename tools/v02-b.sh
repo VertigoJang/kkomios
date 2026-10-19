@@ -1,14 +1,19 @@
 #!/bin/bash
-# 0.2 묶음 B — 커널 다시 빌드 + 데스크톱 4종(Openbox·MATE·KDE Plasma·GNOME) + 공통 앱
+# 0.2 묶음 B — 두 단계로 나눔
+#   1단계: 커널 다시 빌드 + Openbox + MATE (Qt6 등 공용 라이브러리 포함)  → 끝나면 재부팅
+#   2단계: KDE Plasma + GNOME + 공통 앱
 # 사용법 (tmux 안에서 권장):
-#   cd ~/kkomios && git pull && bash tools/v02-b.sh 2>&1 | tee -a ~/v02-b.log
+#   cd ~/kkomios && git pull && bash tools/v02-b.sh 1 2>&1 | tee -a ~/v02-b1.log
+#   cd ~/kkomios && git pull && bash tools/v02-b.sh 2 2>&1 | tee -a ~/v02-b2.log
 # - 중간에 멈추거나 꺼져도 같은 명령을 다시 실행하면 끝난 것은 건너뛰고 이어서 함
 # - 화면 모양·네트워크 방식은 바꾸지 않음: 새 로그인 세션이 LightDM 목록에 추가될 뿐,
 #   NetworkManager·GDM·CUPS 같은 서비스는 설치만 하고 켜지 않음
 set -u
 REPO=$(cd "$(dirname "$0")/.." && pwd)
 cd "$REPO" || exit 1
-LIST=recipes/groups/v02-b.list
+STAGE=${1:-}
+case "$STAGE" in 1|2) ;; *) echo "사용법: bash tools/v02-b.sh 1   또는   bash tools/v02-b.sh 2" ; exit 1 ;; esac
+LIST=recipes/groups/v02-b$STAGE.list
 
 sudo -v || exit 1
 ( while sleep 50 ; do sudo -n true 2> /dev/null || exit ; done ) & KEEP=$!   # 오래 걸려도 비밀번호를 다시 묻지 않게
@@ -18,6 +23,7 @@ echo "===== 1. kpkg 0.8.1 설치 ====="
 sudo install -m755 kpkg/kpkg kpkg/kpkg-check /usr/local/bin/ || exit 1
 kpkg version
 
+if [ "$STAGE" = 1 ] ; then
 echo ; echo "===== 2. 커널 다시 빌드 (USER_NS·FUSE·암호화 디스크·가상 네트워크 장치·루나 레이크 핀 제어 등) ====="
 K=/sources/linux-7.1.8
 REL=7.1.8-kkomios
@@ -57,8 +63,9 @@ else
   echo "  커널 설치 완료 ($(date +%H:%M)) — 묶음이 끝난 뒤 재부팅하면 적용"
   cd "$REPO"
 fi
+fi   # 1단계에서만 커널
 
-echo ; echo "===== 3. 묶음 빌드·설치 ($(grep -v '^#' $LIST | wc -w)개) ====="
+echo ; echo "===== 3. 묶음 $STAGE단계 빌드·설치 ($(grep -v '^#' $LIST | wc -w)개) ====="
 kpkg group "$LIST" || { echo "*** 묶음이 중간에 멈췄습니다. 로그를 올려 주세요 (다시 실행하면 이어서 함)" ; exit 1 ; }
 
 echo ; echo "===== 4. 확인 ====="
@@ -69,5 +76,9 @@ for c in openbox mate-session startplasma-x11 startplasma-wayland gnome-shell gn
 done ; echo
 echo "Qt6: $(/opt/qt6/bin/qmake6 -query QT_VERSION 2>/dev/null || echo 없음)  KF6: $(pkg-config --modversion KF6CoreAddons 2>/dev/null || echo ?)  Plasma: $(pkg-config --modversion libplasma 2>/dev/null || plasmashell --version 2>/dev/null || echo ?)  GNOME Shell: $(gnome-shell --version 2>/dev/null || echo ?)"
 echo
-echo "===== 끝 — 재부팅해야 새 커널이 적용됩니다: sudo reboot ====="
-echo "재부팅 뒤 LightDM 로그인 화면의 세션 메뉴에서 데스크톱을 고를 수 있습니다 (기본은 지금처럼 Xfce)."
+if [ "$STAGE" = 1 ] ; then
+  echo "===== 1단계 끝 — 재부팅해서 새 커널을 적용한 뒤 2단계를 실행하세요: sudo reboot ====="
+else
+  echo "===== 2단계 끝 ====="
+fi
+echo "LightDM 로그인 화면의 세션 메뉴에서 데스크톱을 고를 수 있습니다 (기본은 지금처럼 Xfce)."
