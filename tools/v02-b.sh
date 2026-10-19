@@ -77,7 +77,7 @@ else
   FAILED=yes
   echo ; echo "===== 실패한 패키지 로그를 GitHub 에 올립니다 ====="
   { echo "단계 $STAGE, $(date '+%F %H:%M')" ; ls logs/failed/ 2>/dev/null ; } > logs/failed/README.txt 2>/dev/null
-  git add logs && git commit -qm "로그: $STAGE단계 실패 목록 ($(ls logs/failed | grep -c '\.log$')개)" && git push -q \
+  git add -f logs && git commit -qm "로그: $STAGE단계 실패 목록 ($(ls logs/failed | grep -c '\.log$')개)" && git push -q \
     && echo "올리기 완료 — 채팅에 '올렸어요' 라고만 알려 주세요" \
     || echo "*** 올리기 실패 (인터넷 확인 후: cd ~/kkomios && git push)"
 fi
