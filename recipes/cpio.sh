@@ -13,7 +13,7 @@ sed -e "/^int (\*xstat)/s/()/(const char * restrict,  struct stat * restrict)/" 
     -i src/global.c
 ./configure --prefix=/usr \
             --enable-mt   \
-            --with-rmt=/usr/libexec/rmt &&
+            --with-rmt=/usr/libexec/rmt
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

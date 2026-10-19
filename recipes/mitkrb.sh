@@ -16,8 +16,8 @@ package() {
 patch -Np1 -i ../mitkrb-1.22.2-upstream_fix-1.patch
 patch -Np1 -i ../mitkrb-1.22.2-security_fix-1.patch
 patch -Np1 -i ../mitkrb-1.22.2-openssl_4_fixes-1.patch
-cd src &&
-sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test &&
+cd src
+sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
 
 ./configure --prefix=/usr            \
             --sysconfdir=/etc        \
@@ -27,7 +27,7 @@ sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test &&
             --with-system-ss         \
             --with-system-verto=no   \
             --enable-dns-for-realm   \
-            --disable-rpath          &&
+            --disable-rpath
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

@@ -8,14 +8,14 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 find -type f | xargs touch
-sed -i 's/cp -p/cp/' build/make/Makefile &&
+sed -i 's/cp -p/cp/' build/make/Makefile
 
-mkdir libvpx-build            &&
-cd    libvpx-build            &&
+mkdir libvpx-build
+cd    libvpx-build
 
 ../configure --prefix=/usr    \
              --enable-shared  \
-             --disable-static &&
+             --disable-static
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

@@ -10,10 +10,10 @@ package() {
 sed -e '/install -m 644 $(LIBNEWT)/ s/^/#/' \
     -e '/$(LIBNEWT):/,/rv/ s/^/#/'          \
     -e 's/$(LIBNEWT)/$(LIBNEWTSH)/g'        \
-    -i Makefile.in                          &&
+    -i Makefile.in
 
 ./configure --prefix=/usr      \
-            --with-gpm-support &&
+            --with-gpm-support
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

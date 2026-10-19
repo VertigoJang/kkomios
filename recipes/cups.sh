@@ -15,9 +15,9 @@ sed -i '/& ipp->prev)/s/prev/& \&\& ipp->prev->next == *attr/' cups/ipp.c
 ./configure --libdir=/usr/lib            \
             --with-rundir=/run/cups      \
             --with-system-groups=lpadmin \
-            --with-docdir=/usr/share/cups/doc-2.4.19 &&
+            --with-docdir=/usr/share/cups/doc-2.4.19
 make
-make DESTDIR="$PKG" install &&
+make DESTDIR="$PKG" install
 ln -svnf ../cups/doc-2.4.19 "$PKG"/usr/share/doc/cups-2.4.19
 mkdir -p "$PKG"/etc/cups
 echo "ServerName /run/cups/cups.sock" > "$PKG"/etc/cups/client.conf

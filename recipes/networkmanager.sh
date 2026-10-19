@@ -8,8 +8,8 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
-mkdir build &&
-cd    build &&
+mkdir build
+cd    build
 
 meson setup ..                    \
       --prefix=/usr               \
@@ -24,13 +24,13 @@ meson setup ..                    \
       -D session_tracking=systemd \
       -D nm_cloud_setup=false     \
       -D clat=false               \
-      -D modem_manager=false      &&
+      -D modem_manager=false
 ninja
-DESTDIR="$PKG" ninja install &&
-rm -rf "$PKG"/usr/share/doc/NetworkManager-1.58.1 &&
+DESTDIR="$PKG" ninja install
+rm -rf "$PKG"/usr/share/doc/NetworkManager-1.58.1
 mv -v "$PKG"/usr/share/doc/NetworkManager{,-1.58.1} 2>/dev/null || true   # 설명서가 안 만들어진 경우도 통과
 for file in $(echo ../man/*.[1578]); do
-    section=${file##*.} &&
+    section=${file##*.}
     install -vdm 755 "$PKG"/usr/share/man/man$section
     install -vm 644 $file "$PKG"/usr/share/man/man$section/
 done

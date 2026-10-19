@@ -15,7 +15,7 @@ sed -i "/SSL3/c $NEW_LINE" src/openssl.c
 unset NEW_LINE
 ./configure --prefix=/usr      \
             --sysconfdir=/etc  \
-            --with-ssl=openssl &&
+            --with-ssl=openssl
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

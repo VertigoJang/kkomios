@@ -10,10 +10,10 @@ package() {
 ./configure --prefix=/usr                      \
             --disable-static                   \
             --with-securedir=/usr/lib/security \
-            --disable-python-bindings          &&
-make &&
+            --disable-python-bindings
+make
 pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD/python
-make DESTDIR="$PKG" install &&
+make DESTDIR="$PKG" install
 pip3 install --root="$PKG" --no-warn-script-location --no-index --find-links dist --no-user pwquality
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

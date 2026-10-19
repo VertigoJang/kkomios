@@ -11,9 +11,9 @@ package() {
             --mandir=/usr/share/man \
             --enable-shared         \
             --disable-static        \
-            CFLAGS="${CFLAGS:--g -O3} -fPIC" &&
+            CFLAGS="${CFLAGS:--g -O3} -fPIC"
 make
-make DESTDIR="$PKG" install &&
+make DESTDIR="$PKG" install
 cp liba52/a52_internal.h "$PKG"/usr/include/a52dec
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

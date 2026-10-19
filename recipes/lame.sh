@@ -8,7 +8,7 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 sed -i -e 's/^\(\s*hardcode_libdir_flag_spec\s*=\).*/\1/' configure
-./configure --prefix=/usr --enable-mp3rtp --disable-static &&
+./configure --prefix=/usr --enable-mp3rtp --disable-static
 make
 make DESTDIR="$PKG" pkghtmldir=/usr/share/doc/lame-3.100 install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

@@ -8,14 +8,14 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 sed -i 's/aom aom_static/aom/' cmake/aom_install.cmake
-mkdir aom-build &&
-cd    aom-build &&
+mkdir aom-build
+cd    aom-build
 
 cmake -D CMAKE_INSTALL_PREFIX=/usr \
       -D CMAKE_BUILD_TYPE=Release  \
       -D BUILD_SHARED_LIBS=1       \
       -D ENABLE_DOCS=no            \
-      -G Ninja .. &&
+      -G Ninja ..
 ninja
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

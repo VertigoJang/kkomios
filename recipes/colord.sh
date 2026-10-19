@@ -8,8 +8,8 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 
-mkdir build &&
-cd    build &&
+mkdir build
+cd    build
 
 meson setup ..                  \
       --prefix=/usr             \
@@ -21,7 +21,7 @@ meson setup ..                  \
       -D argyllcms_sensor=false \
       -D bash_completion=false  \
       -D docs=false             \
-      -D man=false              &&
+      -D man=false
 ninja
 ninja
 DESTDIR="$PKG" ninja install

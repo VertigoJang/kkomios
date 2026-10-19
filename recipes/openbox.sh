@@ -13,11 +13,11 @@ package() {
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
 export LIBRARY_PATH=$XORG_PREFIX/lib
 patch -Np1 -i ../openbox-3.6.1-py3-1.patch
-autoreconf -fi &&
+autoreconf -fi
 ./configure --prefix=/usr     \
             --sysconfdir=/etc \
             --disable-static  \
-            --docdir=/usr/share/doc/openbox-3.6.1 &&
+            --docdir=/usr/share/doc/openbox-3.6.1
 make
 make DESTDIR="$PKG" install
 rm -v "$PKG"/usr/share/xsessions/openbox-{gnome,kde}.desktop

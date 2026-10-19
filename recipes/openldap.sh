@@ -12,8 +12,8 @@ package() {
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
 
-patch -Np1 -i ../openldap-2.7.1-consolidated-1.patch &&
-autoconf &&
+patch -Np1 -i ../openldap-2.7.1-consolidated-1.patch
+autoconf
 
 ./configure --prefix=/usr         \
             --sysconfdir=/etc     \
@@ -33,17 +33,17 @@ autoconf &&
             --enable-backends=mod \
             --disable-sql         \
             --disable-wt          \
-            --enable-overlays=mod &&
+            --enable-overlays=mod
 
-make depend &&
+make depend
 make
-make DESTDIR="$PKG" install &&
+make DESTDIR="$PKG" install
 
-sed -e "s/\.la/.so/" -i "$PKG"/etc/openldap/slapd.{conf,ldif}{,.default} &&
+sed -e "s/\.la/.so/" -i "$PKG"/etc/openldap/slapd.{conf,ldif}{,.default}
 
-install -v -dm700 "$PKG"/var/lib/openldap     &&
+install -v -dm700 "$PKG"/var/lib/openldap
 
-install -v -dm700 "$PKG"/etc/openldap/slapd.d &&
+install -v -dm700 "$PKG"/etc/openldap/slapd.d
 chmod   -v    640     "$PKG"/etc/openldap/slapd.{conf,ldif}
 
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

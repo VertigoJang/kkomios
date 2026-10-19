@@ -28,6 +28,7 @@ done
 kpkg version
 # gtk4 가 빌드 중에 함께 설치해 버린 다른 패키지 파일(gstreamer 플러그인·lame 등)은 해당 패키지에 넘겨줌
 sudo mkdir -p /etc/kpkg && { cat /etc/kpkg/yield 2>/dev/null ; echo gtk4 ; } | sort -u | sudo tee /etc/kpkg/yield.new > /dev/null && sudo mv /etc/kpkg/yield.new /etc/kpkg/yield
+bash tools/fix-hollow.sh   # 예전 kpkg 버그로 빈 껍데기로 설치된 패키지는 기록을 지워서 다시 빌드
 echo "Qt6 상태: $(kpkg list | awk '$1=="qt6"{print $2, $3}') / $(ls -d /opt/qt6/lib/cmake/Qt6 2>/dev/null || echo '/opt/qt6/lib/cmake/Qt6 없음')"
 
 if [ "$STAGE" = 1 ] ; then

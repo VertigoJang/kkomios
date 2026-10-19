@@ -34,13 +34,13 @@ Requires:
 Libs: -L${libdir} -llua -lm -ldl
 Cflags: -I${includedir}
 EOF
-patch -Np1 -i ../lua-5.4.8-shared_library-1.patch &&
+patch -Np1 -i ../lua-5.4.8-shared_library-1.patch
 make linux
 make INSTALL_TOP="$PKG"/usr                \
      INSTALL_DATA="cp -d"            \
      INSTALL_MAN="$PKG"/usr/share/man/man1 \
      TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.8" \
-     install &&
+     install
 
 
 install -v -m644 -D lua.pc "$PKG"/usr/lib/pkgconfig/lua.pc

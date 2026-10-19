@@ -11,12 +11,12 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
-patch -Np1 -i ../libmad-0.15.1b-fixes-1.patch                &&
-sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac &&
-touch NEWS AUTHORS ChangeLog                                 &&
-autoreconf -fi                                               &&
+patch -Np1 -i ../libmad-0.15.1b-fixes-1.patch
+sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac
+touch NEWS AUTHORS ChangeLog
+autoreconf -fi
 
-./configure --prefix=/usr --disable-static &&
+./configure --prefix=/usr --disable-static
 make
 make DESTDIR="$PKG" install
 cat > "$PKG"/usr/lib/pkgconfig/mad.pc << "EOF"

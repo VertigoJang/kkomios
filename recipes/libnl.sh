@@ -13,7 +13,7 @@ package() {
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
 ./configure --prefix=/usr     \
             --sysconfdir=/etc \
-            --disable-static  &&
+            --disable-static
 make
 make DESTDIR="$PKG" install
 tar -xf ../libnl-doc-3.12.0.tar.gz --strip-components=1 --no-same-owner \

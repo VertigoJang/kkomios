@@ -15,7 +15,7 @@ make PREFIX=/usr                \
 make DESTDIR="$PKG" PREFIX=/usr                \
      SHAREDIR=/usr/share/hwdata \
      SHARED=yes                 \
-     install install-lib        &&
+     install install-lib
 
 chmod -v 755 "$PKG"/usr/lib/libpci.so
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

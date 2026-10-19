@@ -10,7 +10,7 @@ package() {
 pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
 pip3 install --root="$PKG" --no-warn-script-location --no-index --find-links dist --no-user psutil
 cp build/lib*/psutil/*.so psutil
-psleak pyperf pypinfo                      &&
+psleak pyperf pypinfo
 PSUTIL_DEBUG=1 testenv/bin/python3 -m pytest
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

@@ -12,7 +12,7 @@ make PREFIX=/usr        \
      MANDIR=/usr/share/man
 make DESTDIR="$PKG" PREFIX=/usr        \
      BUILD_STATIC_LIB=0 \
-     MANDIR=/usr/share/man install &&
+     MANDIR=/usr/share/man install
 
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

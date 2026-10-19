@@ -14,8 +14,8 @@ package() {
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
 patch -Np1 -i ../opencv-4.13.0-ffmpeg-9.0.patch
 tar -xf ../opencv_contrib-4.13.0.tar.gz
-mkdir build &&
-cd    build &&
+mkdir build
+cd    build
 
 cmake -D CMAKE_INSTALL_PREFIX=/usr      \
       -D WITH_FFMPEG=OFF                  \
@@ -28,7 +28,7 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr      \
       -D CMAKE_SKIP_INSTALL_RPATH=ON    \
       -D BUILD_WITH_DEBUG_INFO=OFF      \
       -D OPENCV_GENERATE_PKGCONFIG=ON   \
-      -W no-author  ..                  &&
+      -W no-author  ..
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

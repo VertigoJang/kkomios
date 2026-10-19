@@ -12,18 +12,18 @@ package() {
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
 if [ -e "$PKG"/usr/include/libportal ]; then
-    rm -rf "$PKG"/usr/include/libportal.old &&
+    rm -rf "$PKG"/usr/include/libportal.old
     mv -vf "$PKG"/usr/include/libportal{,.old}
 fi
 patch -Np1 -i ../libportal-0.9.1-qt6.9_fixes-1.patch
-mkdir build &&
-cd    build &&
+mkdir build
+cd    build
 
 meson setup --prefix=/usr       \
             --buildtype=release \
             -D vapi=false       \
             -D docs=false       \
-            .. &&
+            ..
 ninja
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

@@ -23,17 +23,17 @@ USE_SYSTEM_CURL := yes
 USE_SYSTEM_GUMBO := no
 EOF
 
-export XCFLAGS=-fPIC                      &&
-make build=release shared=yes verbose=yes &&
+export XCFLAGS=-fPIC
+make build=release shared=yes verbose=yes
 unset XCFLAGS
 make DESTDIR="$PKG" prefix=/usr                         \
      shared=yes                          \
      docdir=/usr/share/doc/mupdf-1.26.12 \
-     install                             &&
+     install
 
-ln -sfv libmupdf.so.26.12 "$PKG"/usr/lib/libmupdf.so.26 &&
-ln -sfv libmupdf.so.26   "$PKG"/usr/lib/libmupdf.so     &&
-chmod 755 "$PKG"/usr/lib/libmupdf.so.26.12              &&
+ln -sfv libmupdf.so.26.12 "$PKG"/usr/lib/libmupdf.so.26
+ln -sfv libmupdf.so.26   "$PKG"/usr/lib/libmupdf.so
+chmod 755 "$PKG"/usr/lib/libmupdf.so.26.12
 
 ln -sfv mupdf-x11 "$PKG"/usr/bin/mupdf
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

@@ -13,7 +13,7 @@ package() {
             --enable-libwebpdecoder \
             --enable-libwebpextras  \
             --enable-swap-16bit-csp \
-            --disable-static        &&
+            --disable-static
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

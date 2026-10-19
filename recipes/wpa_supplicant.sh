@@ -39,15 +39,15 @@ CONFIG_CTRL_IFACE_DBUS=y
 CONFIG_CTRL_IFACE_DBUS_NEW=y
 CONFIG_CTRL_IFACE_DBUS_INTRO=y
 EOF
-cd wpa_supplicant &&
+cd wpa_supplicant
 make BINDIR=/usr/sbin LIBDIR=/usr/lib
-install -v -m755 wpa_{cli,passphrase,supplicant} "$PKG"/usr/sbin/ &&
-install -v -m644 doc/docbook/wpa_supplicant.conf.5 "$PKG"/usr/share/man/man5/ &&
+install -v -m755 wpa_{cli,passphrase,supplicant} "$PKG"/usr/sbin/
+install -v -m644 doc/docbook/wpa_supplicant.conf.5 "$PKG"/usr/share/man/man5/
 install -v -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 "$PKG"/usr/share/man/man8/
 install -v -m644 systemd/*.service "$PKG"/usr/lib/systemd/system/
 install -v -m644 dbus/fi.w1.wpa_supplicant1.service \
-                 "$PKG"/usr/share/dbus-1/system-services/ &&
-install -v -d -m755 "$PKG"/etc/dbus-1/system.d &&
+                 "$PKG"/usr/share/dbus-1/system-services/
+install -v -d -m755 "$PKG"/etc/dbus-1/system.d
 install -v -m644 dbus/dbus-wpa_supplicant.conf \
                  "$PKG"/etc/dbus-1/system.d/wpa_supplicant.conf
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

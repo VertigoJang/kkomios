@@ -14,10 +14,10 @@ done)
 install -vDm755 CPP/7zip/Bundles/Alone{/b/g/7za,7z/b/g/7zr} \
                 CPP/7zip/Bundles/Format7zF/b/g/7z.so        \
                 CPP/7zip/UI/Console/b/g/7z                  \
-                -t "$PKG"/usr/lib/7zip/                           &&
+                -t "$PKG"/usr/lib/7zip/
 
 install -vm755 CPP/7zip/Bundles/SFXCon/b/g/7zCon \
-               "$PKG"/usr/lib/7zip/7zCon.sfx           &&
+               "$PKG"/usr/lib/7zip/7zCon.sfx
 
 (for i in 7z 7za 7zr; do
     cat > "$PKG"/usr/bin/$i << EOF || exit
@@ -25,7 +25,7 @@ install -vm755 CPP/7zip/Bundles/SFXCon/b/g/7zCon \
 exec /usr/lib/7zip/$i "\$@"
 EOF
     chmod 755 "$PKG"/usr/bin/$i || exit
-done) &&
+done)
 
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

@@ -11,10 +11,10 @@ PATH+=:/usr/sbin                \
 ./configure --prefix=/usr       \
             --enable-cmdlib     \
             --enable-pkgconfig  \
-            --enable-udev_sync  &&
+            --enable-udev_sync
 make
-make -C tools install_tools_dynamic &&
-make DESTDIR="$PKG" -C udev  install               &&
+make -C tools install_tools_dynamic
+make DESTDIR="$PKG" -C udev  install
 make DESTDIR="$PKG" -C libdm install
 mount -o remount,dev /tmp
 make DESTDIR="$PKG" install

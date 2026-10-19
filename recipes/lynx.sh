@@ -16,7 +16,7 @@ package() {
             --enable-ipv6           \
             --enable-locale-charset \
             --enable-nls            \
-            --datadir=/usr/share/doc/lynx-2.9.3 &&
+            --datadir=/usr/share/doc/lynx-2.9.3
 make
 make DESTDIR="$PKG" install-full
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

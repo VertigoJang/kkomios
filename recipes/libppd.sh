@@ -11,7 +11,7 @@ package() {
             --disable-static             \
             --with-cups-rundir=/run/cups \
             --enable-ppdc-utils          \
-            --docdir=/usr/share/doc/libppd-2.1.1 &&
+            --docdir=/usr/share/doc/libppd-2.1.1
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

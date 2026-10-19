@@ -15,7 +15,7 @@ sed -i '/proc_func)()/s/()/(FILE*, FILE*, void*)/' filter/foomatic-rip/process.h
 patch -Np1 -i ../cups-filters-2.0.1-security_fix-1.patch
 ./configure --prefix=/usr    \
             --disable-static \
-            --docdir=/usr/share/doc/cups-filters-2.0.1 &&
+            --docdir=/usr/share/doc/cups-filters-2.0.1
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

@@ -25,15 +25,15 @@ ac_add_options --with-intl-api
 ac_add_options --with-system-icu
 ac_add_options --with-system-zlib
 EOF
-export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none &&
-export MOZBUILD_STATE_PATH=$(pwd)/mozbuild          &&
+export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none
+export MOZBUILD_STATE_PATH=$(pwd)/mozbuild
 ./mach build
 rm -fv "$PKG"/usr/lib/libmozjs-140.so
 MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none DESTDIR="$PKG" ./mach install
-rm -v "$PKG"/usr/lib/libjs_static.ajs &&
+rm -v "$PKG"/usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' "$PKG"/usr/bin/js140-config
 sed '$i#define XP_UNIX' -i "$PKG"/usr/include/mozjs-140/js-config.h
-unset MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE &&
+unset MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE
 unset MOZBUILD_STATE_PATH
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

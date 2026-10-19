@@ -11,18 +11,18 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
-mkdir build                         &&
-cd    build                         &&
+mkdir build
+cd    build
 
 cmake -D CMAKE_BUILD_TYPE=Release   \
       -D CMAKE_INSTALL_PREFIX=/usr  \
       -D TESTDATADIR=$PWD/testfiles \
       -D ENABLE_QT5=OFF             \
       -D ENABLE_UNSTABLE_API_ABI_HEADERS=ON \
-      -G Ninja ..                   &&
+      -G Ninja ..
 ninja
 DESTDIR="$PKG" ninja install
-tar -xf ../../poppler-data-0.4.12.tar.gz &&
+tar -xf ../../poppler-data-0.4.12.tar.gz
 cd poppler-data-0.4.12
 make DESTDIR="$PKG" prefix=/usr install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

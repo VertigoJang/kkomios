@@ -20,7 +20,7 @@ patch -Np1 -i ../xine-lib-1.2.13-ffmpeg8.patch
             --disable-vcd          \
             --disable-w32dll       \
             --with-external-dvdnav \
-            --docdir=/usr/share/doc/xine-lib-1.2.13 &&
+            --docdir=/usr/share/doc/xine-lib-1.2.13
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

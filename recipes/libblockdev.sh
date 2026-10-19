@@ -16,7 +16,7 @@ package() {
             --without-lvm_dbus \
             --without-nvdimm   \
             --without-tools    \
-            --without-smartmontools &&
+            --without-smartmontools
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

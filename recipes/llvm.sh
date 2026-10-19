@@ -9,13 +9,13 @@ package() {
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
 grep -rl '#!.*python$' | xargs sed -i '1s/python$/python3/'
 sed 's/utility/tool/' -i llvm/utils/FileCheck/CMakeLists.txt
-mkdir -pv "$PKG"/etc/clang &&
+mkdir -pv "$PKG"/etc/clang
 for i in clang clang++; do
 mkdir -p "$PKG"/etc/clang
   echo -fstack-protector-strong > "$PKG"/etc/clang/$i.cfg
 done
-mkdir -v llvm/build &&
-cd       llvm/build &&
+mkdir -v llvm/build
+cd       llvm/build
 
 CC=gcc CXX=g++                               \
 cmake -D CMAKE_INSTALL_PREFIX=/usr           \
@@ -32,7 +32,7 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr           \
       -D LLVM_INCLUDE_BENCHMARKS=OFF         \
       -D CLANG_DEFAULT_PIE_ON_LINUX=ON       \
       -D CLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang \
-      -W no-author -G Ninja ..               &&
+      -W no-author -G Ninja ..
 ninja
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

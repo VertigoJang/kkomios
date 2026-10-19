@@ -14,7 +14,7 @@ package() {
 
 
 patch -Np1 -i ../avahi-0.9-rc5-ipv6_race_condition_fix-1.patch
-autoreconf -fiv &&
+autoreconf -fiv
 
 ./configure \
     --prefix=/usr        \
@@ -31,7 +31,7 @@ autoreconf -fiv &&
     --disable-qt5        \
     --enable-core-docs   \
     --with-distro=none   \
-    --with-dbus-system-address='unix:path=/run/dbus/system_bus_socket' &&
+    --with-dbus-system-address='unix:path=/run/dbus/system_bus_socket'
 make
 make DESTDIR="$PKG" install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

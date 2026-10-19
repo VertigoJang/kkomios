@@ -13,16 +13,16 @@ package() {
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
 ./configure --prefix=/usr    \
             --disable-static \
-            --with-default-dict=/usr/lib/cracklib/pw_dict &&
+            --with-default-dict=/usr/lib/cracklib/pw_dict
 make
 make DESTDIR="$PKG" install
 xzcat ../cracklib-words-2.10.3.xz \
 mkdir -p "$PKG"/usr/share/dict
-                       > "$PKG"/usr/share/dict/cracklib-words       &&
-ln -v -sf cracklib-words "$PKG"/usr/share/dict/words                &&
+                       > "$PKG"/usr/share/dict/cracklib-words
+ln -v -sf cracklib-words "$PKG"/usr/share/dict/words
 mkdir -p "$PKG"/usr/share/dict
-echo $(hostname) >>      "$PKG"/usr/share/dict/cracklib-extra-words &&
-install -v -m755 -d      "$PKG"/usr/lib/cracklib                    &&
+echo $(hostname) >>      "$PKG"/usr/share/dict/cracklib-extra-words
+install -v -m755 -d      "$PKG"/usr/lib/cracklib
 
 create-cracklib-dict     "$PKG"/usr/share/dict/cracklib-words \
                          "$PKG"/usr/share/dict/cracklib-extra-words

@@ -14,10 +14,10 @@ package() {
 patch -Np1 -i ../requests-use_system_certs-2.patch
 pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
 pip3 install --root="$PKG" --no-warn-script-location --no-index --find-links dist --no-user requests
-source testenv/bin/activate                    &&
+source testenv/bin/activate
 pip3 install pytest-mock    \
              pysocks        \
-             trustme                           &&
+             trustme
 python3 /usr/bin/pytest tests
 deactivate
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리

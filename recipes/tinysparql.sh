@@ -11,14 +11,14 @@ rm -fv /usr/lib/systemd/user/tracker-xdg-portal-3.service
 sed -e "s/'generate'/&, '--no-namespace-dir'/"         \
     -e "/--output-dir/s/@OUTPUT@/&\/tinysparql-3.12.0/" \
     -i docs/reference/meson.build
-mkdir build &&
-cd    build &&
+mkdir build
+cd    build
 
 meson setup --prefix=/usr       \
             --buildtype=release \
             -D man=false        \
             -D tests=false      \
-            ..                  &&
+            ..
 ninja
 DESTDIR="$PKG" ninja install
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
