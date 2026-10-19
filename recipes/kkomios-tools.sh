@@ -1,6 +1,6 @@
 # KkomiOS 관리 명령: kkomios-lightdm(로그인 방식 전환) · kkomios-login-theme(로그인 테마) · kkomios-accel(3D 가속 켜기/끄기)
 NAME=kkomios-tools
-VERSION=0.2
+VERSION=0.2.1
 DEPENDS=""
 S="$HOME/kkomios/tools/bin"
 package() {

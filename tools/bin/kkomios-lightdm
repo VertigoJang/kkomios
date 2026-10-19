@@ -15,7 +15,7 @@ make_xprofile() {
   [ -f ~/.xinitrc ] || { echo "  ~/.xinitrc 가 없어 ~/.xprofile 을 만들지 않습니다" ; return ; }
   {
     echo "# KkomiOS: LightDM 로그인 때 세션 시작 전에 실행 (~/.xinitrc 에서 옮겨 옴, $(date +%F))"
-    grep -vE '^\s*(#|$)|^\s*exec\b|dbus-launch|startxfce4|startx\b' ~/.xinitrc
+    grep -vE '^\s*(#|$)|^\s*exec\b' ~/.xinitrc      # 주석·빈 줄과 마지막 exec(세션 시작)만 뺌 — if 블록 등은 그대로
   } > ~/.xprofile
   if ! sh -n ~/.xprofile 2>/dev/null ; then
     mv ~/.xprofile ~/.xprofile.check
