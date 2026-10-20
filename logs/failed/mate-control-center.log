@@ -1,0 +1,41 @@
+##### mate-control-center 1.28.2 (2026-10-20 15:48)
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+Run-time dependency gtk+-3.0 found: YES 3.24.52
+Run-time dependency gio-2.0 found: YES 2.90.1
+Run-time dependency glib-2.0 found: YES 2.90.1
+Run-time dependency mate-desktop-2.0 found: YES 1.28.2
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency libmarco-private found: NO  (tried pkg-config and cmake)
+
+meson.build:71:12: ERROR: Dependency "libmarco-private" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/mate-control-center-1.28.2/src/mate-control-center-1.28.2/build/meson-logs/meson-log.txt
+kpkg: mate-control-center.sh 12번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+[1;31m==> 오류:[0m 빌드 실패: mate-control-center (전체 로그: /var/tmp/kpkg-build/mate-control-center-1.28.2/build.log)
+##### 빌드 로그
+The Meson build system
+Version: 1.12.0
+Source dir: /var/tmp/kpkg-build/mate-control-center-1.28.2/src/mate-control-center-1.28.2
+Build dir: /var/tmp/kpkg-build/mate-control-center-1.28.2/src/mate-control-center-1.28.2/build
+Build type: native build
+Project name: mate-control-center
+Project version: 1.28.2
+C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
+C linker for the host machine: cc ld.bfd 2.47.20260726
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+Run-time dependency gtk+-3.0 found: YES 3.24.52
+Run-time dependency gio-2.0 found: YES 2.90.1
+Run-time dependency glib-2.0 found: YES 2.90.1
+Run-time dependency mate-desktop-2.0 found: YES 1.28.2
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency libmarco-private found: NO  (tried pkg-config and cmake)
+
+meson.build:71:12: ERROR: Dependency "libmarco-private" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/mate-control-center-1.28.2/src/mate-control-center-1.28.2/build/meson-logs/meson-log.txt
+kpkg: mate-control-center.sh 12번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+##### 설치 단계
