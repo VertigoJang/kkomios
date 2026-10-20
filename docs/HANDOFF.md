@@ -1,10 +1,13 @@
-# KkomiOS 작업 인계 메모 (2026-10-20 새벽 기준)
+# KkomiOS 작업 인계 메모 (2026-10-20 밤 기준)
 
-## 지금 하는 일: 0.2 묶음 B (데스크톱 추가)
+## 0.2 묶음 B (데스크톱 추가) — 완료 (2026-10-20 22:04)
+- 1~3단계 빌드 끝, 재부팅 후 LightDM 에서 Xfce·Openbox·MATE·GNOME 모두 사용 가능 확인 (사용자)
+- 다음: 묶음 C(꾸미기·Plymouth) → D(라이브 ISO) → 0.2 등록
+
 - 실행: `cd ~/kkomios && git fetch && git reset --hard origin/main && bash tools/v02-b.sh <단계> 2>&1 | tee -a ~/v02-b<단계>.log`
   - 1단계: 커널 재빌드(7.1.8-kkomios, USER_NS 등) + Openbox — **완료**
-  - 2단계: MATE + GNOME 이 쓸 공용 패키지(네트워크·포털·Xwayland 등) (`recipes/groups/v02-b2.list`) — **진행 중**
-  - 3단계: GNOME + 공통 앱 (`recipes/groups/v02-b3.list`) — 아직
+  - 2단계: MATE + GNOME 이 쓸 공용 패키지(네트워크·포털·Xwayland 등) (`recipes/groups/v02-b2.list`) — **완료**
+  - 3단계: GNOME + 공통 앱 (`recipes/groups/v02-b3.list`) — **완료**
 - 실패해도 멈추지 않음(`kpkg group --keep-going`). 끝나면 `logs/failed/*.log` 를 자동으로 GitHub 에 올림 → 사용자가 "올렸어요" 라고 하면 `git pull` 해서 읽고, 레시피를 고쳐 push → 같은 명령 재실행.
 - 따로 로그 올리기: `bash ~/kkomios/tools/send-log.sh`
 
@@ -47,6 +50,6 @@
 - `/etc/kpkg/yield` 의 gtk4 는 다른 패키지가 파일 소유권을 가져갈 수 있음 (gtk4 가 lame·gstreamer 플러그인을 같이 설치했었음).
 
 ## 남은 일
-- 2·3단계 완료 → 재부팅 → UPower 임시 설정 삭제(`/etc/systemd/system/upower.service.d/kkomios-no-userns.conf`, USER_NS 켠 커널이므로)
-- LightDM 세션별 확인 (Openbox·MATE·GNOME)
+- (완료) 2·3단계, UPower 임시 설정 삭제 안내, LightDM 세션 확인
+- 참고: marco 의 zenity 대화상자, mate-control-center 의 타이핑 휴식은 빠져 있음. LLVM 은 AMDGPU 대상 빼면 다음 빌드가 빨라짐
 - 그다음: 묶음 C(꾸미기·Plymouth), D(라이브 ISO) → 0.2 등록
