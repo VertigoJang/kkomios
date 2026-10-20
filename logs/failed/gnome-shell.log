@@ -1,60 +1,138 @@
-##### gnome-shell 51.0 (2026-10-20 21:25)
-Run-time dependency libmutter-51 found: YES 51.0
-Run-time dependency polkit-agent-1 found: YES 127
-Run-time dependency gsettings-desktop-schemas found: YES 51.0
-Run-time dependency gnome-desktop-4 found: YES 51.0
-Run-time dependency pango found: YES 1.58.2
-Run-time dependency json-glib-1.0 found: YES 1.10.8
-Run-time dependency librsvg-2.0 found: YES 2.63.3
-Found CMake: /usr/bin/cmake (4.4.4)
-Run-time dependency glycin-2 found: NO  (tried pkg-config and cmake)
-
-../meson.build:95:13: ERROR: Dependency "glycin-2" not found (tried pkg-config and cmake)
-
-A full log can be found at /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/meson-logs/meson-log.txt
-kpkg: gnome-shell.sh 13번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+##### gnome-shell 51.0 (2026-10-20 21:44)
+[171/290] Linking target subprojects/extensions-tool/src/gnome-extensions
+[172/290] Generating subprojects/extensions-tool/man/gnome-extensions.1 with a custom command (wrapped by meson to capture output)
+[173/290] Generating subprojects/libshew/src/Shew-0.typelib with a custom command
+[174/290] Generating src/Shell-51.gir with a custom command (wrapped by meson to set env)
+FAILED: [code=1] src/Shell-51.gir 
+env PKG_CONFIG_PATH=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/meson-uninstalled:/opt/qt6/lib/pkgconfig PKG_CONFIG=/usr/bin/pkg-config CC=cc CFLAGS= /usr/bin/g-ir-scanner --quiet --no-libtool --namespace=Shell --nsversion=51 --warn-all --output src/Shell-51.gir --quiet -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/.. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/.. --filelist=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/libshell-51.so.p/Shell_51_gir_filelist --include=Clutter-51 --include=Meta-51 --include=Gcr-4 --include=GioUnix-2.0 --include=PolkitAgent-1.0 --include=GdkPixbuf-2.0 --include=NM-1.0 --include-uninstalled=subprojects/gvc/Gvc-1.0.gir --include-uninstalled=src/st/St-51.gir --cflags-begin -DG_DISABLE_ASSERT -DG_DISABLE_CAST_CHECKS -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/.. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/.. -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/libxml2 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/atk-1.0 -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/gjs-1.0 -I/usr/include/cairo -I/usr/include/freetype2 -I/usr/include/harfbuzz -I/usr/include/pixman-1 -I/usr/include/mutter-51/mtk -I/usr/include/graphene-1.0 -I/usr/lib/graphene-1.0/include -I/usr/include/mutter-51/clutter -I/usr/include/mutter-51/cogl -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/gsettings-desktop-schemas -I/usr/include/libdrm -I/usr/include/polkit-1 -I/usr/include/gcr-4 -I/usr/include/gck-2 -I/usr/include/p11-kit-1 -I/usr/include/pipewire-0.3 -I/usr/include/spa-0.2 -D_REENTRANT -I/usr/include/libnm -I/usr/include/libsecret-1 -I/usr/include/mutter-51 -I/usr/include/colord-1 -I/usr/include/gnome-settings-daemon-51 -I/usr/include/libei-1.0 -I/usr/include/gnome-desktop-4.0 -I/usr/include/startup-notification-1.0 -I/usr/include/libwacom-1.0 -I/usr/include/gudev-1.0 -I/usr/include/libevdev-1.0 -I/usr/include/gobject-introspection-1.0 --cflags-end --add-include-path=/usr/share/gir-1.0 --add-include-path=/usr/lib/mutter-51 --add-include-path=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/subprojects/gvc --add-include-path=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st -L/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src --library shell-51 -L/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src -L/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st -L/usr/lib/mutter-51 --extra-library=gio-2.0 --extra-library=gobject-2.0 --extra-library=glib-2.0 --extra-library=xml2 --extra-library=atk-bridge-2.0 --extra-library=gdk_pixbuf-2.0 --extra-library=gjs -L/usr/lib/mutter-51 --extra-library=mutter-mtk-51 --extra-library=m --extra-library=graphene-1.0 --extra-library=pixman-1 --extra-library=X11 --extra-library=mutter-clutter-51 --extra-library=atk-1.0 --extra-library=xkbcommon --extra-library=lcms2 --extra-library=mutter-cogl-51 --extra-library=wayland-server --extra-library=EGL --extra-library=GL --extra-library=GLESv2 --extra-library=girepository-2.0 --extra-library=polkit-agent-1 --extra-library=polkit-gobject-1 --extra-library=gcr-4 --extra-library=gck-2 --extra-library=p11-kit --extra-library=systemd --extra-library=pipewire-0.3 --extra-library=pango-1.0 --extra-library=harfbuzz --extra-library=nm --extra-library=secret-1 --extra-library=mutter-51 --extra-library=Xi --extra-library=Xfixes --extra-library=cairo --extra-library=gnome-desktop-4 --extra-library=girepository-1.0 --sources-top-dirs /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/ --sources-top-dirs /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/
+Couldn't find include 'PolkitAgent-1.0.gir' (search path: '['/usr/share/gir-1.0', '/usr/lib/mutter-51', '/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/subprojects/gvc', '/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st', '/home/aetes/.local/share/gir-1.0', '/usr/local/share/gir-1.0', '/usr/share/gir-1.0', '/usr/share/gir-1.0', '/usr/share/gir-1.0', '/usr/share/gir-1.0']')
+[175/290] Merging translations for data/org.gnome.Shell.PortalHelper.desktop
+[176/290] Merging translations for data/X-GNOME-Shell-System.directory
+[177/290] Merging translations for data/org.gnome.Shell.CalendarServer.desktop
+[178/290] Merging translations for data/X-GNOME-Shell-Utilities.directory
+[179/290] Merging translations for data/org.gnome.Shell.Extensions.desktop
+ninja: build stopped: subcommand failed.
+kpkg: gnome-shell.sh 17번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
 [1;31m==> 오류:[0m 빌드 실패: gnome-shell (전체 로그: /var/tmp/kpkg-build/gnome-shell-51.0/build.log)
 ##### 빌드 로그
-The Meson build system
-Version: 1.12.0
-Source dir: /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0
-Build dir: /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build
-Build type: native build
-Project name: gnome-shell
-Project version: 51.0
-C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
-C linker for the host machine: cc ld.bfd 2.47.20260726
-Host machine cpu family: x86_64
-Host machine cpu: x86_64
-Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
-Run-time dependency gnome-keybindings found: YES 51.0
-Run-time dependency atk-bridge-2.0 found: YES 2.62.0.1
-Run-time dependency cairo found: YES 1.18.6
-Run-time dependency libecal-2.0 found: YES 3.62.0
-Run-time dependency libedataserver-1.2 found: YES 3.62.0
-Run-time dependency gcr-4 found: YES 4.4.1
-Run-time dependency gdk-pixbuf-2.0 found: YES 2.44.8
-Run-time dependency girepository-2.0 found: YES 2.90.1
-Run-time dependency gio-2.0 found: YES 2.90.1
-Run-time dependency gio-unix-2.0 found: YES 2.90.1
-Run-time dependency gjs-1.0 found: YES 1.90.0
-Run-time dependency gtk4 found: YES 4.24.1
-Run-time dependency libxml-2.0 found: YES 2.15.4
-Run-time dependency mutter-clutter-51 found: YES 51.0
-Run-time dependency mutter-mtk-51 found: YES 51.0
-Run-time dependency mutter-cogl-51 found: YES 51.0
-Run-time dependency libmutter-51 found: YES 51.0
-Run-time dependency polkit-agent-1 found: YES 127
-Run-time dependency gsettings-desktop-schemas found: YES 51.0
-Run-time dependency gnome-desktop-4 found: YES 51.0
-Run-time dependency pango found: YES 1.58.2
-Run-time dependency json-glib-1.0 found: YES 1.10.8
-Run-time dependency librsvg-2.0 found: YES 2.63.3
-Found CMake: /usr/bin/cmake (4.4.4)
-Run-time dependency glycin-2 found: NO  (tried pkg-config and cmake)
-
-../meson.build:95:13: ERROR: Dependency "glycin-2" not found (tried pkg-config and cmake)
-
-A full log can be found at /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/meson-logs/meson-log.txt
-kpkg: gnome-shell.sh 13번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+[72/290] Compiling C object src/st/libst-51.so.p/croco_cr-tknzr.c.o
+[73/290] Compiling C object subprojects/gvc/libgvc.so.p/gvc-mixer-source.c.o
+[74/290] Compiling C object subprojects/gvc/libgvc.so.p/gvc-mixer-sink-input.c.o
+[75/290] Compiling C object subprojects/gvc/libgvc.so.p/gvc-mixer-source-output.c.o
+[76/290] Generating js/js-resources_h with a custom command
+[77/290] Compiling C object src/st/libst-51.so.p/croco_cr-token.c.o
+[78/290] Generating js/js-resources_c with a custom command
+[79/290] Compiling C object subprojects/gvc/libgvc.so.p/gvc-mixer-ui-device.c.o
+[80/290] Linking target src/libgnome-shell-menu.so
+[81/290] Compiling C object src/tray/libtray.a.p/na-tray-manager.c.o
+[82/290] Compiling C object subprojects/gvc/libgvc.so.p/gvc-mixer-stream.c.o
+[83/290] Linking target src/st/libst-51.so
+[84/290] Generating GObject enum file src/shell-enum-types.h (wrapped by meson because command contains newlines, to capture output)
+[85/290] Generating GObject enum file src/shell-enum-types.c (wrapped by meson because command contains newlines, to capture output)
+[86/290] Generating gdbus source src/org-gtk-application.c
+[87/290] Compiling C object src/tray/libtray.a.p/na-tray-child.c.o
+[88/290] Generating gdbus header src/org-gtk-application.h
+[89/290] Compiling C object src/tray/libtray.a.p/na-xembed.c.o
+[90/290] Generating gdbus source src/switcheroo-control.c
+[91/290] Generating gdbus header src/switcheroo-control.h
+[92/290] Linking target subprojects/gvc/libgvc.so
+[93/290] Compiling C object subprojects/libshew/src/libshew-0.so.p/shew-external-window-wayland.c.o
+[94/290] Compiling C object subprojects/libshew/src/libshew-0.so.p/shew-window-exporter.c.o
+[95/290] Linking static target src/tray/libtray.a
+[96/290] Generating symbol file src/libgnome-shell-menu.so.p/libgnome-shell-menu.so.symbols
+[97/290] Generating symbol file src/st/libst-51.so.p/libst-51.so.symbols
+[98/290] Compiling C object subprojects/libshew/src/libshew-0.so.p/shew-external-window.c.o
+[99/290] Merging translations for subprojects/extensions-tool/src/templates/00-plain.desktop
+[100/290] Merging translations for subprojects/extensions-tool/src/templates/quick-settings.desktop
+[101/290] Merging translations for subprojects/extensions-tool/src/templates/indicator.desktop
+[102/290] Compiling C object src/libshell-51.so.p/meson-generated_.._.._js_js-resources.c.o
+[103/290] Compiling C object src/libshell-51.so.p/meson-generated_.._shell-enum-types.c.o
+[104/290] Compiling C object src/libshell-51.so.p/meson-generated_.._org-gtk-application.c.o
+[105/290] Compiling C object src/libshell-51.so.p/meson-generated_.._switcheroo-control.c.o
+[106/290] Compiling C object src/libshell-51.so.p/gnome-shell-plugin.c.o
+[107/290] Compiling C object src/libshell-51.so.p/shell-app-system.c.o
+[108/290] Compiling C object src/libshell-51.so.p/shell-camera-monitor.c.o
+[109/290] Compiling C object src/libshell-51.so.p/shell-app.c.o
+[110/290] Compiling C object src/libshell-51.so.p/shell-blur-effect.c.o
+[111/290] Compiling C object src/libshell-51.so.p/shell-app-usage.c.o
+[112/290] Compiling C object src/libshell-51.so.p/shell-invert-lightness-effect.c.o
+[113/290] Compiling C object src/libshell-51.so.p/shell-mount-operation.c.o
+[114/290] Compiling C object src/libshell-51.so.p/shell-polkit-authentication-agent.c.o
+[115/290] Compiling C object src/libshell-51.so.p/shell-global.c.o
+[116/290] Compiling C object src/libshell-51.so.p/shell-perf-log.c.o
+[117/290] Compiling C object src/libshell-51.so.p/shell-keyring-prompt.c.o
+[118/290] Compiling C object src/libshell-51.so.p/shell-edge-drag-gesture.c.o
+[119/290] Compiling C object src/libshell-51.so.p/shell-secure-text-buffer.c.o
+[120/290] Compiling C object src/libshell-51.so.p/shell-time-change-source.c.o
+../src/shell-time-change-source.c: In function ‘shell_time_change_source_dispatch’:
+../src/shell-time-change-source.c:94:11: warning: unused variable ‘errsv’ [-Wunused-variable]
+   94 |       int errsv = errno;
+      |           ^~~~~
+../src/shell-time-change-source.c:93:11: warning: unused variable ‘retval’ [-Wunused-variable]
+   93 |       int retval = arm_timerfd (self->fd);
+      |           ^~~~~~
+[121/290] Compiling C object src/libshell-51.so.p/shell-stack.c.o
+[122/290] Compiling C object src/libshell-51.so.p/shell-square-bin.c.o
+[123/290] Compiling C object src/libshell-51.so.p/shell-screenshot.c.o
+[124/290] Compiling C object src/libshell-51.so.p/shell-util.c.o
+[125/290] Compiling C object src/libshell-51.so.p/shell-window-tracker.c.o
+[126/290] Compiling C object src/libshell-51.so.p/shell-wm.c.o
+[127/290] Compiling C object src/libshell-51.so.p/shell-tray-icon.c.o
+[128/290] Compiling C object src/libshell-51.so.p/shell-window-preview.c.o
+[129/290] Compiling C object src/libshell-51.so.p/shell-workspace-background.c.o
+[130/290] Compiling C object src/libshell-51.so.p/shell-window-preview-layout.c.o
+[131/290] Compiling C object src/libshell-51.so.p/shell-tray-manager.c.o
+[132/290] Linking target subprojects/libshew/src/libshew-0.so
+[133/290] Generating subprojects/extensions-tool/src/resources_h with a custom command
+[134/290] Generating js/portal-resources_c with a custom command
+[135/290] Generating js/portal-resources_h with a custom command
+[136/290] Generating subprojects/extensions-tool/src/resources_c with a custom command
+[137/290] Compiling C object src/libshell-51.so.p/shell-network-agent.c.o
+[138/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/meson-generated_.._resources.c.o
+[139/290] Compiling C object src/libshell-51.so.p/shell-app-cache.c.o
+[140/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-disable.c.o
+[141/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-create.c.o
+[142/290] Linking target src/libshell-51.so
+[143/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-enable.c.o
+[144/290] Generating subprojects/gvc/Gvc-1.0.gir with a custom command (wrapped by meson to set env)
+[145/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-info.c.o
+[146/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-install.c.o
+[147/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-list.c.o
+[148/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-prefs.c.o
+[149/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-uninstall.c.o
+[150/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-pack.c.o
+[151/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-reset.c.o
+[152/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/command-upload.c.o
+[153/290] Generating subprojects/libshew/src/Shew-0.gir with a custom command (wrapped by meson to set env)
+[154/290] Compiling C object subprojects/extensions-tool/src/gnome-extensions.p/main.c.o
+[155/290] Compiling C object src/calendar-server/gnome-shell-calendar-server.p/reminder-launch-context.c.o
+[156/290] Compiling C object src/hotplug-sniffer/gnome-shell-hotplug-sniffer.p/hotplug-sniffer.c.o
+[157/290] Compiling C object src/hotplug-sniffer/gnome-shell-hotplug-sniffer.p/shell-mime-sniffer.c.o
+[158/290] Generating symbol file src/libshell-51.so.p/libshell-51.so.symbols
+[159/290] Compiling C object src/calendar-server/gnome-shell-calendar-server.p/calendar-sources.c.o
+[160/290] Compiling C object src/gnome-shell-portal-helper.p/meson-generated_.._.._js_portal-resources.c.o
+[161/290] Compiling C object src/calendar-server/gnome-shell-calendar-server.p/reminder-watcher.c.o
+[162/290] Compiling C object src/calendar-server/gnome-shell-calendar-server.p/gnome-shell-calendar-server.c.o
+[163/290] Compiling C object src/gnome-shell-portal-helper.p/gnome-shell-portal-helper.c.o
+[164/290] Generating man/man page with a custom command (wrapped by meson to capture output)
+[165/290] Compiling C object src/gnome-shell.p/main.c.o
+[166/290] Generating src/st/St-51.gir with a custom command (wrapped by meson to set env)
+[167/290] Compiling C object src/gnome-shell-perf-helper.p/shell-perf-helper.c.o
+[168/290] Generating subprojects/gvc/Gvc-1.0.typelib with a custom command
+[169/290] Compiling C object src/gnome-shell-perf-helper.p/meson-generated_.._.._js_js-resources.c.o
+[170/290] Compiling C object src/run-js-test.p/run-js-test.c.o
+[171/290] Linking target subprojects/extensions-tool/src/gnome-extensions
+[172/290] Generating subprojects/extensions-tool/man/gnome-extensions.1 with a custom command (wrapped by meson to capture output)
+[173/290] Generating subprojects/libshew/src/Shew-0.typelib with a custom command
+[174/290] Generating src/Shell-51.gir with a custom command (wrapped by meson to set env)
+FAILED: [code=1] src/Shell-51.gir 
+env PKG_CONFIG_PATH=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/meson-uninstalled:/opt/qt6/lib/pkgconfig PKG_CONFIG=/usr/bin/pkg-config CC=cc CFLAGS= /usr/bin/g-ir-scanner --quiet --no-libtool --namespace=Shell --nsversion=51 --warn-all --output src/Shell-51.gir --quiet -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/.. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/.. --filelist=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/libshell-51.so.p/Shell_51_gir_filelist --include=Clutter-51 --include=Meta-51 --include=Gcr-4 --include=GioUnix-2.0 --include=PolkitAgent-1.0 --include=GdkPixbuf-2.0 --include=NM-1.0 --include-uninstalled=subprojects/gvc/Gvc-1.0.gir --include-uninstalled=src/st/St-51.gir --cflags-begin -DG_DISABLE_ASSERT -DG_DISABLE_CAST_CHECKS -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/tray -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/src/st/.. -I/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st/.. -I/usr/include/gio-unix-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/libxml2 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/atk-1.0 -I/usr/include/dbus-1.0 -I/usr/lib/dbus-1.0/include -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/gjs-1.0 -I/usr/include/cairo -I/usr/include/freetype2 -I/usr/include/harfbuzz -I/usr/include/pixman-1 -I/usr/include/mutter-51/mtk -I/usr/include/graphene-1.0 -I/usr/lib/graphene-1.0/include -I/usr/include/mutter-51/clutter -I/usr/include/mutter-51/cogl -I/usr/include/pango-1.0 -I/usr/include/fribidi -I/usr/include/gsettings-desktop-schemas -I/usr/include/libdrm -I/usr/include/polkit-1 -I/usr/include/gcr-4 -I/usr/include/gck-2 -I/usr/include/p11-kit-1 -I/usr/include/pipewire-0.3 -I/usr/include/spa-0.2 -D_REENTRANT -I/usr/include/libnm -I/usr/include/libsecret-1 -I/usr/include/mutter-51 -I/usr/include/colord-1 -I/usr/include/gnome-settings-daemon-51 -I/usr/include/libei-1.0 -I/usr/include/gnome-desktop-4.0 -I/usr/include/startup-notification-1.0 -I/usr/include/libwacom-1.0 -I/usr/include/gudev-1.0 -I/usr/include/libevdev-1.0 -I/usr/include/gobject-introspection-1.0 --cflags-end --add-include-path=/usr/share/gir-1.0 --add-include-path=/usr/lib/mutter-51 --add-include-path=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/subprojects/gvc --add-include-path=/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st -L/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src --library shell-51 -L/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src -L/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st -L/usr/lib/mutter-51 --extra-library=gio-2.0 --extra-library=gobject-2.0 --extra-library=glib-2.0 --extra-library=xml2 --extra-library=atk-bridge-2.0 --extra-library=gdk_pixbuf-2.0 --extra-library=gjs -L/usr/lib/mutter-51 --extra-library=mutter-mtk-51 --extra-library=m --extra-library=graphene-1.0 --extra-library=pixman-1 --extra-library=X11 --extra-library=mutter-clutter-51 --extra-library=atk-1.0 --extra-library=xkbcommon --extra-library=lcms2 --extra-library=mutter-cogl-51 --extra-library=wayland-server --extra-library=EGL --extra-library=GL --extra-library=GLESv2 --extra-library=girepository-2.0 --extra-library=polkit-agent-1 --extra-library=polkit-gobject-1 --extra-library=gcr-4 --extra-library=gck-2 --extra-library=p11-kit --extra-library=systemd --extra-library=pipewire-0.3 --extra-library=pango-1.0 --extra-library=harfbuzz --extra-library=nm --extra-library=secret-1 --extra-library=mutter-51 --extra-library=Xi --extra-library=Xfixes --extra-library=cairo --extra-library=gnome-desktop-4 --extra-library=girepository-1.0 --sources-top-dirs /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/ --sources-top-dirs /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/
+Couldn't find include 'PolkitAgent-1.0.gir' (search path: '['/usr/share/gir-1.0', '/usr/lib/mutter-51', '/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/subprojects/gvc', '/var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/src/st', '/home/aetes/.local/share/gir-1.0', '/usr/local/share/gir-1.0', '/usr/share/gir-1.0', '/usr/share/gir-1.0', '/usr/share/gir-1.0', '/usr/share/gir-1.0']')
+[175/290] Merging translations for data/org.gnome.Shell.PortalHelper.desktop
+[176/290] Merging translations for data/X-GNOME-Shell-System.directory
+[177/290] Merging translations for data/org.gnome.Shell.CalendarServer.desktop
+[178/290] Merging translations for data/X-GNOME-Shell-Utilities.directory
+[179/290] Merging translations for data/org.gnome.Shell.Extensions.desktop
+ninja: build stopped: subcommand failed.
+kpkg: gnome-shell.sh 17번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
 ##### 설치 단계
