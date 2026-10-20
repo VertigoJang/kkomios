@@ -5,7 +5,7 @@ SOURCES=(
   https://poppler.freedesktop.org/poppler-$VERSION.tar.xz
   https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
 )
-DEPENDS="cmake fontconfig glib2 boost cairo gpgmepp harfbuzz lcms2 libjpeg libpng tiff nss openjpeg2 qt6 okular"
+DEPENDS="cmake fontconfig glib2 boost cairo gpgmepp harfbuzz lcms2 libjpeg libpng tiff nss openjpeg2"
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
@@ -18,6 +18,7 @@ cmake -D CMAKE_BUILD_TYPE=Release   \
       -D CMAKE_INSTALL_PREFIX=/usr  \
       -D TESTDATADIR=$PWD/testfiles \
       -D ENABLE_QT5=OFF             \
+      -D ENABLE_QT6=OFF             \
       -D ENABLE_UNSTABLE_API_ABI_HEADERS=ON \
       -G Ninja ..
 ninja

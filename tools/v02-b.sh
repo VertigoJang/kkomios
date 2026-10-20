@@ -1,7 +1,7 @@
 #!/bin/bash
 # 0.2 묶음 B — 세 단계로 나눔
 #   1단계: 커널 다시 빌드 + Openbox  → 끝나면 재부팅
-#   2단계: MATE + KDE Plasma (Qt6 등 공용 라이브러리 포함)
+#   2단계: MATE + 공용 패키지 (네트워크·포털 등) — KDE·Qt6 는 2026-10-20 프로젝트에서 뺌
 #   3단계: GNOME + 공통 앱
 # 사용법 (tmux 안에서 권장):
 #   cd ~/kkomios && git pull && bash tools/v02-b.sh 1 2>&1 | tee -a ~/v02-b1.log
@@ -29,7 +29,6 @@ kpkg version
 # gtk4 가 빌드 중에 함께 설치해 버린 다른 패키지 파일(gstreamer 플러그인·lame 등)은 해당 패키지에 넘겨줌
 sudo mkdir -p /etc/kpkg && { cat /etc/kpkg/yield 2>/dev/null ; echo gtk4 ; } | sort -u | sudo tee /etc/kpkg/yield.new > /dev/null && sudo mv /etc/kpkg/yield.new /etc/kpkg/yield
 bash tools/fix-hollow.sh   # 예전 kpkg 버그로 빈 껍데기로 설치된 패키지는 기록을 지워서 다시 빌드
-echo "Qt6 상태: $(kpkg list | awk '$1=="qt6"{print $2, $3}') / $(ls -d /opt/qt6/lib/cmake/Qt6 2>/dev/null || echo '/opt/qt6/lib/cmake/Qt6 없음')"
 
 if [ "$STAGE" = 1 ] ; then
 echo ; echo "===== 2. 커널 다시 빌드 (USER_NS·FUSE·암호화 디스크·가상 네트워크 장치·루나 레이크 핀 제어 등) ====="
@@ -89,10 +88,10 @@ fi
 echo ; echo "===== 4. 확인 ====="
 echo "로그인 세션 목록 (LightDM 에서 고를 수 있음):"
 ls /usr/share/xsessions/ /usr/share/wayland-sessions/ 2>/dev/null | grep desktop | sed 's/^/  /'
-for c in openbox mate-session startplasma-x11 startplasma-wayland gnome-shell gnome-session konsole dolphin nautilus mpv pavucontrol ; do
+for c in openbox mate-session gnome-shell gnome-session nautilus mpv pavucontrol ; do
   printf '%s=%s ' "$c" "$(command -v $c > /dev/null && echo O || echo -)"
 done ; echo
-echo "Qt6: $(/opt/qt6/bin/qmake6 -query QT_VERSION 2>/dev/null || echo 없음)  KF6: $(pkg-config --modversion KF6CoreAddons 2>/dev/null || echo ?)  Plasma: $(pkg-config --modversion libplasma 2>/dev/null || plasmashell --version 2>/dev/null || echo ?)  GNOME Shell: $(gnome-shell --version 2>/dev/null || echo ?)"
+echo "GNOME Shell: $(gnome-shell --version 2>/dev/null || echo ?)"
 echo
 if [ "$FAILED" = yes ] ; then
   echo "===== $STAGE단계: 일부 실패 — 고친 뒤 같은 명령을 다시 실행하면 실패한 것만 다시 시도합니다 ====="

@@ -97,11 +97,11 @@ kpkg check-updates                                  # 업데이트·보안 점�
 버전 계획: **0.2** = 아래 1~5번을 큰 묶음 넷(A Xfce 마무리 · B 데스크톱 추가 · C 꾸미기 · D 라이브 ISO)으로 한꺼번에 → 그다음 버전: 설치 프로그램·실제 노트북 → **1.0** 실사용 가능
 
 1. **기반**: gobject-introspection 다시 켜기 → GTK4 → kpkg 묶음(그룹) 기능 → LightDM(로그인 테마 A·B·D 적용)
-2. **데스크톱 추가**: Openbox → MATE → KDE Plasma → GNOME(Wayland). 설치할 때 원하는 것을 고를 수 있게
+2. **데스크톱 추가**: Openbox → MATE → GNOME(Wayland). 설치할 때 원하는 것을 고를 수 있게 (KDE Plasma 는 빌드 시간이 너무 길어 2026-10-20 에 뺌)
 3. **기본 앱 묶음**: Firefox, Celluloid, NetworkManager 등 공통 앱 + 각 데스크톱의 기본 앱, LibreOffice는 선택
 4. **부팅 화면**: Plymouth 테마
 5. **라이브 USB(ISO)**: Xfce 체험 모드, BIOS·UEFI 둘 다 부팅
-6. **설치 프로그램**: 글자 메뉴 방식 먼저, 이후 그래픽 설치 프로그램(Calamares)
+6. **설치 프로그램**: 글자 메뉴 방식 먼저, 이후 그래픽 설치 프로그램(Calamares — Qt6 가 필요해서 이때 Qt6 를 다시 들여옴)
 7. **실제 노트북(씽크패드 E14 Gen 7)**: 와이파이, 블루투스, 전원 관리, 터치패드, 밝기·볼륨 키, 듀얼부팅
 8. **바이너리 저장소**: 미리 빌드한 패키지를 내려받아 설치
 
@@ -192,7 +192,7 @@ Rather than customizing an existing distribution, this is a learning project: th
 
 ### Roadmap
 
-GTK4 & GObject Introspection → LightDM with login themes → more desktops (Openbox, MATE, KDE Plasma, GNOME on Wayland) selectable at install → Plymouth boot splash → live USB ISO (BIOS + UEFI) → installer (text first, then Calamares) → real laptop support (ThinkPad E14 Gen 7) → binary package repository
+GTK4 & GObject Introspection → LightDM with login themes → more desktops (Openbox, MATE, GNOME on Wayland; KDE Plasma dropped) selectable at install → Plymouth boot splash → live USB ISO (BIOS + UEFI) → installer (text first, then Calamares) → real laptop support (ThinkPad E14 Gen 7) → binary package repository
 
 ### Build & install
 

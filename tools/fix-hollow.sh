@@ -7,7 +7,6 @@ for d in "$DB"/*/ ; do
   n=$(basename "$d")
   [ -f "$d/meta" ] && [ -f "$d/files" ] || continue
   [ "$(. "$d/meta" ; echo "${TYPE:-package}")" = package ] || continue
-  case "$n" in plasma-config) continue ;; esac     # 원래 /etc 파일만 있는 패키지
   # 실제 내용 파일 수: /usr·/opt 아래의 일반 파일 (설명서·man 페이지·링크 제외)
   real=$(grep -v '/$' "$d/files" | grep -E '^/(usr|opt)/' | grep -vE '^/usr/share/(doc|man|info|licenses)/' |
          while IFS= read -r f ; do [ -f "$f" ] && [ ! -L "$f" ] && echo x ; done | wc -l)

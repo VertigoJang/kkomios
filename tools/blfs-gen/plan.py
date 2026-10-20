@@ -38,7 +38,6 @@ def plan(groups, roles=('required','recommended','runtime')):
 if __name__=='__main__':
     G=[('openbox',['openbox']),
        ('mate',['dbus-glib','libpeas','gtksourceview4','libgtop','udisks2','libsecret','libarchive','startup-notification','poppler','glib-networking','libpsl']),
-       ('kde',['plasma-build','kf6-frameworks','konsole','dolphin','ark','gwenview','okular','kio-extras']),
        ('gnome',['gnome-session','gnome-shell','gnome-control-center','gnome-settings-daemon','nautilus','gnome-backgrounds','xwayland','gnome-terminal','gvfs','gnome-keyring','xdg-desktop-portal-gnome','evince','loupe','file-roller','gnome-calculator','gnome-system-monitor','baobab','gnome-disk-utility','gnome-tweaks']),
        ('apps',['mpv','pavucontrol','xdg-user-dirs'])]
     tot=0
