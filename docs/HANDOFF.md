@@ -25,6 +25,8 @@
 - localsearch: /usr/lib/libavcodec.a (정적 FFmpeg, kpkg 밖에서 설치됨) 를 공유 라이브러리에 못 넣음 → -D libav=disabled
 - FFmpeg: 확인 결과 /usr/lib/libavcodec.a 만 있고 ffmpeg 명령도 없음 → recipes/ffmpeg.sh (9.0.2, 공유 라이브러리, nonfree 제외, 있는 외부 라이브러리만 켬) 를 mpv 앞에 추가. post_install 이 기록 없는 옛 .a 삭제
 
+- (21:44) gnome-shell: PolkitAgent-1.0.gir 없음 — 10-13 에 손으로 설치한 Polkit 127 에 gir 이 없었음 → recipes/polkit.sh (127, introspection=true, setuid 등 post_install) 를 3단계 맨 앞에서 빌드
+
 ## 2단계 실패 수정 (2026-10-20 오후)
 - poppler: 설치 기록은 있는데 poppler-glib·poppler-cpp 가 없음 → atril·libcupsfilters(→libppd·cups-filters) 실패. fix-hollow 가 pkg-config 로 확인해 다시 빌드하게 함, 레시피에도 .pc 확인 추가
 - marco: 빌드 때 zenity 를 찾음(변수는 안 씀) → required: false 로. zenity 는 실행 중 대화상자용 — 나중에 넣을지 결정 필요. mate-control-center 는 marco 실패 때문

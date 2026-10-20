@@ -1,8 +1,8 @@
 # 0.2 묶음 B 3단계 — GNOME + 공통 앱
 # 실행: bash tools/v02-b.sh 3
 
-# ===== 다시 빌드 (Vala 바인딩 추가 — baobab·gnome-calculator 가 씀) =====
-libadwaita
+# ===== 다시 빌드 (libadwaita: Vala 바인딩 · polkit: gir 파일) =====
+libadwaita polkit   # polkit: GObject 연결 정보(gir) 추가 — gnome-shell 이 씀
 
 # ===== B4 GNOME 51 (Wayland) (69개) =====
 gnome-session gcr4 librest gnome-online-accounts geocode-glib gweather-locations libgweather evolution-data-server
