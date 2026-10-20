@@ -23,7 +23,7 @@
 - libcdio: paranoia 가 설치 전 libcdio 를 못 찾음 → libcdio-paranoia 레시피 분리 (gvfs 가 씀)
 - glad: 레시피 안의 시험(utility/test.sh)이 12개 실패 → 시험 뺌 (libplacebo → mpv 연쇄)
 - localsearch: /usr/lib/libavcodec.a (정적 FFmpeg, kpkg 밖에서 설치됨) 를 공유 라이브러리에 못 넣음 → -D libav=disabled
-- 남은 문제: FFmpeg 가 정적 라이브러리만 있는 듯 → mpv 도 같은 문제 가능. 사용자 확인 필요
+- FFmpeg: 확인 결과 /usr/lib/libavcodec.a 만 있고 ffmpeg 명령도 없음 → recipes/ffmpeg.sh (9.0.2, 공유 라이브러리, nonfree 제외, 있는 외부 라이브러리만 켬) 를 mpv 앞에 추가. post_install 이 기록 없는 옛 .a 삭제
 
 ## 2단계 실패 수정 (2026-10-20 오후)
 - poppler: 설치 기록은 있는데 poppler-glib·poppler-cpp 가 없음 → atril·libcupsfilters(→libppd·cups-filters) 실패. fix-hollow 가 pkg-config 로 확인해 다시 빌드하게 함, 레시피에도 .pc 확인 추가
