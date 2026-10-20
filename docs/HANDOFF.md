@@ -19,6 +19,8 @@
 - poppler: 설치 기록은 있는데 poppler-glib·poppler-cpp 가 없음 → atril·libcupsfilters(→libppd·cups-filters) 실패. fix-hollow 가 pkg-config 로 확인해 다시 빌드하게 함, 레시피에도 .pc 확인 추가
 - marco: 빌드 때 zenity 를 찾음(변수는 안 씀) → required: false 로. zenity 는 실행 중 대화상자용 — 나중에 넣을지 결정 필요. mate-control-center 는 marco 실패 때문
 - xwayland: protocol.txt·Xserver.1 이 xorg-server 와 겹침 → xwayland 쪽 파일 삭제
+- (16:11 결과) libppd: ppdc 등 도구가 cups 와 겹침 → --enable-ppdc-utils 뺌. cups-filters 는 libppd 때문
+- mate-control-center: AppIndicator 라이브러리 필수 → 타이핑 휴식(typing-break)만 빼고 빌드
 - remove-kde.sh: sudo 가 /usr/local/bin 의 kpkg 를 못 찾던 문제 수정 (남은 KDE 기록 4개: plasma-wayland-protocols vlc plasma-workspace-wallpapers oxygen-sounds)
 
 ## 방금 고친 큰 문제 (kpkg 0.8.8)

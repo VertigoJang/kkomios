@@ -7,10 +7,10 @@ package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
+# ppdc·ppdhtml 등 PPD 도구는 cups 가 이미 설치함 → --enable-ppdc-utils 빼서 겹치지 않게
 ./configure --prefix=/usr                \
             --disable-static             \
             --with-cups-rundir=/run/cups \
-            --enable-ppdc-utils          \
             --docdir=/usr/share/doc/libppd-2.1.1
 make
 make DESTDIR="$PKG" install
