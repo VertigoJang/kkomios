@@ -2,7 +2,7 @@
 NAME=localsearch
 VERSION=3.12.0
 URL=https://download.gnome.org/sources/localsearch/3.12/localsearch-$VERSION.tar.xz
-DEPENDS="gexiv2 gst10-plugins-base tinysparql exempi giflib ffmpeg icu libexif libgxps libseccomp libwebp poppler upower"
+DEPENDS="gexiv2 gst10-plugins-base tinysparql exempi giflib icu libexif libgxps libseccomp libwebp poppler upower"
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
@@ -21,6 +21,7 @@ meson setup --prefix=/usr             \
             --buildtype=release       \
             -D man=false              \
             -D functional_tests=false \
+            -D libav=disabled         \
             ..
 ninja
 ninja

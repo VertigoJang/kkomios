@@ -15,6 +15,16 @@
 - poppler 는 `-D ENABLE_QT6=OFF`. KDE 묶음에 있던 공용 패키지 35개(NetworkManager, Xwayland, 포털 등)는 GNOME 용으로 2단계 목록 끝에 남김.
 - KDE 용으로만 넣었던 일반 패키지 46개(wget, avahi, opencv, tesseract 등)는 목록에서만 뺐고, 이미 설치된 건 그대로 둠 (wget 은 kpkg 가 씀).
 
+## 3단계 첫 실행 (2026-10-20 18:57~20:45) — 실패 17개, 고친 것
+- BLFS 패치 404 (책 갱신): spidermonkey 140.17.0(python 패치만), glycin·glycin-gtk4 2.2.3(xorg_prefix 패치 불필요), gnome-system-monitor 51.1(패치 없음)
+  → 연쇄: gjs, nautilus → gnome-terminal
+- libadwaita 가 vapi=false 라 Vala 앱(baobab·gnome-calculator) 실패 → vapi=true, 3단계 목록 맨 앞에서 다시 빌드 (fix-hollow 가 기록 삭제)
+- evolution-data-server: WebKitGTK 없음 → ENABLE_OAUTH2_WEBKITGTK(4)=OFF. gnome-shell 은 libecal(EDS)·gjs 때문
+- libcdio: paranoia 가 설치 전 libcdio 를 못 찾음 → libcdio-paranoia 레시피 분리 (gvfs 가 씀)
+- glad: 레시피 안의 시험(utility/test.sh)이 12개 실패 → 시험 뺌 (libplacebo → mpv 연쇄)
+- localsearch: /usr/lib/libavcodec.a (정적 FFmpeg, kpkg 밖에서 설치됨) 를 공유 라이브러리에 못 넣음 → -D libav=disabled
+- 남은 문제: FFmpeg 가 정적 라이브러리만 있는 듯 → mpv 도 같은 문제 가능. 사용자 확인 필요
+
 ## 2단계 실패 수정 (2026-10-20 오후)
 - poppler: 설치 기록은 있는데 poppler-glib·poppler-cpp 가 없음 → atril·libcupsfilters(→libppd·cups-filters) 실패. fix-hollow 가 pkg-config 로 확인해 다시 빌드하게 함, 레시피에도 .pc 확인 추가
 - marco: 빌드 때 zenity 를 찾음(변수는 안 씀) → required: false 로. zenity 는 실행 중 대화상자용 — 나중에 넣을지 결정 필요. mate-control-center 는 marco 실패 때문

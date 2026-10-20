@@ -1,10 +1,9 @@
-# SpiderMonkey from firefox-140.16.0 — BLFS general/genlib/genlib.xml 에서 자동 생성 (tools/blfs-gen)
+# SpiderMonkey from firefox-140.17.0 — BLFS general/genlib/genlib.xml 에서 자동 생성 (tools/blfs-gen)
 NAME=spidermonkey
-VERSION=140.16.0
+VERSION=140.17.0
 SOURCES=(
   https://archive.mozilla.org/pub/firefox/releases/${VERSION}esr/source/firefox-${VERSION}esr.source.tar.xz
   https://www.linuxfromscratch.org/patches/blfs/svn/spidermonkey-$VERSION-python_3.14_fixes-1.patch
-  https://www.linuxfromscratch.org/patches/blfs/svn/spidermonkey-$VERSION-rust_1_98-1.patch
 )
 DEPENDS="cbindgen icu which llvm"
 package() {
@@ -12,8 +11,7 @@ package() {
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
   mkdir -p "$PKG"/usr/{bin,sbin,include,lib/pkgconfig,lib/systemd/system,share/{applications,pixmaps,doc,dbus-1/services,dbus-1/system-services,man/man{1,3,5,7,8}}} "$PKG"/etc/dbus-1/system.d   # 자주 쓰는 폴더 미리 (빈 폴더는 kpkg 가 무시)
   cd "$(find . -mindepth 1 -maxdepth 1 -type d | head -1)"   # 원본 폴더로
-patch -Np1 -i ../spidermonkey-140.16.0-python_3.14_fixes-1.patch
-patch -Np1 -i ../spidermonkey-140.16.0-rust_1_98-1.patch
+patch -Np1 -i ../spidermonkey-140.17.0-python_3.14_fixes-1.patch
 cat > mozconfig << "EOF"
 ac_add_options --prefix=/usr
 ac_add_options --enable-project=js

@@ -1,6 +1,6 @@
-# libglycin-gtk4 from glycin-2.2.1 — BLFS general/graphlib/glycin-gtk4.xml 에서 자동 생성 (tools/blfs-gen)
+# libglycin-gtk4 from glycin-2.2.3 — BLFS general/graphlib/glycin-gtk4.xml 에서 자동 생성 (tools/blfs-gen)
 NAME=glycin-gtk4
-VERSION=2.2.1
+VERSION=2.2.3
 URL=https://download.gnome.org/sources/glycin/2.2/glycin-$VERSION.tar.xz
 DEPENDS="glycin gtk4 vala"
 package() {

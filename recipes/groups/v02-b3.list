@@ -1,6 +1,9 @@
 # 0.2 묶음 B 3단계 — GNOME + 공통 앱
 # 실행: bash tools/v02-b.sh 3
 
+# ===== 다시 빌드 (Vala 바인딩 추가 — baobab·gnome-calculator 가 씀) =====
+libadwaita
+
 # ===== B4 GNOME 51 (Wayland) (69개) =====
 gnome-session gcr4 librest gnome-online-accounts geocode-glib gweather-locations libgweather evolution-data-server
 cbindgen llvm spidermonkey gjs ibus geoclue2 gnome-settings-daemon libei
@@ -8,7 +11,7 @@ mutter adwaita-icon-theme gdm libnma gnome-autoar gsound gnome-bluetooth gnome-m
 gnome-shell blueprint-compiler colord-gtk mitkrb perl-parse-yapp jansson samba tecla
 gnome-control-center gexiv2 libde265 x265 libheif giflib highway libjxl
 glycin glycin-gtk4 libportal exempi libgxps tinysparql localsearch libcloudproviders
-libcdio gvfs nautilus gnome-backgrounds libhandy1 gnome-terminal evince loupe
+libcdio libcdio-paranoia gvfs nautilus gnome-backgrounds libhandy1 gnome-terminal evince loupe
 file-roller gtksourceview5 libgee gnome-calculator libsigc3 cairomm-1.16 glibmm2 pangomm2
 gtkmm4 gnome-system-monitor baobab gnome-disk-utility gnome-tweaks
 

@@ -5,7 +5,7 @@ SOURCES=(
   https://download.gnome.org/sources/evolution-data-server/3.62/evolution-data-server-$VERSION.tar.xz
   https://anduin.linuxfromscratch.org/BLFS/bdb/db-5.3.28.tar.gz
 )
-DEPENDS="libical libsecret nss gnome-online-accounts glib2 gtk3 gtk4 icu libcanberra libgweather vala webkitgtk"
+DEPENDS="libical libsecret nss gnome-online-accounts glib2 gtk3 gtk4 icu libcanberra libgweather vala"
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig
@@ -23,6 +23,8 @@ cmake -D CMAKE_INSTALL_PREFIX=/usr \
       -D ENABLE_INTROSPECTION=ON   \
       -D ENABLE_GTK_DOC=OFF        \
       -D WITH_LIBDB=OFF            \
+      -D ENABLE_OAUTH2_WEBKITGTK=OFF  \
+      -D ENABLE_OAUTH2_WEBKITGTK4=OFF \
       -W no-author -G Ninja ..
 ninja
 DESTDIR="$PKG" ninja install
