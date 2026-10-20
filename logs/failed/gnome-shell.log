@@ -1,15 +1,15 @@
-##### gnome-shell 51.0 (2026-10-20 20:10)
-C linker for the host machine: cc ld.bfd 2.47.20260726
-Host machine cpu family: x86_64
-Host machine cpu: x86_64
-Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+##### gnome-shell 51.0 (2026-10-20 21:25)
+Run-time dependency libmutter-51 found: YES 51.0
+Run-time dependency polkit-agent-1 found: YES 127
+Run-time dependency gsettings-desktop-schemas found: YES 51.0
+Run-time dependency gnome-desktop-4 found: YES 51.0
+Run-time dependency pango found: YES 1.58.2
+Run-time dependency json-glib-1.0 found: YES 1.10.8
+Run-time dependency librsvg-2.0 found: YES 2.63.3
 Found CMake: /usr/bin/cmake (4.4.4)
-Run-time dependency gnome-keybindings found: NO  (tried pkg-config and cmake)
-Run-time dependency atk-bridge-2.0 found: YES 2.62.0.1
-Run-time dependency cairo found: YES 1.18.6
-Run-time dependency libecal-2.0 found: NO  (tried pkg-config and cmake)
+Run-time dependency glycin-2 found: NO  (tried pkg-config and cmake)
 
-../meson.build:75:11: ERROR: Dependency "libecal-2.0" not found (tried pkg-config and cmake)
+../meson.build:95:13: ERROR: Dependency "glycin-2" not found (tried pkg-config and cmake)
 
 A full log can be found at /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/meson-logs/meson-log.txt
 kpkg: gnome-shell.sh 13번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
@@ -27,13 +27,33 @@ C linker for the host machine: cc ld.bfd 2.47.20260726
 Host machine cpu family: x86_64
 Host machine cpu: x86_64
 Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
-Found CMake: /usr/bin/cmake (4.4.4)
-Run-time dependency gnome-keybindings found: NO  (tried pkg-config and cmake)
+Run-time dependency gnome-keybindings found: YES 51.0
 Run-time dependency atk-bridge-2.0 found: YES 2.62.0.1
 Run-time dependency cairo found: YES 1.18.6
-Run-time dependency libecal-2.0 found: NO  (tried pkg-config and cmake)
+Run-time dependency libecal-2.0 found: YES 3.62.0
+Run-time dependency libedataserver-1.2 found: YES 3.62.0
+Run-time dependency gcr-4 found: YES 4.4.1
+Run-time dependency gdk-pixbuf-2.0 found: YES 2.44.8
+Run-time dependency girepository-2.0 found: YES 2.90.1
+Run-time dependency gio-2.0 found: YES 2.90.1
+Run-time dependency gio-unix-2.0 found: YES 2.90.1
+Run-time dependency gjs-1.0 found: YES 1.90.0
+Run-time dependency gtk4 found: YES 4.24.1
+Run-time dependency libxml-2.0 found: YES 2.15.4
+Run-time dependency mutter-clutter-51 found: YES 51.0
+Run-time dependency mutter-mtk-51 found: YES 51.0
+Run-time dependency mutter-cogl-51 found: YES 51.0
+Run-time dependency libmutter-51 found: YES 51.0
+Run-time dependency polkit-agent-1 found: YES 127
+Run-time dependency gsettings-desktop-schemas found: YES 51.0
+Run-time dependency gnome-desktop-4 found: YES 51.0
+Run-time dependency pango found: YES 1.58.2
+Run-time dependency json-glib-1.0 found: YES 1.10.8
+Run-time dependency librsvg-2.0 found: YES 2.63.3
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency glycin-2 found: NO  (tried pkg-config and cmake)
 
-../meson.build:75:11: ERROR: Dependency "libecal-2.0" not found (tried pkg-config and cmake)
+../meson.build:95:13: ERROR: Dependency "glycin-2" not found (tried pkg-config and cmake)
 
 A full log can be found at /var/tmp/kpkg-build/gnome-shell-51.0/src/gnome-shell-51.0/build/meson-logs/meson-log.txt
 kpkg: gnome-shell.sh 13번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
