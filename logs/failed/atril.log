@@ -1,4 +1,4 @@
-##### atril 1.28.7 (2026-10-20 15:48)
+##### atril 1.28.7 (2026-10-20 15:53)
 checking for gdbus-codegen... /usr/bin/gdbus-codegen
 checking for glib-2.0 gtk+-3.0 gthread-2.0 sm >= 1.0.0 ice... yes
 checking whether gtk+-unix-print support is requested... yes

@@ -1,119 +1,119 @@
-##### xwayland 24.1.13 (2026-10-20 15:50)
+##### xwayland 24.1.13 (2026-10-20 15:53)
 [1;32m==>[0m xwayland 24.1.13 빌드 (로그: /var/tmp/kpkg-build/xwayland-24.1.13/build.log)
 [1;32m==>[0m 완성: /var/cache/kpkg/xwayland-24.1.13.kpkg.tar (1.5M, 파일 6개)
 /var/cache/kpkg/xwayland-24.1.13.kpkg.tar
 ##### 빌드 로그
-[333/445] Compiling C object glamor/libglamor.a.p/glamor_window.c.o
-[334/445] Compiling C object glamor/libglamor.a.p/glamor_sync.c.o
-[335/445] Generating 'hw/xwayland/Xwayland.p/relative-pointer-unstable-v1-client-protocol.h'
-[336/445] Compiling C object glamor/libglamor.a.p/glamor_utils.c.o
-[337/445] Generating 'hw/xwayland/Xwayland.p/pointer-gestures-unstable-v1-client-protocol.h'
-[338/445] Generating 'hw/xwayland/Xwayland.p/tablet-unstable-v2-client-protocol.h'
-[339/445] Compiling C object glamor/libglamor.a.p/glamor_compositerects.c.o
-[340/445] Compiling C object glamor/libglamor.a.p/glamor_fbo.c.o
-[341/445] Generating 'hw/xwayland/Xwayland.p/xwayland-keyboard-grab-unstable-v1-client-protocol.h'
-[342/445] Generating 'hw/xwayland/Xwayland.p/xdg-output-unstable-v1-client-protocol.h'
-[343/445] Generating 'hw/xwayland/Xwayland.p/pointer-constraints-unstable-v1-client-protocol.h'
-[344/445] Compiling C object glamor/libglamor.a.p/glamor_glx_provider.c.o
-[345/445] Generating 'hw/xwayland/Xwayland.p/viewporter-client-protocol.h'
-[346/445] Generating 'hw/xwayland/Xwayland.p/xdg-shell-client-protocol.h'
-[347/445] Generating 'hw/xwayland/Xwayland.p/drm-lease-v1-client-protocol.h'
-[348/445] Generating 'hw/xwayland/Xwayland.p/linux-dmabuf-unstable-v1-client-protocol.h'
-[349/445] Generating 'hw/xwayland/Xwayland.p/keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h'
-[350/445] Generating 'hw/xwayland/Xwayland.p/xwayland-shell-v1-client-protocol.h'
-[351/445] Generating 'hw/xwayland/Xwayland.p/tearing-control-v1-client-protocol.h'
-[352/445] Generating 'hw/xwayland/Xwayland.p/fractional-scale-v1-client-protocol.h'
-[353/445] Generating 'hw/xwayland/Xwayland.p/linux-drm-syncobj-v1-client-protocol.h'
-[354/445] Generating 'hw/xwayland/Xwayland.p/relative-pointer-unstable-v1-protocol.c'
-[355/445] Generating 'hw/xwayland/Xwayland.p/pointer-constraints-unstable-v1-protocol.c'
-[356/445] Generating 'hw/xwayland/Xwayland.p/tablet-unstable-v2-protocol.c'
-[357/445] Generating 'hw/xwayland/Xwayland.p/pointer-gestures-unstable-v1-protocol.c'
-[358/445] Generating 'hw/xwayland/Xwayland.p/xwayland-keyboard-grab-unstable-v1-protocol.c'
+[333/445] Compiling C object glamor/libglamor.a.p/glamor_vbo.c.o
+[334/445] Generating 'hw/xwayland/Xwayland.p/relative-pointer-unstable-v1-client-protocol.h'
+[335/445] Generating 'hw/xwayland/Xwayland.p/pointer-constraints-unstable-v1-client-protocol.h'
+[336/445] Generating 'hw/xwayland/Xwayland.p/pointer-gestures-unstable-v1-client-protocol.h'
+[337/445] Generating 'hw/xwayland/Xwayland.p/tablet-unstable-v2-client-protocol.h'
+[338/445] Generating 'hw/xwayland/Xwayland.p/xwayland-keyboard-grab-unstable-v1-client-protocol.h'
+[339/445] Generating 'hw/xwayland/Xwayland.p/xdg-output-unstable-v1-client-protocol.h'
+[340/445] Generating 'hw/xwayland/Xwayland.p/linux-dmabuf-unstable-v1-client-protocol.h'
+[341/445] Generating 'hw/xwayland/Xwayland.p/viewporter-client-protocol.h'
+[342/445] Generating 'hw/xwayland/Xwayland.p/xdg-shell-client-protocol.h'
+[343/445] Generating 'hw/xwayland/Xwayland.p/drm-lease-v1-client-protocol.h'
+[344/445] Generating 'hw/xwayland/Xwayland.p/keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h'
+[345/445] Generating 'hw/xwayland/Xwayland.p/xwayland-shell-v1-client-protocol.h'
+[346/445] Compiling C object glamor/libglamor.a.p/glamor_fbo.c.o
+[347/445] Generating 'hw/xwayland/Xwayland.p/tearing-control-v1-client-protocol.h'
+[348/445] Generating 'hw/xwayland/Xwayland.p/linux-drm-syncobj-v1-client-protocol.h'
+[349/445] Generating 'hw/xwayland/Xwayland.p/fractional-scale-v1-client-protocol.h'
+[350/445] Generating 'hw/xwayland/Xwayland.p/relative-pointer-unstable-v1-protocol.c'
+[351/445] Generating 'hw/xwayland/Xwayland.p/pointer-constraints-unstable-v1-protocol.c'
+[352/445] Compiling C object glamor/libglamor.a.p/glamor_sync.c.o
+[353/445] Generating 'hw/xwayland/Xwayland.p/pointer-gestures-unstable-v1-protocol.c'
+[354/445] Generating 'hw/xwayland/Xwayland.p/tablet-unstable-v2-protocol.c'
+[355/445] Generating 'hw/xwayland/Xwayland.p/xwayland-keyboard-grab-unstable-v1-protocol.c'
+[356/445] Generating 'hw/xwayland/Xwayland.p/linux-dmabuf-unstable-v1-protocol.c'
+[357/445] Generating 'hw/xwayland/Xwayland.p/viewporter-protocol.c'
+[358/445] Generating 'hw/xwayland/Xwayland.p/drm-lease-v1-protocol.c'
 [359/445] Generating 'hw/xwayland/Xwayland.p/xdg-output-unstable-v1-protocol.c'
-[360/445] Generating 'hw/xwayland/Xwayland.p/viewporter-protocol.c'
-[361/445] Generating 'hw/xwayland/Xwayland.p/linux-dmabuf-unstable-v1-protocol.c'
-[362/445] Generating 'hw/xwayland/Xwayland.p/xdg-shell-protocol.c'
-[363/445] Generating 'hw/xwayland/Xwayland.p/drm-lease-v1-protocol.c'
-[364/445] Generating 'hw/xwayland/Xwayland.p/keyboard-shortcuts-inhibit-unstable-v1-protocol.c'
-[365/445] Generating 'hw/xwayland/Xwayland.p/tearing-control-v1-protocol.c'
-[366/445] Generating 'hw/xwayland/Xwayland.p/fractional-scale-v1-protocol.c'
-[367/445] Generating 'hw/xwayland/Xwayland.p/linux-drm-syncobj-v1-protocol.c'
-[368/445] Generating 'hw/xwayland/Xwayland.p/drm-client-protocol.h'
-[369/445] Generating 'hw/xwayland/Xwayland.p/xwayland-shell-v1-protocol.c'
-[370/445] Generating 'hw/xwayland/Xwayland.p/drm-protocol.c'
+[360/445] Generating 'hw/xwayland/Xwayland.p/keyboard-shortcuts-inhibit-unstable-v1-protocol.c'
+[361/445] Generating 'hw/xwayland/Xwayland.p/xdg-shell-protocol.c'
+[362/445] Generating 'hw/xwayland/Xwayland.p/tearing-control-v1-protocol.c'
+[363/445] Generating 'hw/xwayland/Xwayland.p/fractional-scale-v1-protocol.c'
+[364/445] Generating 'hw/xwayland/Xwayland.p/drm-client-protocol.h'
+[365/445] Generating 'hw/xwayland/Xwayland.p/drm-protocol.c'
+[366/445] Generating 'hw/xwayland/Xwayland.p/linux-drm-syncobj-v1-protocol.c'
+[367/445] Generating 'hw/xwayland/Xwayland.p/xwayland-shell-v1-protocol.c'
+[368/445] Compiling C object glamor/libglamor.a.p/glamor_utils.c.o
+[369/445] Linking static target dri3/liblibxserver_dri3.a
+[370/445] Linking static target glx/liblibglxvnd.a
 [371/445] Linking static target dix/liblibxserver_main.a
-[372/445] Linking static target dri3/liblibxserver_dri3.a
-[373/445] Linking static target dix/liblibxserver_dix.a
-[374/445] Linking static target glx/liblibxserver_glx.a
-[375/445] Linking static target os/liblibxlibc.a
-[376/445] Linking static target fb/liblibxserver_fb.a
-[377/445] Linking static target glx/liblibglxvnd.a
-[378/445] Linking static target os/liblibxserver_os.a
-[379/445] Linking static target damageext/liblibxserver_damageext.a
-[380/445] Linking static target mi/liblibxserver_mi.a
-[381/445] Linking static target dbe/liblibxserver_dbe.a
-[382/445] Linking static target composite/liblibxserver_composite.a
-[383/445] Linking static target miext/damage/liblibxserver_miext_damage.a
-[384/445] Linking static target randr/liblibxserver_randr.a
-[385/445] Linking static target record/liblibxserver_record.a
-[386/445] Linking static target present/liblibxserver_present.a
-[387/445] Linking static target miext/sync/liblibxserver_miext_sync.a
-[388/445] Linking static target xfixes/liblibxserver_xfixes.a
-[389/445] Linking static target Xext/liblibxserver_xext_vidmode.a
-[390/445] Linking static target render/liblibxserver_render.a
-[391/445] Linking static target xkb/liblibxserver_xkb.a
-[392/445] Linking static target xkb/liblibxserver_xkb_stubs.a
+[372/445] Linking static target fb/liblibxserver_fb.a
+[373/445] Linking static target glx/liblibxserver_glx.a
+[374/445] Linking static target dix/liblibxserver_dix.a
+[375/445] Linking static target os/liblibxserver_os.a
+[376/445] Compiling C object glamor/libglamor.a.p/glamor_compositerects.c.o
+[377/445] Linking static target mi/liblibxserver_mi.a
+[378/445] Linking static target os/liblibxlibc.a
+[379/445] Linking static target composite/liblibxserver_composite.a
+[380/445] Linking static target damageext/liblibxserver_damageext.a
+[381/445] Linking static target miext/damage/liblibxserver_miext_damage.a
+[382/445] Linking static target present/liblibxserver_present.a
+[383/445] Linking static target miext/sync/liblibxserver_miext_sync.a
+[384/445] Linking static target dbe/liblibxserver_dbe.a
+[385/445] Linking static target xfixes/liblibxserver_xfixes.a
+[386/445] Compiling C object glamor/libglamor.a.p/glamor_glx_provider.c.o
+[387/445] Linking static target randr/liblibxserver_randr.a
+[388/445] Linking static target record/liblibxserver_record.a
+[389/445] Linking static target render/liblibxserver_render.a
+[390/445] Linking static target xkb/liblibxserver_xkb_stubs.a
+[391/445] Linking static target Xext/liblibxserver_xext_vidmode.a
+[392/445] Linking static target xkb/liblibxserver_xkb.a
 [393/445] Linking static target Xext/liblibxserver_xext.a
-[394/445] Compiling C object glamor/libglamor.a.p/glamor_largepixmap.c.o
+[394/445] Linking static target Xi/liblibxserver_xi_stubs.a
 [395/445] Linking static target Xi/liblibxserver_xi.a
-[396/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_relative-pointer-unstable-v1-protocol.c.o
-[397/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_pointer-constraints-unstable-v1-protocol.c.o
-[398/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xwayland-keyboard-grab-unstable-v1-protocol.c.o
-[399/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_pointer-gestures-unstable-v1-protocol.c.o
-[400/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_tablet-unstable-v2-protocol.c.o
-[401/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xdg-output-unstable-v1-protocol.c.o
-[402/445] Linking static target Xi/liblibxserver_xi_stubs.a
-[403/445] Compiling C object hw/vfb/Xvfb.p/InitInput.c.o
-[404/445] Compiling C object glamor/libglamor.a.p/glamor_xv.c.o
-[405/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_linux-dmabuf-unstable-v1-protocol.c.o
+[396/445] Compiling C object glamor/libglamor.a.p/glamor_largepixmap.c.o
+[397/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_relative-pointer-unstable-v1-protocol.c.o
+[398/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_pointer-constraints-unstable-v1-protocol.c.o
+[399/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_tablet-unstable-v2-protocol.c.o
+[400/445] Compiling C object glamor/libglamor.a.p/glamor_xv.c.o
+[401/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_pointer-gestures-unstable-v1-protocol.c.o
+[402/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xwayland-keyboard-grab-unstable-v1-protocol.c.o
+[403/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xdg-output-unstable-v1-protocol.c.o
+[404/445] Linking static target glamor/libglamor.a
+[405/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xdg-shell-protocol.c.o
 [406/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_viewporter-protocol.c.o
-[407/445] Linking static target glamor/libglamor.a
-[408/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_drm-lease-v1-protocol.c.o
-[409/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xdg-shell-protocol.c.o
-[410/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_fractional-scale-v1-protocol.c.o
-[411/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_keyboard-shortcuts-inhibit-unstable-v1-protocol.c.o
-[412/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_tearing-control-v1-protocol.c.o
-[413/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xwayland-shell-v1-protocol.c.o
-[414/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_linux-drm-syncobj-v1-protocol.c.o
+[407/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_linux-dmabuf-unstable-v1-protocol.c.o
+[408/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_keyboard-shortcuts-inhibit-unstable-v1-protocol.c.o
+[409/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_tearing-control-v1-protocol.c.o
+[410/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_drm-lease-v1-protocol.c.o
+[411/445] Compiling C object hw/vfb/Xvfb.p/InitInput.c.o
+[412/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_drm-protocol.c.o
+[413/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_linux-drm-syncobj-v1-protocol.c.o
+[414/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_xwayland-shell-v1-protocol.c.o
 [415/445] Compiling C object hw/vfb/Xvfb.p/.._.._mi_miinitext.c.o
-[416/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_drm-protocol.c.o
+[416/445] Compiling C object hw/xwayland/Xwayland.p/meson-generated_fractional-scale-v1-protocol.c.o
 [417/445] Compiling C object hw/vfb/Xvfb.p/InitOutput.c.o
 [418/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-pixmap.c.o
-[419/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-drm-lease.c.o
-[420/445] Compiling C object hw/xwayland/Xwayland.p/xwayland.c.o
-[421/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-cursor.c.o
-[422/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-shm.c.o
-[423/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-screen.c.o
-[424/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-cvt.c.o
-[425/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-output.c.o
+[419/445] Compiling C object hw/xwayland/Xwayland.p/xwayland.c.o
+[420/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-cursor.c.o
+[421/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-drm-lease.c.o
+[422/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-cvt.c.o
+[423/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-shm.c.o
+[424/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-vidmode.c.o
+[425/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-screen.c.o
 [426/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-present.c.o
-[427/445] Compiling C object hw/xwayland/Xwayland.p/.._.._mi_miinitext.c.o
-[428/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-input.c.o
-[429/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-vidmode.c.o
-[430/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-window-buffers.c.o
-[431/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-glamor-xv.c.o
-[432/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-glamor.c.o
-[433/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-dmabuf.c.o
-[434/445] Compiling C object test/simple-xinit.p/simple-xinit.c.o
-[435/445] Compiling C object test/bigreq/request-length.p/request-length.c.o
+[427/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-window-buffers.c.o
+[428/445] Compiling C object hw/xwayland/Xwayland.p/.._.._mi_miinitext.c.o
+[429/445] Compiling C object test/simple-xinit.p/simple-xinit.c.o
+[430/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-glamor.c.o
+[431/445] Compiling C object test/bigreq/request-length.p/request-length.c.o
+[432/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-glamor-xv.c.o
+[433/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-output.c.o
+[434/445] Compiling C object test/sync/sync.p/sync.c.o
+[435/445] Linking target test/simple-xinit
 [436/445] Compiling C object test/damage/damage-primitives.p/primitives.c.o
-[437/445] Compiling C object test/sync/sync.p/sync.c.o
-[438/445] Linking target test/simple-xinit
-[439/445] Linking target test/bigreq/request-length
+[437/445] Linking target test/bigreq/request-length
+[438/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-window.c.o
+[439/445] Linking target test/sync/sync
 [440/445] Linking target test/damage/damage-primitives
-[441/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-window.c.o
-[442/445] Linking target test/sync/sync
-[443/445] Linking target hw/vfb/Xvfb
+[441/445] Linking target hw/vfb/Xvfb
+[442/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-input.c.o
+[443/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-dmabuf.c.o
 [444/445] Compiling C object hw/xwayland/Xwayland.p/xwayland-glamor-gbm.c.o
 [445/445] Linking target hw/xwayland/Xwayland
 [0/1] Installing files

@@ -1,4 +1,4 @@
-##### marco 1.28.2 (2026-10-20 15:48)
+##### marco 1.28.2 (2026-10-20 15:53)
 Run-time dependency xfixes found: YES 6.0.2
 Run-time dependency xdamage found: YES 1.1.7
 Has header "X11/extensions/shape.h" : YES 

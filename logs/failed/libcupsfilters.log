@@ -1,4 +1,4 @@
-##### libcupsfilters 2.1.1 (2026-10-20 15:48)
+##### libcupsfilters 2.1.1 (2026-10-20 15:53)
 checking for fontconfig >= 2.0.0... yes
 checking for libqpdf >= 11.0.0... yes
 checking for poppler-cpp >= 0.19... no

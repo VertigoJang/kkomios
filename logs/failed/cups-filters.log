@@ -1,4 +1,4 @@
-##### cups-filters 2.0.1 (2026-10-20 15:48)
+##### cups-filters 2.0.1 (2026-10-20 15:53)
 checking where the gettext function comes from... libc
 checking for cups-config... /usr/bin/cups-config
 checking for libcupsfilters... no

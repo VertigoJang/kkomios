@@ -1,4 +1,4 @@
-##### libppd 2.1.1 (2026-10-20 15:48)
+##### libppd 2.1.1 (2026-10-20 15:53)
 checking for cups-config... /usr/bin/cups-config
 checking for CUPS library v2.x... yes, v2.4.19
 checking for libcupsfilters... no
