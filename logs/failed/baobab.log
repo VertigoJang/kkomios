@@ -1,0 +1,82 @@
+##### baobab 50.0 (2026-10-20 20:33)
+[6/188] Generating yelp doc help/bg/help-baobab-bg-gmo
+[7/188] Generating yelp doc help/de/help-baobab-de-gmo
+[8/188] Compiling Vala source ../src/config.vapi ../src/baobab-application.vala ../src/baobab-cellrenderers.vala ../src/baobab-chart.vala ../src/baobab-contents-cell.vala ../src/baobab-file-cell.vala ../src/baobab-folder-cell.vala ../src/baobab-folder-display.vala ../src/baobab-location-list.vala ../src/baobab-location.vala ../src/baobab-name-cell.vala ../src/baobab-pathbar.vala ../src/baobab-preferences-dialog.vala ../src/baobab-progress-cell.vala ../src/baobab-ringschart.vala ../src/baobab-scanner.vala ../src/baobab-size-cell.vala ../src/baobab-time-modified-cell.vala ../src/baobab-tree-list-row-sorter.vala ../src/baobab-treemap.vala ../src/baobab-window.vala ../src/main.vala
+FAILED: [code=1] src/baobab.p/baobab-application.c src/baobab.p/baobab-cellrenderers.c src/baobab.p/baobab-chart.c src/baobab.p/baobab-contents-cell.c src/baobab.p/baobab-file-cell.c src/baobab.p/baobab-folder-cell.c src/baobab.p/baobab-folder-display.c src/baobab.p/baobab-location-list.c src/baobab.p/baobab-location.c src/baobab.p/baobab-name-cell.c src/baobab.p/baobab-pathbar.c src/baobab.p/baobab-preferences-dialog.c src/baobab.p/baobab-progress-cell.c src/baobab.p/baobab-ringschart.c src/baobab.p/baobab-scanner.c src/baobab.p/baobab-size-cell.c src/baobab.p/baobab-time-modified-cell.c src/baobab.p/baobab-tree-list-row-sorter.c src/baobab.p/baobab-treemap.c src/baobab.p/baobab-window.c src/baobab.p/main.c src/baobab.h src/baobab.vapi 
+valac --depfile src/baobab.depfile -C --disable-since-check --pkg libadwaita-1 --pkg gtk4 --pkg gobject-2.0 --pkg gio-2.0 --pkg glib-2.0 --target-glib 2.44 --color=always --directory src/baobab.p --basedir ../src --library baobab --header src/baobab.h --vapi ../baobab.vapi --gresources=../data/baobab.gresource.xml --gresourcesdir=../data --target-glib 2.44 --vapidir /var/tmp/kpkg-build/baobab-50.0/src/baobab-50.0/src --gresources ../data/baobab.gresource.xml ../src/config.vapi ../src/baobab-application.vala ../src/baobab-cellrenderers.vala ../src/baobab-chart.vala ../src/baobab-contents-cell.vala ../src/baobab-file-cell.vala ../src/baobab-folder-cell.vala ../src/baobab-folder-display.vala ../src/baobab-location-list.vala ../src/baobab-location.vala ../src/baobab-name-cell.vala ../src/baobab-pathbar.vala ../src/baobab-preferences-dialog.vala ../src/baobab-progress-cell.vala ../src/baobab-ringschart.vala ../src/baobab-scanner.vala ../src/baobab-size-cell.vala ../src/baobab-time-modified-cell.vala ../src/baobab-tree-list-row-sorter.vala ../src/baobab-treemap.vala ../src/baobab-window.vala ../src/main.vala
+error: Package `libadwaita-1' not found in specified Vala API directories or GObject-Introspection GIR directories
+Compilation failed: 1 error(s), 0 warning(s)
+[9/188] Generating yelp doc help/el/help-baobab-el-gmo
+[10/188] Generating yelp doc help/eu/help-baobab-eu-gmo
+[11/188] Generating yelp doc help/es/help-baobab-es-gmo
+[12/188] Generating yelp doc help/fr/help-baobab-fr-gmo
+[13/188] Generating yelp doc help/fi/help-baobab-fi-gmo
+ninja: build stopped: subcommand failed.
+kpkg: baobab.sh 14번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+[1;31m==> 오류:[0m 빌드 실패: baobab (전체 로그: /var/tmp/kpkg-build/baobab-50.0/build.log)
+##### 빌드 로그
+The Meson build system
+Version: 1.12.0
+Source dir: /var/tmp/kpkg-build/baobab-50.0/src/baobab-50.0
+Build dir: /var/tmp/kpkg-build/baobab-50.0/src/baobab-50.0/build
+Build type: native build
+Project name: baobab
+Project version: 50.0
+C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
+C linker for the host machine: cc ld.bfd 2.47.20260726
+Vala compiler for the host machine: valac (valac 0.56.19)
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+Run-time dependency glib-2.0 found: YES 2.90.1
+Run-time dependency gio-2.0 found: YES 2.90.1
+Run-time dependency gobject-2.0 found: YES 2.90.1
+Run-time dependency gtk4 found: YES 4.24.1
+Run-time dependency libadwaita-1 found: YES 1.10.0
+Library m found: YES
+Configuring config.h using configuration
+Dependency gio-2.0 for host machine found: YES 2.90.1 (cached)
+Program /usr/bin/glib-compile-schemas found: YES (/usr/bin/glib-compile-schemas)
+Program gtk4-update-icon-cache found: YES (/usr/bin/gtk4-update-icon-cache)
+Program update-desktop-database found: YES (/usr/bin/update-desktop-database)
+Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+Dependency gio-2.0 for host machine found: YES 2.90.1 (cached)
+Program /usr/bin/glib-compile-resources found: YES (/usr/bin/glib-compile-resources)
+Program msgfmt found: YES (/usr/bin/msgfmt)
+Program appstreamcli found: YES (/usr/bin/appstreamcli)
+Configuring org.gnome.baobab.service using configuration
+Program itstool found: YES (/usr/bin/itstool)
+Program msgmerge found: YES (/usr/bin/msgmerge)
+Program msgfmt found: YES (/usr/bin/msgfmt)
+Program msginit found: YES (/usr/bin/msginit)
+Program msgmerge found: YES (/usr/bin/msgmerge)
+Program xgettext found: YES (/usr/bin/xgettext)
+Build targets in project: 197
+
+baobab 50.0
+
+  User defined options
+    buildtype: release
+    prefix   : /usr
+
+Found ninja-1.13.2 at /usr/bin/ninja
+[1/188] Generating data/org.gnome.baobab_h with a custom command
+[2/188] Generating data/org.gnome.baobab_c with a custom command
+[3/188] Generating yelp doc help/ca/help-baobab-ca-gmo
+[4/188] Generating yelp doc help/cs/help-baobab-cs-gmo
+[5/188] Generating yelp doc help/da/help-baobab-da-gmo
+[6/188] Generating yelp doc help/bg/help-baobab-bg-gmo
+[7/188] Generating yelp doc help/de/help-baobab-de-gmo
+[8/188] Compiling Vala source ../src/config.vapi ../src/baobab-application.vala ../src/baobab-cellrenderers.vala ../src/baobab-chart.vala ../src/baobab-contents-cell.vala ../src/baobab-file-cell.vala ../src/baobab-folder-cell.vala ../src/baobab-folder-display.vala ../src/baobab-location-list.vala ../src/baobab-location.vala ../src/baobab-name-cell.vala ../src/baobab-pathbar.vala ../src/baobab-preferences-dialog.vala ../src/baobab-progress-cell.vala ../src/baobab-ringschart.vala ../src/baobab-scanner.vala ../src/baobab-size-cell.vala ../src/baobab-time-modified-cell.vala ../src/baobab-tree-list-row-sorter.vala ../src/baobab-treemap.vala ../src/baobab-window.vala ../src/main.vala
+FAILED: [code=1] src/baobab.p/baobab-application.c src/baobab.p/baobab-cellrenderers.c src/baobab.p/baobab-chart.c src/baobab.p/baobab-contents-cell.c src/baobab.p/baobab-file-cell.c src/baobab.p/baobab-folder-cell.c src/baobab.p/baobab-folder-display.c src/baobab.p/baobab-location-list.c src/baobab.p/baobab-location.c src/baobab.p/baobab-name-cell.c src/baobab.p/baobab-pathbar.c src/baobab.p/baobab-preferences-dialog.c src/baobab.p/baobab-progress-cell.c src/baobab.p/baobab-ringschart.c src/baobab.p/baobab-scanner.c src/baobab.p/baobab-size-cell.c src/baobab.p/baobab-time-modified-cell.c src/baobab.p/baobab-tree-list-row-sorter.c src/baobab.p/baobab-treemap.c src/baobab.p/baobab-window.c src/baobab.p/main.c src/baobab.h src/baobab.vapi 
+valac --depfile src/baobab.depfile -C --disable-since-check --pkg libadwaita-1 --pkg gtk4 --pkg gobject-2.0 --pkg gio-2.0 --pkg glib-2.0 --target-glib 2.44 --color=always --directory src/baobab.p --basedir ../src --library baobab --header src/baobab.h --vapi ../baobab.vapi --gresources=../data/baobab.gresource.xml --gresourcesdir=../data --target-glib 2.44 --vapidir /var/tmp/kpkg-build/baobab-50.0/src/baobab-50.0/src --gresources ../data/baobab.gresource.xml ../src/config.vapi ../src/baobab-application.vala ../src/baobab-cellrenderers.vala ../src/baobab-chart.vala ../src/baobab-contents-cell.vala ../src/baobab-file-cell.vala ../src/baobab-folder-cell.vala ../src/baobab-folder-display.vala ../src/baobab-location-list.vala ../src/baobab-location.vala ../src/baobab-name-cell.vala ../src/baobab-pathbar.vala ../src/baobab-preferences-dialog.vala ../src/baobab-progress-cell.vala ../src/baobab-ringschart.vala ../src/baobab-scanner.vala ../src/baobab-size-cell.vala ../src/baobab-time-modified-cell.vala ../src/baobab-tree-list-row-sorter.vala ../src/baobab-treemap.vala ../src/baobab-window.vala ../src/main.vala
+error: Package `libadwaita-1' not found in specified Vala API directories or GObject-Introspection GIR directories
+Compilation failed: 1 error(s), 0 warning(s)
+[9/188] Generating yelp doc help/el/help-baobab-el-gmo
+[10/188] Generating yelp doc help/eu/help-baobab-eu-gmo
+[11/188] Generating yelp doc help/es/help-baobab-es-gmo
+[12/188] Generating yelp doc help/fr/help-baobab-fr-gmo
+[13/188] Generating yelp doc help/fi/help-baobab-fi-gmo
+ninja: build stopped: subcommand failed.
+kpkg: baobab.sh 14번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+##### 설치 단계

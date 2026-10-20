@@ -1,0 +1,57 @@
+##### gjs 1.90.0 (2026-10-20 20:07)
+Run-time dependency gobject-2.0 found: YES 2.90.1
+Run-time dependency gio-2.0 found: YES 2.90.1
+Run-time dependency girepository-2.0 found: YES 2.90.1
+Run-time dependency libffi found: YES 3.8.0
+Run-time dependency cairo found: YES 1.18.6
+Run-time dependency cairo-gobject found: YES 1.18.6
+Run-time dependency cairo-xlib found: YES 1.18.6
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency mozjs-140 found: NO  (tried pkg-config and cmake)
+
+../meson.build:165:15: ERROR: Dependency "mozjs-140" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/gjs-1.90.0/src/gjs-1.90.0/gjs-build/meson-logs/meson-log.txt
+kpkg: gjs.sh 13번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+[1;31m==> 오류:[0m 빌드 실패: gjs (전체 로그: /var/tmp/kpkg-build/gjs-1.90.0/build.log)
+##### 빌드 로그
+The Meson build system
+Version: 1.12.0
+Source dir: /var/tmp/kpkg-build/gjs-1.90.0/src/gjs-1.90.0
+Build dir: /var/tmp/kpkg-build/gjs-1.90.0/src/gjs-1.90.0/gjs-build
+Build type: native build
+DEPRECATION: WrapDB v1 is deprecated, updated using `meson wrap update zlib`
+Project name: gjs
+Project version: 1.90.0
+C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
+C linker for the host machine: cc ld.bfd 2.47.20260726
+C++ compiler for the host machine: c++ (gcc 16.2.0 "c++ (GCC) 16.2.0")
+C++ linker for the host machine: c++ ld.bfd 2.47.20260726
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Compiler for C++ supports arguments -fno-strict-aliasing: YES 
+Compiler for C++ supports arguments -Wno-variadic-macros: YES 
+Compiler for C++ supports arguments -Wno-missing-field-initializers: YES 
+Compiler for C++ supports arguments -Wno-dangling-pointer: YES 
+Compiler for C supports arguments -Wno-typedef-redefinition: NO 
+Compiler for C++ supports link arguments -Bsymbolic-functions: YES 
+Compiler for C supports arguments -fno-semantic-interposition: YES 
+Compiler for C++ supports arguments -fno-semantic-interposition: YES 
+Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+Run-time dependency glib-2.0 found: YES 2.90.1
+Run-time dependency gthread-2.0 found: YES 2.90.1
+Run-time dependency gobject-2.0 found: YES 2.90.1
+Run-time dependency gio-2.0 found: YES 2.90.1
+Run-time dependency girepository-2.0 found: YES 2.90.1
+Run-time dependency libffi found: YES 3.8.0
+Run-time dependency cairo found: YES 1.18.6
+Run-time dependency cairo-gobject found: YES 1.18.6
+Run-time dependency cairo-xlib found: YES 1.18.6
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency mozjs-140 found: NO  (tried pkg-config and cmake)
+
+../meson.build:165:15: ERROR: Dependency "mozjs-140" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/gjs-1.90.0/src/gjs-1.90.0/gjs-build/meson-logs/meson-log.txt
+kpkg: gjs.sh 13번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+##### 설치 단계

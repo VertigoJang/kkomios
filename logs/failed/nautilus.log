@@ -1,0 +1,81 @@
+##### nautilus 51.0.1 (2026-10-20 20:24)
+libgxdp| Configuring gxdp-config.h using configuration
+libgxdp| Build targets in project: 4
+libgxdp| Subproject libgxdp finished.
+
+Dependency gio-2.0 for host machine found: YES 2.90.1 (cached)
+Run-time dependency gio-unix-2.0 found: YES 2.90.1
+Run-time dependency glib-2.0 found: YES 2.90.1
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency glycin-2 found: NO  (tried pkg-config and cmake)
+
+../meson.build:116:9: ERROR: Dependency "glycin-2" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/nautilus-51.0.1/src/nautilus-51.0.1/build/meson-logs/meson-log.txt
+kpkg: nautilus.sh 14번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+[1;31m==> 오류:[0m 빌드 실패: nautilus (전체 로그: /var/tmp/kpkg-build/nautilus-51.0.1/build.log)
+##### 빌드 로그
+The Meson build system
+Version: 1.12.0
+Source dir: /var/tmp/kpkg-build/nautilus-51.0.1/src/nautilus-51.0.1
+Build dir: /var/tmp/kpkg-build/nautilus-51.0.1/src/nautilus-51.0.1/build
+Build type: native build
+Project name: nautilus
+Project version: 51.0.1
+C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
+C linker for the host machine: cc ld.bfd 2.47.20260726
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Compiler for C supports arguments -Wduplicated-branches: YES 
+Compiler for C supports arguments -Wduplicated-cond: YES 
+Compiler for C supports arguments -Wlogical-op: YES 
+Compiler for C supports arguments -Werror=empty-body: YES 
+Compiler for C supports arguments -Werror=format=2: YES 
+Compiler for C supports arguments -Werror=implicit-function-declaration: YES 
+Compiler for C supports arguments -Werror=incompatible-pointer-types: YES 
+Compiler for C supports arguments -Werror=init-self: YES 
+Compiler for C supports arguments -Werror=missing-include-dirs: YES 
+Compiler for C supports arguments -Werror=missing-prototypes: YES 
+Compiler for C supports arguments -Werror=pointer-arith: YES 
+Compiler for C supports arguments -Werror=sequence-point: YES 
+Compiler for C supports arguments -Werror=shadow: YES 
+Compiler for C supports arguments -Werror=strict-prototypes: YES 
+Compiler for C supports arguments -Werror=undef: YES 
+Compiler for C supports arguments -Werror=uninitialized: YES 
+Compiler for C supports arguments -Wno-deprecated-declarations: YES 
+Compiler for C supports arguments -Wno-cast-function-type: YES 
+Compiler for C supports arguments -Wno-unused-parameter: YES 
+Compiler for C supports arguments -Wno-error=maybe-uninitialized: YES 
+Library m found: YES
+
+Executing subproject libgxdp for machine: host 
+
+libgxdp| Project name: libgxdp
+libgxdp| Project version: 48.alpha
+libgxdp| C compiler for the host machine: cc (gcc 16.2.0 "cc (GCC) 16.2.0")
+libgxdp| C linker for the host machine: cc ld.bfd 2.47.20260726
+libgxdp| Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+libgxdp| Run-time dependency gtk4 found: YES 4.24.1
+libgxdp| Run-time dependency gtk4-wayland found: YES 4.24.1
+libgxdp| Program wayland-scanner found: YES (/usr/bin/wayland-scanner)
+libgxdp| Run-time dependency gio-2.0 found: YES 2.90.1
+libgxdp| Program /usr/bin/gdbus-codegen found: YES (/usr/bin/gdbus-codegen)
+libgxdp| Found pkg-config: YES (/usr/bin/pkg-config) 3.0.5
+libgxdp| Run-time dependency wayland-client found: YES 1.26.0
+libgxdp| Run-time dependency gtk4-x11 found: YES 4.24.1
+libgxdp| Run-time dependency x11 found: YES 1.8.13
+libgxdp| Configuring gxdp-config.h using configuration
+libgxdp| Build targets in project: 4
+libgxdp| Subproject libgxdp finished.
+
+Dependency gio-2.0 for host machine found: YES 2.90.1 (cached)
+Run-time dependency gio-unix-2.0 found: YES 2.90.1
+Run-time dependency glib-2.0 found: YES 2.90.1
+Found CMake: /usr/bin/cmake (4.4.4)
+Run-time dependency glycin-2 found: NO  (tried pkg-config and cmake)
+
+../meson.build:116:9: ERROR: Dependency "glycin-2" not found (tried pkg-config and cmake)
+
+A full log can be found at /var/tmp/kpkg-build/nautilus-51.0.1/src/nautilus-51.0.1/build/meson-logs/meson-log.txt
+kpkg: nautilus.sh 14번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+##### 설치 단계

@@ -1,0 +1,13 @@
+##### gnome-system-monitor 51.0 (2026-10-20 20:33)
+[1;32m==>[0m 내려받기: https://download.gnome.org/sources/gnome-system-monitor/51/gnome-system-monitor-51.0.tar.xz
+2026-10-20 20:33:28 URL:https://download.gnome.org/sources/gnome-system-monitor/51/gnome-system-monitor-51.0.tar.xz [1163836/1163836] -> "/sources/kpkg-src/gnome-system-monitor-51.0.tar.xz.part" [1]
+[1;32m==>[0m 내려받기: https://www.linuxfromscratch.org/patches/blfs/svn/gnome-system-monitor-51.0-selinux_fix-1.patch
+https://www.linuxfromscratch.org/patches/blfs/svn/gnome-system-monitor-51.0-selinux_fix-1.patch:
+2026-10-20 20:33:29 오류 404: Not Found.
+[1;32m==>[0m 다른 주소로 다시 시도: https://anduin.linuxfromscratch.org/BLFS/gnome-system-monitor/gnome-system-monitor-51.0-selinux_fix-1.patch
+https://anduin.linuxfromscratch.org/BLFS/gnome-system-monitor/gnome-system-monitor-51.0-selinux_fix-1.patch:
+2026-10-20 20:33:29 오류 404: Not Found.
+[1;31m==> 오류:[0m 내려받기 실패: https://www.linuxfromscratch.org/patches/blfs/svn/gnome-system-monitor-51.0-selinux_fix-1.patch
+##### 빌드 로그
+tail: '/var/tmp/kpkg-build/gnome-system-monitor-51.0/build.log'을(를) 읽기 용도로 열 수 없습니다: 그런 파일이나 디렉터리가 없습니다
+##### 설치 단계

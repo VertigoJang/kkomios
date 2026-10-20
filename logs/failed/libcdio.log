@@ -1,0 +1,138 @@
+##### libcdio 2.1.0 (2026-10-20 20:24)
+checking whether gcc understands -Wall... yes
+checking whether gcc understands -Wchar-subscripts... yes
+checking whether gcc understands -Wmissing-prototypes... yes
+checking whether gcc understands -Wmissing-declarations... yes
+checking whether gcc understands -Wunused... yes
+checking whether gcc understands -Wpointer-arith... yes
+checking whether gcc understands -Wwrite-strings... yes
+checking whether gcc understands -Wnested-externs... yes
+checking whether gcc understands -Wno-sign-compare... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for LIBCDIO... no
+configure: error: Required libcdio library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.
+kpkg: libcdio.sh 25번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+[1;31m==> 오류:[0m 빌드 실패: libcdio (전체 로그: /var/tmp/kpkg-build/libcdio-2.1.0/build.log)
+##### 빌드 로그
+libtool: warning: '../lib/iso9660/libiso9660.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/cd-drive /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/cd-drive
+libtool: warning: '../lib/iso9660/libiso9660.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/cd-info /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/cd-info
+libtool: warning: '../lib/iso9660/libiso9660.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/cd-read /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/cd-read
+libtool: warning: '../lib/udf/libudf.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/iso9660/libiso9660.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/iso-info /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/iso-info
+libtool: warning: '../lib/udf/libudf.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/iso9660/libiso9660.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/iso-read /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/iso-read
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/cdda-player /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/cdda-player
+libtool: warning: '../lib/iso9660/libiso9660.la' has not been installed in '/usr/lib'
+libtool: warning: '../lib/driver/libcdio.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/mmc-tool /var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/bin/mmc-tool
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/src' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/src' 나감
+Making install in test
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test' 들어감
+Making install in data
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/data' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/data' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/data' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/data' 나감
+Making install in driver
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/driver' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/driver' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/driver' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test/driver' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/test' 나감
+Making install in example
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/example' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/example' 들어감
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/example' 들어감
+make[3]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+make[3]: 'install-data-am'을(를) 위해 할 일이 없습니다.
+make[3]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/example' 나감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/example' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0/example' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0' 들어감
+make[2]: 'install-exec-am'을(를) 위해 할 일이 없습니다.
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/lib/pkgconfig'
+ /usr/bin/install -c -m 644 libcdio.pc libiso9660.pc libudf.pc libcdio++.pc libiso9660++.pc '/var/tmp/kpkg-build/libcdio-2.1.0/pkg/usr/lib/pkgconfig'
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libcdio-2.1.0/src/libcdio-2.1.0' 나감
+configure: loading site script /usr/share/config.site
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking whether build environment is sane... yes
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking whether gcc understands -c and -o together... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of gcc... gcc3
+checking for g++... g++
+checking whether the compiler supports GNU C++... yes
+checking whether g++ accepts -g... yes
+checking for g++ option to enable C++11 features... -std=gnu++11
+checking dependency style of g++ -std=gnu++11... gcc3
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for wchar.h... yes
+checking for minix/config.h... no
+checking whether it is safe to define __EXTENSIONS__... yes
+checking whether _XOPEN_SOURCE should be defined... no
+checking for gawk... (cached) gawk
+checking for nm... nm
+checking whether gcc understands -Wall... yes
+checking whether gcc understands -Wchar-subscripts... yes
+checking whether gcc understands -Wmissing-prototypes... yes
+checking whether gcc understands -Wmissing-declarations... yes
+checking whether gcc understands -Wunused... yes
+checking whether gcc understands -Wpointer-arith... yes
+checking whether gcc understands -Wwrite-strings... yes
+checking whether gcc understands -Wnested-externs... yes
+checking whether gcc understands -Wno-sign-compare... yes
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for LIBCDIO... no
+configure: error: Required libcdio library not found. Please get libcdio from http://www.gnu.org/software/libcdio/ and install it.
+kpkg: libcdio.sh 25번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+##### 설치 단계

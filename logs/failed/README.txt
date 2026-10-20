@@ -1,5 +1,19 @@
-단계 2, 2026-10-20 16:11
+단계 3, 2026-10-20 20:45
 README.txt
-cups-filters.log
-libppd.log
-mate-control-center.log
+baobab.log
+evolution-data-server.log
+gjs.log
+glad.log
+glycin-gtk4.log
+glycin.log
+gnome-calculator.log
+gnome-shell.log
+gnome-system-monitor.log
+gnome-terminal.log
+gvfs.log
+libcdio.log
+libplacebo.log
+localsearch.log
+mpv.log
+nautilus.log
+spidermonkey.log
