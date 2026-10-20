@@ -2,7 +2,7 @@
 NAME=gnome-shell
 VERSION=51.0
 URL=https://download.gnome.org/sources/gnome-shell/51/gnome-shell-$VERSION.tar.xz
-DEPENDS="evolution-data-server gcr4 gjs gnome-desktop ibus mutter polkit startup-notification adwaita-icon-theme dconf gdm libgweather libnma systemd desktop-file-utils gnome-autoar gnome-bluetooth gst10-plugins-base NetworkManager power-profiles-daemon gnome-menus"
+DEPENDS="evolution-data-server gcr4 gjs gnome-desktop ibus mutter polkit startup-notification adwaita-icon-theme dconf gdm libgweather libnma systemd desktop-file-utils gnome-autoar gnome-bluetooth gst10-plugins-base NetworkManager power-profiles-daemon gnome-menus glycin"
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig

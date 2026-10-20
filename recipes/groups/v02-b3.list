@@ -8,9 +8,9 @@ libadwaita
 gnome-session gcr4 librest gnome-online-accounts geocode-glib gweather-locations libgweather evolution-data-server
 cbindgen llvm spidermonkey gjs ibus geoclue2 gnome-settings-daemon libei
 mutter adwaita-icon-theme gdm libnma gnome-autoar gsound gnome-bluetooth gnome-menus
-gnome-shell blueprint-compiler colord-gtk mitkrb perl-parse-yapp jansson samba tecla
+blueprint-compiler colord-gtk mitkrb perl-parse-yapp jansson samba tecla
 gnome-control-center gexiv2 libde265 x265 libheif giflib highway libjxl
-glycin glycin-gtk4 libportal exempi libgxps tinysparql localsearch libcloudproviders
+glycin glycin-gtk4 gnome-shell libportal exempi libgxps tinysparql localsearch libcloudproviders
 libcdio libcdio-paranoia gvfs nautilus gnome-backgrounds libhandy1 gnome-terminal evince loupe
 file-roller gtksourceview5 libgee gnome-calculator libsigc3 cairomm-1.16 glibmm2 pangomm2
 gtkmm4 gnome-system-monitor baobab gnome-disk-utility gnome-tweaks
