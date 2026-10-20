@@ -1,138 +1,134 @@
-##### libppd 2.1.1 (2026-10-20 15:53)
-checking for cups-config... /usr/bin/cups-config
-checking for CUPS library v2.x... yes, v2.4.19
-checking for libcupsfilters... no
-configure: error: Package requirements (libcupsfilters) were not met:
-
-Package 'libcupsfilters' not found
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables LIBCUPSFILTERS_CFLAGS
-and LIBCUPSFILTERS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-kpkg: libppd.sh 10번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
-[1;31m==> 오류:[0m 빌드 실패: libppd (전체 로그: /var/tmp/kpkg-build/libppd-2.1.1/build.log)
+##### libppd 2.1.1 (2026-10-20 16:10)
+[1;32m==>[0m libppd 2.1.1 빌드 (로그: /var/tmp/kpkg-build/libppd-2.1.1/build.log)
+[1;32m==>[0m 완성: /var/cache/kpkg/libppd-2.1.1.kpkg.tar (960K, 파일 30개)
+/var/cache/kpkg/libppd-2.1.1.kpkg.tar
 ##### 빌드 로그
-checking whether the compiler supports GNU C... yes
-checking whether gcc accepts -g... yes
-checking for gcc option to enable C11 features... none needed
-checking whether gcc understands -c and -o together... yes
-checking whether make supports the include directive... yes (GNU style)
-checking dependency style of gcc... gcc3
-checking for g++... g++
-checking whether the compiler supports GNU C++... yes
-checking whether g++ accepts -g... yes
-checking for g++ option to enable C++11 features... -std=gnu++11
-checking dependency style of g++ -std=gnu++11... gcc3
-checking whether g++ -std=gnu++11 supports C++11 features by default... yes
-checking build system type... x86_64-pc-linux-gnu
-checking host system type... x86_64-pc-linux-gnu
-checking for ld used by gcc... /usr/bin/ld
-checking if the linker (/usr/bin/ld) is GNU ld... yes
-checking for shared library run path origin... done
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for egrep -e... /usr/bin/grep -E
-checking for iconv... yes
-checking for working iconv... yes
-checking for iconv declaration... 
-         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
-checking how to run the C preprocessor... gcc -E
-checking whether ln -s works... yes
-checking whether make sets $(MAKE)... (cached) yes
-checking how to print strings... printf
-checking for a sed that does not truncate output... /usr/bin/sed
-checking for grep that handles long lines and -e... /usr/bin/grep
-checking for egrep... /usr/bin/grep -E
-checking for fgrep... /usr/bin/grep -F
-checking for ld used by gcc... /usr/bin/ld
-checking if the linker (/usr/bin/ld) is GNU ld... yes
-checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
-checking the name lister (/usr/bin/nm -B) interface... BSD nm
-checking the maximum length of command line arguments... 1572864
-checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
-checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-checking for /usr/bin/ld option to reload object files... -r
-checking for file... file
-checking for objdump... objdump
-checking how to recognize dependent libraries... pass_all
-checking for dlltool... no
-checking how to associate runtime and link libraries... printf %s\n
-checking for ar... ar
-checking for archiver @FILE support... @
-checking for strip... strip
-checking for ranlib... ranlib
-checking command to parse /usr/bin/nm -B output from gcc object... ok
-checking for sysroot... no
-checking for a working dd... /usr/bin/dd
-checking how to truncate binary pipes... /usr/bin/dd bs=4096 count=1
-checking for mt... mt
-checking if mt is a manifest tool... no
-checking for stdio.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for strings.h... yes
-checking for sys/stat.h... yes
-checking for sys/types.h... yes
-checking for unistd.h... yes
-checking for dlfcn.h... yes
-checking for objdir... .libs
-checking if gcc supports -fno-rtti -fno-exceptions... no
-checking for gcc option to produce PIC... -fPIC -DPIC
-checking if gcc PIC flag -fPIC -DPIC works... yes
-checking if gcc static flag -static works... yes
-checking if gcc supports -c -o file.o... yes
-checking if gcc supports -c -o file.o... (cached) yes
-checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking whether -lc should be explicitly linked in... no
-checking dynamic linker characteristics... GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether stripping libraries is possible... yes
-checking if libtool supports shared libraries... yes
-checking whether to build shared libraries... yes
-checking whether to build static libraries... no
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for ld used by g++ -std=gnu++11... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-/usr/bin/grep: warning: stray \ before -
-checking for g++ -std=gnu++11 option to produce PIC... -fPIC -DPIC
-checking if g++ -std=gnu++11 PIC flag -fPIC -DPIC works... yes
-checking if g++ -std=gnu++11 static flag -static works... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... (cached) yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking for pkg-config... /usr/bin/pkg-config
-checking pkg-config is at least version 0.20... yes
-checking for pkg-config... /usr/bin/pkg-config
-checking whether NLS is requested... yes
-checking for msgfmt... /usr/bin/msgfmt
-checking for gmsgfmt... /usr/bin/msgfmt
-checking for xgettext... /usr/bin/xgettext
-checking for msgmerge... /usr/bin/msgmerge
-checking for CFPreferencesCopyAppValue... no
-checking for CFLocaleCopyCurrent... no
-checking for GNU gettext in libc... yes
-checking whether to use NLS... yes
-checking where the gettext function comes from... libc
-checking for CUPS library v3.0 or higher... no
-checking for cups-config... /usr/bin/cups-config
-checking for CUPS library v2.x... yes, v2.4.19
-checking for libcupsfilters... no
-configure: error: Package requirements (libcupsfilters) were not met:
-
-Package 'libcupsfilters' not found
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables LIBCUPSFILTERS_CFLAGS
-and LIBCUPSFILTERS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-kpkg: libppd.sh 10번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
+ppd/ppd-test.c:3184:62: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size 1015 [-Wformat-truncation=]
+ 3184 |           snprintf(pathprog, sizeof(pathprog), "%s/%s/filter/%s", root, ptr,
+      |                                                              ^~
+ 3185 |                    program);
+      |                    ~~~~~~~                                    
+ppd/ppd-test.c:3184:11: note: 'snprintf' output 10 or more bytes (assuming 1033) into a destination of size 1024
+ 3184 |           snprintf(pathprog, sizeof(pathprog), "%s/%s/filter/%s", root, ptr,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3185 |                    program);
+      |                    ~~~~~~~~
+ppd/ppd-test.c:3181:61: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1003 and 1016 [-Wformat-truncation=]
+ 3181 |           snprintf(pathprog, sizeof(pathprog), "%s%s/filter/%s", root, ptr,
+      |                                                             ^~
+ 3182 |                    program);
+      |                    ~~~~~~~                                   
+ppd/ppd-test.c:3181:11: note: 'snprintf' output 9 or more bytes (assuming 1045) into a destination of size 1024
+ 3181 |           snprintf(pathprog, sizeof(pathprog), "%s%s/filter/%s", root, ptr,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3182 |                    program);
+      |                    ~~~~~~~~
+ppd/ppd-test.c:3364:62: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size 1015 [-Wformat-truncation=]
+ 3364 |           snprintf(pathprog, sizeof(pathprog), "%s/%s/filter/%s", root, ptr,
+      |                                                              ^~
+ 3365 |                    program);
+      |                    ~~~~~~~                                    
+ppd/ppd-test.c:3364:11: note: 'snprintf' output 10 or more bytes (assuming 1033) into a destination of size 1024
+ 3364 |           snprintf(pathprog, sizeof(pathprog), "%s/%s/filter/%s", root, ptr,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3365 |                    program);
+      |                    ~~~~~~~~
+ppd/ppd-test.c:3361:61: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1003 and 1016 [-Wformat-truncation=]
+ 3361 |           snprintf(pathprog, sizeof(pathprog), "%s%s/filter/%s", root, ptr,
+      |                                                             ^~
+ 3362 |                    program);
+      |                    ~~~~~~~                                   
+ppd/ppd-test.c:3361:11: note: 'snprintf' output 9 or more bytes (assuming 1045) into a destination of size 1024
+ 3361 |           snprintf(pathprog, sizeof(pathprog), "%s%s/filter/%s", root, ptr,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3362 |                    program);
+      |                    ~~~~~~~~
+ppd/ppd-test.c:3492:62: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size 1015 [-Wformat-truncation=]
+ 3492 |           snprintf(pathprog, sizeof(pathprog), "%s/%s/filter/%s", root, ptr,
+      |                                                              ^~
+ 3493 |                    program);
+      |                    ~~~~~~~                                    
+ppd/ppd-test.c:3492:11: note: 'snprintf' output 10 or more bytes (assuming 1033) into a destination of size 1024
+ 3492 |           snprintf(pathprog, sizeof(pathprog), "%s/%s/filter/%s", root, ptr,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3493 |                    program);
+      |                    ~~~~~~~~
+ppd/ppd-test.c:3489:61: warning: '%s' directive output may be truncated writing up to 1023 bytes into a region of size between 1003 and 1016 [-Wformat-truncation=]
+ 3489 |           snprintf(pathprog, sizeof(pathprog), "%s%s/filter/%s", root, ptr,
+      |                                                             ^~
+ 3490 |                    program);
+      |                    ~~~~~~~                                   
+ppd/ppd-test.c:3489:11: note: 'snprintf' output 9 or more bytes (assuming 1045) into a destination of size 1024
+ 3489 |           snprintf(pathprog, sizeof(pathprog), "%s%s/filter/%s", root, ptr,
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 3490 |                    program);
+      |                    ~~~~~~~~
+  CXX      ppd/libppd_la-ppdc-catalog.lo
+  CXX      ppd/libppd_la-ppdc-choice.lo
+  CXX      ppd/libppd_la-ppdc-constraint.lo
+  CXX      ppd/libppd_la-ppdc-driver.lo
+  CXX      ppd/libppd_la-ppdc-file.lo
+  CXX      ppd/libppd_la-ppdc-filter.lo
+  CXX      ppd/libppd_la-ppdc-font.lo
+  CXX      ppd/libppd_la-ppdc-group.lo
+  CXX      ppd/libppd_la-ppdc-import.lo
+  CXX      ppd/libppd_la-ppdc-mediasize.lo
+  CXX      ppd/libppd_la-ppdc-message.lo
+  CXX      ppd/libppd_la-ppdc-option.lo
+  CXX      ppd/libppd_la-ppdc-profile.lo
+  CXX      ppd/libppd_la-ppdc-shared.lo
+  CXX      ppd/libppd_la-ppdc-source.lo
+  CXX      ppd/libppd_la-ppdc-string.lo
+  CXX      ppd/libppd_la-ppdc-variable.lo
+  CXX      ppd/ppdhtml.o
+  CXX      ppd/ppdi.o
+  CXX      ppd/ppdmerge.o
+  CXX      ppd/ppdpo.o
+  CXXLD    libppd.la
+  CXXLD    ppdc
+  CXXLD    ppdi
+  CXXLD    ppdmerge
+  CXXLD    ppdhtml
+  CXXLD    ppdpo
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libppd-2.1.1/src/libppd-2.1.1' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libppd-2.1.1/src/libppd-2.1.1' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libppd-2.1.1/src/libppd-2.1.1' 들어감
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libppd-2.1.1/src/libppd-2.1.1' 들어감
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/share/doc/libppd-2.1.1'
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib/pkgconfig'
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib'
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/share/ppdc'
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/include/ppd'
+ /bin/sh ./libtool   --mode=install /usr/bin/install -c   libppd.la '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib'
+ /usr/bin/install -c -m 644 ABOUT-NLS AUTHORS COPYING CHANGES.md CHANGES-1.x.md INSTALL.md LICENSE NOTICE README.md DEVELOPING.md CONTRIBUTING.md '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/share/doc/libppd-2.1.1'
+ /usr/bin/install -c -m 644 ppd/ppd.h ppd/ppdc.h ppd/ppd-filter.h '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/include/ppd'
+ /usr/bin/install -c -m 644 libppd.pc '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib/pkgconfig'
+ /usr/bin/install -c -m 644 ppd/epson.h ppd/hp.h ppd/label.h ppd/font.defs ppd/media.defs ppd/raster.defs '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/share/ppdc'
+libtool: install: /usr/bin/install -c .libs/libppd.so.2.0.0 /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib/libppd.so.2.0.0
+libtool: install: (cd /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib && { ln -s -f libppd.so.2.0.0 libppd.so.2 || { rm -f libppd.so.2 && ln -s libppd.so.2.0.0 libppd.so.2; }; })
+libtool: install: (cd /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib && { ln -s -f libppd.so.2.0.0 libppd.so || { rm -f libppd.so && ln -s libppd.so.2.0.0 libppd.so; }; })
+libtool: install: /usr/bin/install -c .libs/libppd.lai /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/lib/libppd.la
+libtool: warning: remember to run 'libtool --finish /usr/lib'
+ /usr/bin/mkdir -p '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin'
+  /bin/sh ./libtool   --mode=install /usr/bin/install -c ppdc ppdhtml ppdi ppdmerge ppdpo '/var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin'
+libtool: warning: 'libppd.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/ppdc /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin/ppdc
+libtool: warning: 'libppd.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/ppdhtml /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin/ppdhtml
+libtool: warning: 'libppd.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/ppdi /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin/ppdi
+libtool: warning: 'libppd.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/ppdmerge /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin/ppdmerge
+libtool: warning: 'libppd.la' has not been installed in '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/ppdpo /var/tmp/kpkg-build/libppd-2.1.1/pkg/usr/bin/ppdpo
+make[2]: 디렉터리 '/var/tmp/kpkg-build/libppd-2.1.1/src/libppd-2.1.1' 나감
+make[1]: 디렉터리 '/var/tmp/kpkg-build/libppd-2.1.1/src/libppd-2.1.1' 나감
 ##### 설치 단계
+[1;32m==>[0m 설치: libppd 2.1.1
+다른 패키지가 가진 파일과 겹칩니다:
+/usr/bin/ppdc  ← cups
+/usr/bin/ppdhtml  ← cups
+/usr/bin/ppdi  ← cups
+/usr/bin/ppdmerge  ← cups
+/usr/bin/ppdpo  ← cups
+[1;31m==> 오류:[0m 중단합니다 (--force 로 강행 가능)

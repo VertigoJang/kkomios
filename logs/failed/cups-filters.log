@@ -1,16 +1,16 @@
-##### cups-filters 2.0.1 (2026-10-20 15:53)
-checking where the gettext function comes from... libc
+##### cups-filters 2.0.1 (2026-10-20 16:10)
 checking for cups-config... /usr/bin/cups-config
-checking for libcupsfilters... no
-configure: error: Package requirements (libcupsfilters) were not met:
+checking for libcupsfilters... yes
+checking for libppd... no
+configure: error: Package requirements (libppd) were not met:
 
-Package 'libcupsfilters' not found
+Package 'libppd' not found
 
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-Alternatively, you may set the environment variables LIBCUPSFILTERS_CFLAGS
-and LIBCUPSFILTERS_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables LIBPPD_CFLAGS
+and LIBPPD_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 kpkg: cups-filters.sh 16번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
 [1;31m==> 오류:[0m 빌드 실패: cups-filters (전체 로그: /var/tmp/kpkg-build/cups-filters-2.0.1/build.log)
@@ -115,16 +115,17 @@ checking for GNU gettext in libc... yes
 checking whether to use NLS... yes
 checking where the gettext function comes from... libc
 checking for cups-config... /usr/bin/cups-config
-checking for libcupsfilters... no
-configure: error: Package requirements (libcupsfilters) were not met:
+checking for libcupsfilters... yes
+checking for libppd... no
+configure: error: Package requirements (libppd) were not met:
 
-Package 'libcupsfilters' not found
+Package 'libppd' not found
 
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-Alternatively, you may set the environment variables LIBCUPSFILTERS_CFLAGS
-and LIBCUPSFILTERS_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables LIBPPD_CFLAGS
+and LIBPPD_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 kpkg: cups-filters.sh 16번째 줄에서 멈춤 (종료 코드 1) — 이 메시지를 알려주세요
 ##### 설치 단계
