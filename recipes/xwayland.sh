@@ -18,5 +18,6 @@ meson setup ..              \
       -D xkb_output_dir=/var/lib/xkb
 ninja
 DESTDIR="$PKG" ninja install
+rm -f "$PKG"/usr/lib/xorg/protocol.txt "$PKG"/usr/share/man/man1/Xserver.1   # xorg-server 가 이미 가진 같은 파일 (그쪽 것을 씀)
 find "$PKG" -name perllocal.pod -delete ; find "$PKG" -depth -type d -empty -delete ; mkdir -p "$PKG"   # 정리
 }

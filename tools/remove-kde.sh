@@ -39,7 +39,7 @@ in_rm() { local x ; for x in "${RM[@]}" ; do [ "$x" = "$1" ] && return 0 ; done 
 if pgrep -f 'kpkg (group|build|install)' > /dev/null || pgrep -f 'v02-b\.sh' > /dev/null ; then
   echo "*** 빌드가 아직 돌고 있습니다. 빌드 창(tmux)에서 Ctrl+C 로 멈춘 뒤 다시 실행하세요." ; exit 1
 fi
-command -v kpkg > /dev/null || { echo "*** kpkg 가 없습니다" ; exit 1 ; }
+KPKG=$(command -v kpkg) || { echo "*** kpkg 가 없습니다" ; exit 1 ; }   # sudo 는 /usr/local/bin 을 못 찾으므로 전체 경로로
 sudo -v || exit 1
 ( while sleep 50 ; do sudo -n true 2> /dev/null || exit ; done ) & KEEP=$!
 trap 'kill $KEEP 2> /dev/null' EXIT
@@ -74,7 +74,7 @@ echo ; echo "===== 3. 삭제 (나중에 쌓인 것부터) ====="
 fail=()
 for (( i=${#inst[@]}-1 ; i>=0 ; i-- )) ; do
   n=${inst[$i]}
-  if sudo kpkg remove "$n" --force > /tmp/kpkg-remove-$n.log 2>&1 ; then
+  if sudo "$KPKG" remove "$n" --force > /tmp/kpkg-remove-$n.log 2>&1 ; then
     echo "  삭제: $n" ; grep 'kpkgsave' /tmp/kpkg-remove-$n.log | sed 's/^/    /'
   else
     echo "  *** 삭제 실패: $n" ; tail -3 /tmp/kpkg-remove-$n.log | sed 's/^/    /' ; fail+=("$n")
@@ -88,7 +88,7 @@ for n in "${rebuild[@]}" ; do
   r="recipes/$n.sh" ; [ -f "$r" ] || { rfail+=("$n") ; continue ; }
   v=$( source "$r" > /dev/null 2>&1 ; echo "$VERSION" )
   echo "  $n $v 빌드 ($(date +%H:%M))"
-  if kpkg build "$r" > "/tmp/kpkg-rebuild-$n.log" 2>&1 && sudo kpkg install "$CACHE/$n-$v.kpkg.tar" >> "/tmp/kpkg-rebuild-$n.log" 2>&1 ; then
+  if kpkg build "$r" > "/tmp/kpkg-rebuild-$n.log" 2>&1 && sudo "$KPKG" install "$CACHE/$n-$v.kpkg.tar" >> "/tmp/kpkg-rebuild-$n.log" 2>&1 ; then
     echo "  완료: $n" ; rm -rf "${KPKG_BUILDDIR:?}/$n-$v" "/tmp/kpkg-rebuild-$n.log"
   else
     echo "  *** 실패: $n (로그: /tmp/kpkg-rebuild-$n.log)" ; tail -15 "/tmp/kpkg-rebuild-$n.log" | sed 's/^/    /' ; rfail+=("$n")

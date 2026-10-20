@@ -15,6 +15,12 @@
 - poppler 는 `-D ENABLE_QT6=OFF`. KDE 묶음에 있던 공용 패키지 35개(NetworkManager, Xwayland, 포털 등)는 GNOME 용으로 2단계 목록 끝에 남김.
 - KDE 용으로만 넣었던 일반 패키지 46개(wget, avahi, opencv, tesseract 등)는 목록에서만 뺐고, 이미 설치된 건 그대로 둠 (wget 은 kpkg 가 씀).
 
+## 2단계 실패 수정 (2026-10-20 오후)
+- poppler: 설치 기록은 있는데 poppler-glib·poppler-cpp 가 없음 → atril·libcupsfilters(→libppd·cups-filters) 실패. fix-hollow 가 pkg-config 로 확인해 다시 빌드하게 함, 레시피에도 .pc 확인 추가
+- marco: 빌드 때 zenity 를 찾음(변수는 안 씀) → required: false 로. zenity 는 실행 중 대화상자용 — 나중에 넣을지 결정 필요. mate-control-center 는 marco 실패 때문
+- xwayland: protocol.txt·Xserver.1 이 xorg-server 와 겹침 → xwayland 쪽 파일 삭제
+- remove-kde.sh: sudo 가 /usr/local/bin 의 kpkg 를 못 찾던 문제 수정 (남은 KDE 기록 4개: plasma-wayland-protocols vlc plasma-workspace-wallpapers oxygen-sounds)
+
 ## 방금 고친 큰 문제 (kpkg 0.8.8)
 - kpkg 0.8.7 이하는 `( set -e … ) ||` 형태라 레시피 중간 실패를 무시했음 → Qt6 등이 빈 껍데기로 "설치됨" 처리.
 - `tools/fix-hollow.sh` 가 빈 껍데기 패키지 기록을 지우고, v02-b.sh 시작 때 자동 실행됨 → 다시 빌드.

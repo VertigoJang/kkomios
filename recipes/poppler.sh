@@ -23,6 +23,8 @@ cmake -D CMAKE_BUILD_TYPE=Release   \
       -G Ninja ..
 ninja
 DESTDIR="$PKG" ninja install
+# 예전에 Qt6 문제로 일부만 설치된 적이 있어 확인: atril 은 poppler-glib, cups-filters 는 poppler-cpp 가 필요
+for pc in poppler poppler-glib poppler-cpp ; do [ -f "$PKG/usr/lib/pkgconfig/$pc.pc" ] || { echo "*** $pc.pc 가 만들어지지 않았습니다" ; exit 1 ; } ; done
 tar -xf ../../poppler-data-0.4.12.tar.gz
 cd poppler-data-0.4.12
 make DESTDIR="$PKG" prefix=/usr install
