@@ -1,0 +1,72 @@
+# KkomiOS Plymouth 테마 — 로고 + 도는 점 (branding/plymouth/make_plymouth.py 가 만듦)
+Window.SetBackgroundTopColor(0.067, 0.102, 0.161);
+Window.SetBackgroundBottomColor(0.118, 0.165, 0.243);
+
+W = Window.GetWidth();
+H = Window.GetHeight();
+
+# ---- 로고 (화면 높이의 28% 를 넘지 않게) ----
+logo.image = Image("logo.png");
+if (logo.image.GetHeight() > H * 0.28) {
+  scale = H * 0.28 / logo.image.GetHeight();
+  logo.image = logo.image.Scale(logo.image.GetWidth() * scale, logo.image.GetHeight() * scale);
+}
+logo.sprite = Sprite(logo.image);
+logo.x = Window.GetX() + W / 2 - logo.image.GetWidth() / 2;
+logo.y = Window.GetY() + H / 2 - logo.image.GetHeight() / 2 - H * 0.06;
+logo.sprite.SetPosition(logo.x, logo.y, 10);
+
+# ---- 도는 점 8개 ----
+NUM = 8;
+R = 26;
+dot_image = Image("dot.png");
+cx = Window.GetX() + W / 2;
+cy = logo.y + logo.image.GetHeight() + H * 0.08;
+for (i = 0; i < NUM; i++) {
+  a = 2 * Math.Pi * i / NUM - Math.Pi / 2;
+  dot[i] = Sprite(dot_image);
+  dot[i].SetPosition(cx + R * Math.Cos(a) - dot_image.GetWidth() / 2, cy + R * Math.Sin(a) - dot_image.GetHeight() / 2, 10);
+  dot[i].SetOpacity(0.15);
+}
+
+tick = 0;
+fun refresh_callback() {
+  global.tick = global.tick + 1;             # 함수 안에서 바꾸는 값은 global. 을 붙여야 유지됨
+  step = Math.Int(global.tick / 5);           # 약 0.1초마다 한 칸
+  head = step - NUM * Math.Int(step / NUM);   # 0 ~ NUM-1
+  for (i = 0; i < NUM; i++) {
+    d = head - i;
+    if (d < 0) d = d + NUM;                   # 머리에서 몇 칸 뒤인지
+    dot[i].SetOpacity(1 - d * 0.85 / NUM);    # 머리는 진하게, 꼬리로 갈수록 흐리게
+  }
+}
+Plymouth.SetRefreshFunction(refresh_callback);
+
+# ---- 암호 입력 (암호화 디스크 등) ----
+fun display_password_callback(prompt, bullets) {
+  question = prompt;
+  if (question == "") question = "Password";
+  global.q_image = Image.Text(question, 0.973, 0.914, 0.835);
+  global.q_sprite = Sprite(global.q_image);
+  global.q_sprite.SetPosition(cx - global.q_image.GetWidth() / 2, cy + H * 0.06, 20);
+  stars = "";
+  for (i = 0; i < bullets; i++) stars = stars + "*";
+  global.s_image = Image.Text(stars + " ", 0.976, 0.792, 0.522);
+  global.s_sprite = Sprite(global.s_image);
+  global.s_sprite.SetPosition(cx - global.s_image.GetWidth() / 2, cy + H * 0.06 + global.q_image.GetHeight() + 8, 20);
+}
+Plymouth.SetDisplayPasswordFunction(display_password_callback);
+
+fun display_normal_callback() {
+  if (global.q_sprite) global.q_sprite.SetOpacity(0);
+  if (global.s_sprite) global.s_sprite.SetOpacity(0);
+}
+Plymouth.SetDisplayNormalFunction(display_normal_callback);
+
+# ---- 시스템 메시지 (화면 아래) ----
+fun message_callback(text) {
+  global.m_image = Image.Text(text, 0.608, 0.620, 0.651);
+  global.m_sprite = Sprite(global.m_image);
+  global.m_sprite.SetPosition(Window.GetX() + W / 2 - global.m_image.GetWidth() / 2, Window.GetY() + H * 0.92, 20);
+}
+Plymouth.SetMessageFunction(message_callback);

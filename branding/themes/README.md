@@ -36,6 +36,7 @@ python3 branding/themes/icons/make_icon_themes.py    # rsvg-convert 있으면 �
 python3 branding/themes/login/make_login_themes.py
 ```
 
-## 적용 (예정)
-- 아이콘: `/usr/share/icons/kkomios-<a|b|d>` 로 설치 → 각 GUI 설정의 아이콘 테마에서 선택
-- 로그인: LightDM 설치 단계에서 세 테마를 등록하고, 설치 프로그램과 설정 명령으로 선택
+## 적용
+- 아이콘: `/usr/share/icons/kkomios-<a|b|d>` 로 설치됨 (kkomios-themes) → 각 GUI 설정의 아이콘 테마에서 선택. 기본값은 각 데스크톱 기본 그대로
+- 로그인: `kkomios-login-theme a|b|d` 로 선택. 라이브 ISO·새 설치의 기본값은 **B** (`branding/defaults.conf`)
+- 부팅 화면(Plymouth): `branding/plymouth/` — 켜기 `kkomios-plymouth on`

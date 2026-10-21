@@ -1,0 +1,29 @@
+#!/bin/bash
+# kkomios-plymouth — 부팅 화면(Plymouth) 켜기·끄기
+#   kkomios-plymouth on       부팅 화면 켬: GRUB 의 KkomiOS 항목에 'quiet splash' 추가 (다음 부팅부터)
+#   kkomios-plymouth off      부팅 화면 끔: 추가했던 'quiet splash' 를 뺌 (부팅 글자가 다시 보임)
+#   kkomios-plymouth status   지금 상태
+# 백업 커널 항목(이름에 before- 가 들어간 것)은 건드리지 않음 → 문제가 생기면 GRUB 에서 백업 항목으로 부팅
+set -u
+CFG=/boot/grub/grub.cfg
+BAK=/boot/grub/grub.cfg.before-plymouth
+S=$([ "$(id -u)" -eq 0 ] || echo sudo)
+[ -f "$CFG" ] || { echo "*** $CFG 가 없습니다" ; exit 1 ; }
+case "${1:-status}" in
+  on)
+    [ -f /usr/share/plymouth/themes/kkomios/kkomios.plymouth ] || { echo "*** 부팅 화면 테마가 없습니다 (kkomios-plymouth 패키지 설치 필요)" ; exit 1 ; }
+    if grep -E '^\s*linux\s' "$CFG" | grep -v 'before-' | grep -q ' splash' ; then echo "이미 켜져 있습니다" ; exit 0 ; fi
+    [ -f "$BAK" ] || $S cp "$CFG" "$BAK"
+    $S sed -i -E '/^\s*linux\s/{/before-/!{/ splash/!s/$/ quiet splash/}}' "$CFG"
+    echo "부팅 화면을 켰습니다 — 다음 부팅부터 적용 (원래 설정: $BAK)"
+    grep -E '^\s*linux\s' "$CFG" | sed 's/^\s*/  /' ;;
+  off)
+    $S sed -i -E '/^\s*linux\s/s/ quiet splash//' "$CFG"
+    echo "부팅 화면을 껐습니다 — 다음 부팅부터 글자로 표시"
+    grep -E '^\s*linux\s' "$CFG" | sed 's/^\s*/  /' ;;
+  status)
+    if grep -E '^\s*linux\s' "$CFG" | grep -v 'before-' | grep -q ' splash' ; then echo "부팅 화면: 켜짐" ; else echo "부팅 화면: 꺼짐" ; fi
+    echo "테마: $(sed -n 's/^Theme=//p' /etc/plymouth/plymouthd.conf 2>/dev/null || echo 알 수 없음)"
+    echo "Plymouth: $(plymouthd --version 2>/dev/null || echo '설치 안 됨')" ;;
+  *) sed -n '2,6p' "$0" | sed 's/^# //' ; exit 1 ;;
+esac

@@ -1,4 +1,14 @@
-# KkomiOS 작업 인계 메모 (2026-10-20 밤 기준)
+# KkomiOS 작업 인계 메모 (2026-10-21 기준)
+
+## 지금 하는 일: 0.2 묶음 C (꾸미기 · Plymouth · B 에서 빠진 것)
+- 실행: `cd ~/kkomios && git fetch && git reset --hard origin/main && bash tools/v02-c.sh 2>&1 | tee -a ~/v02-c.log`
+- 목록 `recipes/groups/v02-c.list`: zenity, libdbusmenu → libayatana-appindicator → mate-control-center(타이핑 휴식 알림, fix-hollow 가 다시 빌드시킴), plymouth, kkomios-plymouth, kkomios-tools 0.3.0
+- 사용자 결정 (2026-10-21): 부팅 화면 = 로고 + 도는 점 / 꾸미기 = 로그인 테마 B 만 / 적용 대상 = 새 사용자·ISO 기본값만 (지금 시스템 모양은 그대로)
+  - 로그인 테마는 시스템 하나라 지금 VM 은 그대로 두고 `branding/defaults.conf` 에 ISO 기본값(LOGIN_THEME=b)으로 기록 → 묶음 D 에서 사용
+- 부팅 화면: 테마 원본 `branding/plymouth/make_plymouth.py` → `branding/plymouth/kkomios/`. 설치만 하고 켜기는 사용자가 `kkomios-plymouth on` (GRUB linux 줄에 quiet splash, before- 백업 항목 제외, 백업 grub.cfg.before-plymouth)
+  - initramfs 없음 → plymouth-start.service 가 루트 마운트 뒤 시작. LightDM 은 plymouth-quit 뒤에 시작하도록 drop-in
+  - Plymouth 는 BLFS 에 없어 Alpine·NixOS 26.134.222 꾸러미 설정 참고. meson 옵션이 틀리면 첫 빌드에서 바로 실패할 수 있음
+
 
 ## 0.2 묶음 B (데스크톱 추가) — 완료 (2026-10-20 22:04)
 - 1~3단계 빌드 끝, 재부팅 후 LightDM 에서 Xfce·Openbox·MATE·GNOME 모두 사용 가능 확인 (사용자)

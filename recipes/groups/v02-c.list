@@ -1,0 +1,8 @@
+# 0.2 묶음 C — 꾸미기 · Plymouth 부팅 화면 · 묶음 B 에서 빠졌던 것
+# 실행: bash tools/v02-c.sh
+
+# ===== 빠졌던 것: zenity(marco 대화상자) · 타이핑 휴식 알림(AppIndicator → mate-control-center 다시 빌드) =====
+zenity libdbusmenu libayatana-appindicator mate-control-center
+
+# ===== Plymouth 부팅 화면 + KkomiOS 테마 + 관리 명령(kkomios-plymouth) =====
+plymouth kkomios-plymouth kkomios-tools

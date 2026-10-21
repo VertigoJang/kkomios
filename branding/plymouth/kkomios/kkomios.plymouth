@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=KkomiOS
+Description=KkomiOS boot splash: logo with spinning dots
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/kkomios
+ScriptFile=/usr/share/plymouth/themes/kkomios/kkomios.script

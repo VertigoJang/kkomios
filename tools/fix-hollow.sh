@@ -20,6 +20,7 @@ while read -r n chk ; do
 done << 'K'
 poppler pkg-config --exists poppler-glib poppler-cpp
 libadwaita test -f /usr/share/vala/vapi/libadwaita-1.vapi
+mate-control-center test -x /usr/bin/mate-typing-monitor
 K
 if [ ${#hollow[@]} -eq 0 ] ; then echo "빈 껍데기 패키지 없음" ; exit 0 ; fi
 echo "빈 껍데기로 설치된 패키지 ${#hollow[@]}개: ${hollow[*]}"
