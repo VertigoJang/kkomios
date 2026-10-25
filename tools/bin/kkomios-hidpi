@@ -1,0 +1,36 @@
+#!/bin/bash
+# kkomios-hidpi — KkomiOS 화면 요소를 2배로 키우기 (호스트가 배율 125% 등을 쓸 때 VMware 화면이 작게 보이는 문제용)
+#   kkomios-hidpi on       2배로 키움 (Xfce·MATE: 바로 적용 / GNOME·Openbox 는 아래 설명)
+#   kkomios-hidpi off      원래 크기(1배)로 되돌림
+#   kkomios-hidpi status   지금 상태
+# 원리: 우분투(Wayland, 배율 125%)는 VMware 를 3072x1920 짜리 가상 화면에 그린 뒤 1.6배 줄여서 보여 줌.
+#       KkomiOS 를 2배로 그리면 실제로는 2 / 1.6 = 1.25배, 즉 우분투와 같은 크기로 보임.
+# 테마·배경 등 다른 모양은 바꾸지 않음. 지금 로그인한 사용자에게만 적용
+set -u
+[ "$(id -u)" -ne 0 ] || { echo "일반 사용자로 실행하세요 (sudo 없이)" ; exit 1 ; }
+[ -n "${DISPLAY:-}" ] || export DISPLAY=:0
+case "${1:-status}" in
+  on)  S=2 ; C=48 ;;
+  off) S=1 ; C=24 ;;
+  status)
+    echo "Xfce: $(xfconf-query -c xsettings -p /Gdk/WindowScalingFactor 2>/dev/null || echo 1)배"
+    echo "MATE: $(gsettings get org.mate.interface window-scaling-factor 2>/dev/null | sed 's/uint32 //' || echo '?')배 (0 = 자동)"
+    exit 0 ;;
+  *) sed -n '2,5p' "$0" | sed 's/^# //' ; exit 1 ;;
+esac
+# Xfce (설정 저장소 xfconf — 지금 Xfce 세션이면 바로 바뀜)
+if command -v xfconf-query > /dev/null ; then
+  xfconf-query -c xsettings -p /Gdk/WindowScalingFactor -n -t int -s $S
+  xfconf-query -c xsettings -p /Gtk/CursorThemeSize -n -t int -s $C
+  echo "Xfce: ${S}배"
+fi
+# MATE (dconf — 다음에 MATE 로 로그인할 때 적용)
+if command -v gsettings > /dev/null && gsettings list-keys org.mate.interface 2>/dev/null | grep -qx window-scaling-factor ; then
+  gsettings set org.mate.interface window-scaling-factor $S
+  gsettings set org.mate.peripherals-mouse cursor-size $C 2>/dev/null
+  echo "MATE: ${S}배"
+fi
+echo
+echo "GNOME: GNOME 으로 로그인한 뒤 설정 → 디스플레이 → 배율 을 $([ $S = 2 ] && echo 200 || echo 100)% 로 바꾸세요 (GNOME 은 그 화면에서 따로 정함)"
+echo "Openbox: 이 명령으로는 바뀌지 않음 (Openbox 세션에는 배율을 전해 줄 설정 프로그램이 없음)"
+echo "적용이 덜 된 창은 그 프로그램을 껐다 켜면 됩니다"
