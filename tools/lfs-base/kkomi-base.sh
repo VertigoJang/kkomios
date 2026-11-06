@@ -280,17 +280,20 @@ EOF
   sudo tee "$LFS/boot/grub/grub.cfg" > /dev/null <<EOF
 # Begin /boot/grub/grub.cfg  (KkomiOS, kkomi-base.sh 가 만듦)
 set default=0
-set timeout=5
+set timeout=0
+set timeout_style=hidden
 insmod part_msdos
 insmod ext2
 search --no-floppy --fs-uuid --set=root $fsuuid
 set gfxpayload=keep
 
 menuentry "KkomiOS $ver (Linux $KVER)" {
-  linux /boot/$KIMG root=PARTUUID=$partuuid ro
+  linux /boot/$KIMG root=PARTUUID=$partuuid ro quiet loglevel=3 udev.log_level=3 systemd.show_status=auto
 }
 EOF
 
+  # 로그인 화면에 커널 메시지가 끼어들지 않게 (경고 이하 숨김)
+  echo "kernel.printk = 3 3 3 3" | sudo tee "$LFS/etc/sysctl.d/20-quiet-printk.conf" > /dev/null
   msg "7/7 정리"
   kernfs_down ; trap - EXIT
   sync
