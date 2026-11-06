@@ -52,9 +52,9 @@ mount_target() {
 cmd_prepare() {
   local dev=${1:-}
   [ -n "$dev" ] || { lsblk -d -o NAME,SIZE,TYPE,MODEL ; die "2번 디스크를 주세요. 예: bash kkomi-base.sh prepare /dev/sdb" ; }
-  [ -b "$dev" ] || die "$dev 장치가 없습니다"
   . /etc/os-release
-  [ "${ID:-}" = ubuntu ] || warn "우분투가 아닙니다($ID). 우분투 24.04 기준으로 확인한 스크립트입니다"
+  [ "${ID:-}" = ubuntu ] || die "우분투가 아닙니다($ID). 빌드용 우분투 VM 안에서 실행하세요 (호스트에서 실행하면 안 됨)"
+  [ -b "$dev" ] || die "$dev 장치가 없습니다"
 
   # 안전 확인: 지금 쓰는 디스크(/ 가 있는 디스크)는 거부
   local rootdisk
