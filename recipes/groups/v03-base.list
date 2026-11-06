@@ -1,0 +1,8 @@
+# 0.3 묶음 기본 — 새로 설치한 LFS 13.1 위의 필수 도구 (인증서·HTTPS·sudo·git·셸 설정)
+# 실행(RHEL, KkomiOS VM 꺼진 상태): bash ~/kkomios/tools/lfs-base/host-rhel.sh pkg v03-base.list
+kkomi-profile
+libunistring libidn2 libpsl
+libtasn1 p11-kit make-ca
+wget
+nghttp2 curl
+pcre2 sudo git
