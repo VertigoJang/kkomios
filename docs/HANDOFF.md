@@ -1,4 +1,21 @@
-# KkomiOS 작업 인계 메모 (2026-10-21 기준)
+# KkomiOS 작업 인계 메모
+
+## 2026-11-06: 처음부터 다시 설치 (VirtualBox)
+- 이전 VMware VM(씽크패드로 옮긴 뒤의 것)은 지워짐. 빌드해 둔 패키지 캐시도 없음 → 기본 시스템부터 다시.
+- 사용자 결정 (2026-11-06):
+  - 호스트: 씽크패드 E14 G7, RHEL 10.2, **VirtualBox** 로 진행
+  - GUI 는 **Xfce 만**. Openbox·MATE·GNOME 은 잠정 폐기 (레시피·목록은 지우지 않고 그대로 둠)
+  - 묶음 C 를 끝까지 돌렸는지는 기억 안 남 → 새 시스템에서 필요한 것만 다시
+- 1부: LFS 기본 시스템 자동 빌드 `tools/lfs-base/kkomi-base.sh` (jhalfs + LFS 13.1 책 원본)
+  - 빌드용 우분투 서버 24.04 VM(디스크 1) 안에서 KkomiOS 디스크(디스크 2)를 만듦. BIOS·MBR·ext4, 테스트 생략
+  - 커널 설정: `tools/lfs-base/kernel-kkomios.fragment` → `make-kernel-config.sh` → `kernel-config` (VirtualBox 드라이버 + 0.1 때 넣었던 것)
+  - 로캘 en_US.UTF-8, 시간대 Asia/Seoul, 호스트 이름 kkomios, 유선 DHCP
+- 2부(다음): 빌드 VM 의 chroot 에서 kpkg 로 필수 도구(인증서·wget·git·sudo) → X.Org → Xfce·한글 입력·소리·Firefox
+  - 0.1 의 Xfce 쪽은 손으로 빌드해서 레시피가 없음 → BLFS 13.1 원본으로 tools/blfs-gen 을 돌려 새로 만듦
+
+---
+
+## (이전) 2026-10-21 기준
 
 ## 지금 하는 일: 0.2 묶음 C (꾸미기 · Plymouth · B 에서 빠진 것)
 - 실행: `cd ~/kkomios && git fetch && git reset --hard origin/main && bash tools/v02-c.sh 2>&1 | tee -a ~/v02-c.log`
