@@ -297,6 +297,65 @@ EOF
   msg "끝. 빌드 VM 을 끄고, 이 디스크로 KkomiOS VM 을 만들어 부팅해 보세요 (안내 참고)"
 }
 
+
+# ---------------------------------------------------------------------
+# kpkg 로 패키지 설치 (KkomiOS 디스크에 chroot 해서). 인자: 레시피 이름들 또는 recipes/groups/*.list
+# 소스는 컨테이너(인터넷 됨)에서 미리 받아 두고, chroot 안에서는 빌드·설치만 함
+cmd_pkg() {
+  [ $# -gt 0 ] || die "레시피 이름이나 목록 파일을 주세요. 예: pkg openssh"
+  mount_target
+  [ -f "$LFS/etc/lfs-release" ] || die "기본 시스템이 아직 없습니다"
+  local names=() a n
+  for a in "$@" ; do
+    case "$a" in
+      *.list) [ -f "$a" ] || a="$REPO/recipes/groups/$(basename "$a")"
+              [ -f "$a" ] || die "목록 파일이 없습니다: $a"
+              names+=( $(sed 's/#.*//' "$a" | tr -s ' \t' '\n' | grep -v '^$') ) ;;
+      *) names+=("$a") ;;
+    esac
+  done
+  local src=$LFS/sources/kpkg-src r u f ok
+  sudo mkdir -p "$src" ; sudo chmod 1777 "$src"
+  msg "1/3 소스 받기 (${#names[@]}개 레시피)"
+  for n in "${names[@]}" ; do
+    r=$REPO/recipes/$n.sh ; [ -f "$r" ] || die "레시피가 없습니다: $r"
+    while read -r u ; do
+      [ -n "$u" ] || continue
+      f=$src/${u##*/} ; [ -f "$f" ] && continue
+      ok=0
+      for alt in "$u" "https://anduin.linuxfromscratch.org/BLFS/$n/${u##*/}" ; do
+        if wget -q --tries=2 --timeout=30 -O "$f.part" "$alt" ; then mv "$f.part" "$f" ; ok=1 ; echo "  받음: ${u##*/}" ; break ; fi
+        rm -f "$f.part"
+      done
+      [ "$ok" = 1 ] || die "못 받음: $u ($n)"
+    done < <( bash -c 'set -e; unset URL SOURCES; source "$1" >/dev/null; if [ -n "${SOURCES+x}" ]; then printf "%s\n" "${SOURCES[@]}"; else echo "${URL:-}"; fi' _ "$r" )
+  done
+
+  msg "2/3 chroot 준비 (kpkg 최신판, 레시피 연결)"
+  kernfs_up
+  sudo mkdir -p "$LFS/mnt/kkomios"
+  mountpoint -q "$LFS/mnt/kkomios" || sudo mount --bind "$REPO" "$LFS/mnt/kkomios"
+  trap 'sudo umount "$LFS/mnt/kkomios" 2>/dev/null; kernfs_down' EXIT
+  sudo install -m755 "$REPO/kpkg/kpkg" "$REPO/kpkg/kpkg-check" "$REPO/kpkg/kkomios-pkgcount" "$LFS/usr/local/bin/"
+
+  msg "3/3 빌드·설치: ${names[*]}"
+  in_chroot "
+    set -e
+    export KPKG_BUILDDIR=/var/tmp/kpkg-build MAKEFLAGS=-j\$(nproc)
+    for n in ${names[*]} ; do
+      r=/mnt/kkomios/recipes/\$n.sh
+      v=\$( unset VERSION; source \$r >/dev/null; echo \$VERSION )
+      if [ -f /var/lib/kpkg/db/\$n/meta ] && [ \"\$( . /var/lib/kpkg/db/\$n/meta; echo \$VERSION )\" = \"\$v\" ] ; then
+        echo \"==> \$n \$v 이미 설치됨\" ; continue
+      fi
+      echo ; echo \"==> \$n \$v (\$(date +%H:%M))\"
+      kpkg build \$r
+      kpkg install /var/cache/kpkg/\$n-\$v.kpkg.tar
+    done
+  "
+  msg "끝: ${names[*]}"
+}
+
 # ---------------------------------------------------------------------
 cmd_send_log() {
   local out="$REPO/logs/lfs-base/error.txt" last
@@ -317,6 +376,7 @@ case "${1:-}" in
   build)    cmd_build ;;
   finish)   cmd_finish ;;
   send-log) cmd_send_log ;;
+  pkg)      shift ; cmd_pkg "$@" ;;
   mount)    mount_target ;;
   *) sed -n '2,16p' "$0" ; exit 1 ;;
 esac
