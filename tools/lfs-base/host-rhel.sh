@@ -77,7 +77,7 @@ detach_image() {
 attach_image() {
   [ -f "$IMG" ] || die "이미지가 없습니다: $IMG (setup 을 먼저)"
   local dev
-  dev=$(sudo losetup -j "$IMG" | grep -v "offset" | cut -d: -f1 | head -1)
+  dev=$(sudo losetup -j "$IMG" | { grep -v "offset" || true ; } | cut -d: -f1 | head -1)
   if [ -z "$dev" ] ; then
     dev=$(sudo losetup -fP --show "$IMG")
   fi
