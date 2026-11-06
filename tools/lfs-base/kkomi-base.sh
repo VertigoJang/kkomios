@@ -121,12 +121,62 @@ EOF
   else msg "준비 끝. 다음: tmux 안에서  bash $0 build" ; fi
 }
 
+
+# ---------------------------------------------------------------------
+# 소스 미리 받기: 책의 주소가 무작위 미러로 넘어가서 막히는 경우가 있어(예: savannah → 그리스 미러)
+# 주소마다 대체 주소를 차례로 시도하고 md5 를 확인해서 /sources 에 넣음. jhalfs 는 /sources 에 있으면 그걸 씀
+alt_urls() {   # alt_urls <책 주소>  → 시도할 주소 목록
+  local u=$1 f=${1##*/}
+  echo "$u"
+  case "$u" in
+    https://ftpmirror.gnu.org/*)
+      echo "https://ftp.gnu.org/gnu/${u#https://ftpmirror.gnu.org/}"
+      echo "https://mirrors.kernel.org/gnu/${u#https://ftpmirror.gnu.org/}" ;;
+    https://download.savannah.gnu.org/releases/*)
+      echo "https://download-mirror.savannah.gnu.org/releases/${u#https://download.savannah.gnu.org/releases/}"
+      echo "https://mirrors.kernel.org/savannah/${u#https://download.savannah.gnu.org/releases/}" ;;
+  esac
+  echo "https://ftp.osuosl.org/pub/lfs/lfs-packages/13.1/$f"
+}
+
+fetch_sources() {
+  local list=$HERE/sources-13.1.list sums=$HERE/sources-13.1.md5 url f want got ok fails=()
+  sudo mkdir -p /sources ; sudo chmod 1777 /sources 2>/dev/null || true
+  msg "소스 미리 받기 ($(wc -l < "$list")개, 이미 받은 것은 건너뜀)"
+  while read -r url ; do
+    [ -n "$url" ] || continue
+    f=${url##*/}
+    want=$(awk -v f="$f" '$2==f{print $1}' "$sums")
+    if [ -f "/sources/$f" ] && { [ -z "$want" ] || [ "$(md5sum < "/sources/$f" | cut -d' ' -f1)" = "$want" ] ; } ; then
+      continue
+    fi
+    ok=0
+    while read -r u ; do
+      if wget -q --tries=2 --timeout=20 -O "/sources/$f.part" "$u" ; then
+        got=$(md5sum < "/sources/$f.part" | cut -d' ' -f1)
+        if [ -z "$want" ] || [ "$got" = "$want" ] ; then
+          mv "/sources/$f.part" "/sources/$f" ; ok=1 ; echo "  받음: $f" ; break
+        fi
+        echo "  md5 다름, 다음 주소: $u"
+      fi
+      rm -f "/sources/$f.part"
+    done < <(alt_urls "$url")
+    [ "$ok" = 1 ] || { fails+=("$f") ; warn "못 받음: $f" ; }
+  done < "$list"
+  if [ ${#fails[@]} -gt 0 ] ; then
+    warn "못 받은 파일 ${#fails[@]}개: ${fails[*]}"
+    die "위 파일을 알려주세요 (주소를 바꿔 드리겠습니다)"
+  fi
+  msg "소스 모두 준비됨"
+}
+
 # ---------------------------------------------------------------------
 cmd_build() {
   mount_target
   [ -f "$JH/configuration" ] || die "prepare 를 먼저 하세요"
   if [ ! -f "$LFS/jhalfs/Makefile" ] ; then
-    msg "jhalfs: 책에서 명령 뽑기 + 소스 내려받기 (몇십 분)"
+    fetch_sources
+    msg "jhalfs: 책에서 명령 뽑기 + 소스 확인"
     ( cd "$JH" && printf 'yes\nyes\n' | ./jhalfs run ) 2>&1 | tee -a "$LOG" || true
     [ -f "$LFS/jhalfs/Makefile" ] || die "Makefile 이 안 만들어졌습니다. bash $0 send-log"
   else
