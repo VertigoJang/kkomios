@@ -97,7 +97,7 @@ start_ctr() {
     ctr_running || sudo podman start "$CTR" > /dev/null
   else
     msg "컨테이너 $CTR 만들기"
-    sudo podman run -d --name "$CTR" --privileged --security-opt label=disable --network host \
+    sudo podman run -d --init --name "$CTR" --privileged --security-opt label=disable --network host \
       -v /dev:/dev -v "$LFS:$LFS" \
       -v "$KK/home:/home/builder" -v "$REPO:/home/builder/kkomios" \
       -v "$KK/opt:/opt/kkomi-build" -v "$KK/sources:/sources" \
@@ -107,10 +107,20 @@ start_ctr() {
 
 # 컨테이너 안에서 builder 사용자로 명령 실행
 in_ctr() {
-  local t=() ; [ -t 0 ] && t=(-it)
+  local t=() rows=40 cols=120 pre=""
+  if [ -t 0 ] ; then
+    t=(-it)
+    read -r rows cols < <(stty size 2>/dev/null || echo "40 120")
+    if [ "${rows:-0}" -lt 24 ] || [ "${cols:-0}" -lt 80 ] ; then
+      die "터미널 창이 작습니다 (${cols}x${rows}). 가로 80·세로 24 이상으로 키운 뒤 다시 실행하세요 (jhalfs 규칙)"
+    fi
+    # podman exec 는 처음에 창 크기를 0x0 으로 넘기는 경우가 있어 직접 맞춰 줌
+    pre="stty rows $rows cols $cols 2>/dev/null; "
+  fi
   sudo podman exec "${t[@]}" -u builder -w /home/builder \
     -e HOME=/home/builder -e USER=builder -e KKOMI_NODISK=1 -e TERM="${TERM:-xterm}" \
-    "$CTR" bash -lc "$1"
+    -e LINES="$rows" -e COLUMNS="$cols" \
+    "$CTR" bash -lc "$pre$1"
 }
 
 KB='bash /home/builder/kkomios/tools/lfs-base/kkomi-base.sh'
