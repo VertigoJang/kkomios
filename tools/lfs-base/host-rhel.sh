@@ -208,7 +208,7 @@ cmd_status() {
 # sudo 인증을 맨 처음 한 번에 (지문 인식이 실패하면 중간 단계에서 멈추는 것 방지)
 case "${1:-}" in
   setup|build|finish|vdi|mount|shell|status)
-    sudo -v || die "sudo 인증에 실패했습니다. 다시 실행하고, 지문 대신 비밀번호를 쓰려면 지문 안내가 나올 때 Ctrl+C 를 누르세요" ;;
+    sudo -v || die "sudo 인증에 실패했습니다. sudo -v 로 먼저 인증한 뒤 다시 실행하세요" ;;
 esac
 
 case "${1:-}" in
