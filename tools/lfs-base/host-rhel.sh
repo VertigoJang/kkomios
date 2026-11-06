@@ -13,7 +13,7 @@
 #    bash host-rhel.sh vdi            이미지 해제 → VDI 로 변환 → VirtualBox VM "KkomiOS" 만들기
 #    bash host-rhel.sh mount          씽크패드를 재부팅한 뒤 이미지·컨테이너 다시 붙이기
 #    bash host-rhel.sh shell          컨테이너 안 셸 (문제 확인용)
-#    bash host-rhel.sh status         지금 상태 보기
+#    bash host-rhel.sh status         지금 상태와 남은 시간(대략) 보기
 # =====================================================================
 set -Eeuo pipefail
 trap 'echo "host-rhel: ${LINENO}번째 줄에서 멈춤 (종료 코드 $?) — 이 메시지를 알려주세요" >&2' ERR
@@ -201,7 +201,7 @@ cmd_status() {
   echo "루프 장치: $(sudo losetup -j "$IMG" 2>/dev/null || true)"
   echo "마운트: $(findmnt -no SOURCE,TARGET "$LFS" 2>/dev/null || echo 없음)"
   echo "컨테이너: $(sudo podman ps -a --filter name="^$CTR\$" --format '{{.Names}} {{.Status}}' 2>/dev/null || echo 없음)"
-  [ -f "$KK/home/kkomi-base.log" ] && { echo "빌드 로그 마지막:" ; tail -3 "$KK/home/kkomi-base.log" ; }
+  echo ; bash "$HERE/progress.sh" 2>/dev/null || true
   return 0
 }
 
