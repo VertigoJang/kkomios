@@ -24,6 +24,7 @@ WORK=/opt/kkomi-build                 # 책 원본, fstab, 커널 설정
 JH=$HOME/jhalfs
 STATE=$WORK/state                      # 2번 디스크 장치 이름 기록
 LOG=$HOME/kkomi-base.log
+USER=${USER:-$(id -un)}
 
 # 고정 버전 (2026-11-06 샌드박스에서 스크립트 생성까지 확인한 조합)
 LFS_TAG=r13.1
@@ -53,40 +54,48 @@ cmd_prepare() {
   local dev=${1:-}
   [ -n "$dev" ] || { lsblk -d -o NAME,SIZE,TYPE,MODEL ; die "2번 디스크를 주세요. 예: bash kkomi-base.sh prepare /dev/sdb" ; }
   . /etc/os-release
-  [ "${ID:-}" = ubuntu ] || die "우분투가 아닙니다($ID). 빌드용 우분투 VM 안에서 실행하세요 (호스트에서 실행하면 안 됨)"
+  [ "${ID:-}" = ubuntu ] || die "우분투가 아닙니다($ID). 빌드용 우분투 VM/컨테이너 안에서 실행하세요 (RHEL 에서는 host-rhel.sh 사용)"
   [ -b "$dev" ] || die "$dev 장치가 없습니다"
-
-  # 안전 확인: 지금 쓰는 디스크(/ 가 있는 디스크)는 거부
-  local rootdisk
-  rootdisk=$(lsblk -no PKNAME "$(findmnt -no SOURCE /)" 2>/dev/null || true)
-  [ "/dev/$rootdisk" != "$dev" ] || die "$dev 는 지금 우분투가 설치된 디스크입니다"
-  lsblk -no MOUNTPOINT "$dev" | grep -q . && die "$dev 에 마운트된 곳이 있습니다. 먼저 해제하세요"
-  lsblk "$dev"
-  echo
-  read -r -p "$dev 의 내용을 모두 지우고 KkomiOS 디스크로 만듭니다. 맞으면 장치 이름($dev)을 그대로 입력: " ans
-  [ "$ans" = "$dev" ] || die "취소했습니다"
-
-  msg "1/6 우분투 패키지 설치"
-  sudo apt-get update -q
-  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
-    build-essential bison gawk m4 texinfo python3 patch xz-utils wget git sudo tmux \
-    libxml2-utils xsltproc docbook-xml docbook-xsl docbook-xsl-ns parted e2fsprogs
-  # LFS 호스트 요구사항: sh = bash
-  if [ "$(readlink -f /bin/sh)" != /usr/bin/bash ] ; then sudo ln -sf bash /bin/sh ; msg "/bin/sh → bash" ; fi
-
-  msg "2/6 jhalfs 가 쓸 sudo 권한 (비밀번호 없이)"
-  echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/kkomi-build > /dev/null
-  sudo chmod 440 /etc/sudoers.d/kkomi-build
-
-  msg "3/6 $dev 분할(MBR, 파티션 1개)·포맷(ext4)·마운트"
-  sudo wipefs -a "$dev"
-  sudo parted -s "$dev" mklabel msdos mkpart primary ext4 1MiB 100% set 1 boot on
-  sudo partprobe "$dev" ; sleep 2
   local p ; p=$(part_of "$dev")
-  sudo mkfs.ext4 -F -L kkomios "$p"
-  sudo mkdir -p "$WORK" ; sudo chown "$USER:" "$WORK"
-  echo "$dev" > "$STATE"
-  mount_target
+
+  if [ "${KKOMI_NODISK:-0}" = 1 ] ; then
+    # 컨테이너 방식: 디스크 이미지는 호스트(host-rhel.sh)가 이미 분할·포맷·마운트함, 패키지도 이미지에 있음
+    msg "컨테이너 방식: 디스크 준비와 패키지 설치는 건너뜀 ($dev)"
+    mountpoint -q "$LFS" || die "$LFS 가 마운트돼 있지 않습니다 (호스트에서 host-rhel.sh setup 을 먼저)"
+    sudo mkdir -p "$WORK" ; sudo chown "$USER:" "$WORK"
+    echo "$dev" > "$STATE"
+  else
+    # 안전 확인: 지금 쓰는 디스크(/ 가 있는 디스크)는 거부
+    local rootdisk
+    rootdisk=$(lsblk -no PKNAME "$(findmnt -no SOURCE /)" 2>/dev/null || true)
+    [ "/dev/$rootdisk" != "$dev" ] || die "$dev 는 지금 우분투가 설치된 디스크입니다"
+    lsblk -no MOUNTPOINT "$dev" | grep -q . && die "$dev 에 마운트된 곳이 있습니다. 먼저 해제하세요"
+    lsblk "$dev"
+    echo
+    read -r -p "$dev 의 내용을 모두 지우고 KkomiOS 디스크로 만듭니다. 맞으면 장치 이름($dev)을 그대로 입력: " ans
+    [ "$ans" = "$dev" ] || die "취소했습니다"
+
+    msg "1/6 우분투 패키지 설치"
+    sudo apt-get update -q
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
+      build-essential bison gawk m4 texinfo python3 patch xz-utils wget git sudo tmux \
+      libxml2-utils xsltproc docbook-xml docbook-xsl docbook-xsl-ns parted e2fsprogs
+    # LFS 호스트 요구사항: sh = bash
+    if [ "$(readlink -f /bin/sh)" != /usr/bin/bash ] ; then sudo ln -sf bash /bin/sh ; msg "/bin/sh → bash" ; fi
+
+    msg "2/6 jhalfs 가 쓸 sudo 권한 (비밀번호 없이)"
+    echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/kkomi-build > /dev/null
+    sudo chmod 440 /etc/sudoers.d/kkomi-build
+
+    msg "3/6 $dev 분할(MBR, 파티션 1개)·포맷(ext4)·마운트"
+    sudo wipefs -a "$dev"
+    sudo parted -s "$dev" mklabel msdos mkpart primary ext4 1MiB 100% set 1 boot on
+    sudo partprobe "$dev" ; sleep 2
+    sudo mkfs.ext4 -F -L kkomios "$p"
+    sudo mkdir -p "$WORK" ; sudo chown "$USER:" "$WORK"
+    echo "$dev" > "$STATE"
+    mount_target
+  fi
 
   msg "4/6 LFS 13.1 책 원본과 jhalfs 받기 (GitHub)"
   rm -rf "$WORK/lfs-13.1" "$JH"
@@ -107,8 +116,9 @@ UUID=$uuid  /       ext4  defaults  1    1
 EOF
 
   msg "6/6 소스 보관 폴더"
-  sudo mkdir -p /sources ; sudo chmod 1777 /sources
-  msg "준비 끝. 다음: tmux 안에서  bash $0 build"
+  sudo mkdir -p /sources ; sudo chmod 1777 /sources 2>/dev/null || true
+  if [ "${KKOMI_NODISK:-0}" = 1 ] ; then msg "준비 끝 (컨테이너)"
+  else msg "준비 끝. 다음: tmux 안에서  bash $0 build" ; fi
 }
 
 # ---------------------------------------------------------------------
@@ -126,7 +136,7 @@ cmd_build() {
   if make -C "$LFS/jhalfs" 2>&1 | tee -a "$LOG" ; [ "${PIPESTATUS[0]}" -eq 0 ] ; then
     msg "빌드 끝 $(date '+%m-%d %H:%M'). 다음: bash $0 finish"
   else
-    warn "빌드가 멈췄습니다. bash $0 send-log 로 로그를 올리고 알려주세요"
+    warn "빌드가 멈췄습니다. 마지막 로그: $(ls -t "$LFS"/jhalfs/logs/* 2>/dev/null | head -1)"
     exit 1
   fi
 }
@@ -154,7 +164,10 @@ cmd_finish() {
   [ -f "$LFS/boot/$KIMG" ] || die "커널이 없습니다: $LFS/boot/$KIMG"
   local dev p partuuid fsuuid name
   dev=$(target_dev) ; p=$(part_of "$dev")
-  partuuid=$(sudo blkid -s PARTUUID -o value "$p")
+  partuuid=$(sudo blkid -s PARTUUID -o value "$p" || true)
+  # 파티션 장치를 따로 연결한 경우(컨테이너 방식 일부)에는 디스크 서명 + 01 (MBR 1번 파티션 규칙)
+  [ -n "$partuuid" ] || partuuid="$(sudo blkid -p -s PTUUID -o value "$dev")-01"
+  [ "$partuuid" != "-01" ] || die "PARTUUID 를 알 수 없습니다"
   fsuuid=$(sudo blkid -s UUID -o value "$p")
   kernfs_up
   trap kernfs_down EXIT

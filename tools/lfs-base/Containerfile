@@ -1,0 +1,22 @@
+# KkomiOS 기본 시스템 빌드용 컨테이너 (RHEL 호스트에서 podman 으로 사용)
+# 빌드 VM 대신 쓰는 우분투 24.04 환경. 패키지 목록은 kkomi-base.sh prepare 와 같음
+FROM docker.io/library/ubuntu:24.04
+
+ARG BUILDER_UID=1000
+ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 LC_ALL=C.UTF-8
+
+RUN apt-get update -q && apt-get install -y -q --no-install-recommends \
+      build-essential bison gawk m4 texinfo python3 patch xz-utils wget git sudo tmux \
+      libxml2-utils xsltproc docbook-xml docbook-xsl docbook-xsl-ns parted e2fsprogs \
+      ca-certificates file util-linux fdisk procps less \
+ && rm -rf /var/lib/apt/lists/* \
+ && ln -sf bash /bin/sh
+
+# 우분투 24.04 이미지에 기본으로 있는 ubuntu 사용자(UID 1000)를 지우고, 호스트 사용자와 같은 UID 로 builder 를 만듦
+RUN (userdel -r ubuntu 2>/dev/null || true) \
+ && useradd -m -u "$BUILDER_UID" -s /bin/bash builder \
+ && echo "builder ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/builder \
+ && chmod 440 /etc/sudoers.d/builder
+
+USER builder
+WORKDIR /home/builder

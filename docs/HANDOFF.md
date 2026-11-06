@@ -10,6 +10,11 @@
   - 빌드용 우분투 서버 24.04 VM(디스크 1) 안에서 KkomiOS 디스크(디스크 2)를 만듦. BIOS·MBR·ext4, 테스트 생략
   - 커널 설정: `tools/lfs-base/kernel-kkomios.fragment` → `make-kernel-config.sh` → `kernel-config` (VirtualBox 드라이버 + 0.1 때 넣었던 것)
   - 로캘 en_US.UTF-8, 시간대 Asia/Seoul, 호스트 이름 kkomios, 유선 DHCP
+- 2026-11-06 15시: VirtualBox 빌드 VM(우분투, CPU 2개) 안에서 GCC 1차 빌드가 두 번 다른 파일에서 컴파일러 세그폴트
+  (cp/error.cc, gimple-match-6.cc) → VM 불안정으로 보고, 빌드는 RHEL 호스트에서 podman 우분투 24.04 컨테이너로 하기로 함
+  - `tools/lfs-base/host-rhel.sh` (setup/build/finish/vdi/mount): ~/kkomi/kkomios.img → 루프 장치 → /mnt/lfs, 컨테이너 kkomi-build 에서 kkomi-base.sh 실행
+  - 끝나면 VBoxManage convertfromraw 로 VDI 변환, VirtualBox VM "KkomiOS"(BIOS, VMSVGA) 자동 생성. 실행만 VirtualBox
+  - 호스트 MCE 기록 없음, KVM 모듈 없음, VirtualBox 7.2.22, 커널 6.12.0-211.74.1.el10_2
 - 2부(다음): 빌드 VM 의 chroot 에서 kpkg 로 필수 도구(인증서·wget·git·sudo) → X.Org → Xfce·한글 입력·소리·Firefox
   - 0.1 의 Xfce 쪽은 손으로 빌드해서 레시피가 없음 → BLFS 13.1 원본으로 tools/blfs-gen 을 돌려 새로 만듦
 
