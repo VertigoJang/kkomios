@@ -182,6 +182,13 @@ cmd_build() {
   else
     msg "이전에 멈춘 곳부터 이어서 빌드합니다"
   fi
+  # 커널 설정은 우분투 gcc 13 으로 만든 것이라, LFS 의 gcc 16 에서 새로 생기는 항목을 make oldconfig 가 물어보고
+  # 답이 없으니 60초 뒤 실패함(오류 124). 새 항목은 기본값으로 채우는 olddefconfig 로 바꿈
+  local ks=$LFS/jhalfs/lfs-commands/chapter10/1002-kernel
+  if [ -f "$ks" ] && grep -q '^timeout 60 make oldconfig' "$ks" ; then
+    sudo sed -i 's/^timeout 60 make oldconfig ||/make olddefconfig ||/' "$ks"
+    msg "커널 단계: make oldconfig → make olddefconfig 로 바꿈"
+  fi
   msg "빌드 시작 $(date '+%m-%d %H:%M') — 몇 시간 걸립니다. 로그: $LOG"
   if make -C "$LFS/jhalfs" 2>&1 | tee -a "$LOG" ; [ "${PIPESTATUS[0]}" -eq 0 ] ; then
     msg "빌드 끝 $(date '+%m-%d %H:%M'). 다음: bash $0 finish"
