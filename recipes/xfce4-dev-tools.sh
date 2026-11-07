@@ -2,6 +2,6 @@
 NAME=xfce4-dev-tools
 VERSION=4.20.0
 URL=https://archive.xfce.org/src/xfce/xfce4-dev-tools/4.20/xfce4-dev-tools-$VERSION.tar.bz2
-DEPENDS="glib"
+DEPENDS="glib libxslt"
 build() { ./configure --prefix=/usr ; make ; }
 package() { make DESTDIR="$PKG" install ; }
