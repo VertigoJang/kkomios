@@ -2,7 +2,7 @@
 NAME=adwaita-icon-theme
 VERSION=51.0
 URL=https://download.gnome.org/sources/adwaita-icon-theme/51/adwaita-icon-theme-$VERSION.tar.xz
-DEPENDS="gtk3 gtk4 librsvg"
+DEPENDS="gtk3 librsvg"
 package() {
   export XORG_PREFIX=/usr XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static" QT6DIR=/opt/qt6 QT6PREFIX=/opt/qt6 KF6_PREFIX=/usr
   export PATH=/opt/qt6/bin:/opt/rustc/bin:$PATH PKG_CONFIG_PATH=/opt/qt6/lib/pkgconfig

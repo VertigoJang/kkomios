@@ -39,7 +39,7 @@ package() {
   install -dm755 "$PKG/etc/profile.d"
   cat > "$PKG/etc/profile.d/rustc.sh" <<'EOF'
 # Begin /etc/profile.d/rustc.sh
-pathprepend /opt/rustc/bin PATH
+export PATH=/opt/rustc/bin:$PATH
 # End /etc/profile.d/rustc.sh
 EOF
   return 0

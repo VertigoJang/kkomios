@@ -1,0 +1,6 @@
+# 0.3 묶음 Xfce — Xfce 4.20 핵심 (BLFS 13.1 "Xfce Desktop" 장 순서). v03-gtk 다음에
+# 실행(RHEL): kk pkg v03-xfce.list
+# 끝나면 VM 화면에서 user 로 로그인 → startxfce4
+xfce4-dev-tools libxfce4util xfconf libxfce4ui exo garcon libxfce4windowing
+xfce4-panel thunar xfce4-settings xfwm4 xfdesktop xfce4-session
+xfce4-appfinder tumbler xfce4-terminal

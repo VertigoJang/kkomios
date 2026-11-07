@@ -2,9 +2,9 @@
 NAME=vte
 VERSION=0.84.1
 URL=https://gitlab.gnome.org/GNOME/vte/-/archive/$VERSION/vte-$VERSION.tar.gz
-DEPENDS="gtk gtk4 gnutls icu fmt"
+DEPENDS="gtk3 gnutls icu"
 build() {
-  meson setup build --prefix=/usr --buildtype=release -D gtk3=true -D gtk4=true \
+  meson setup build --prefix=/usr --buildtype=release -D gtk3=true -D gtk4=false \
     -D gnutls=true -D icu=true -D gir=true -D vapi=true -D docs=false
   ninja -C build
 }

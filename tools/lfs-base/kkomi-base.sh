@@ -321,6 +321,7 @@ cmd_pkg() {
   sudo mkdir -p "$src" ; sudo chmod 1777 "$src"
   msg "1/3 소스 받기 (${#names[@]}개 레시피)"
   for n in "${names[@]}" ; do
+    n=${n%!}
     r=$REPO/recipes/$n.sh ; [ -f "$r" ] || die "레시피가 없습니다: $r"
     while read -r u ; do
       [ -n "$u" ] || continue
@@ -340,15 +341,19 @@ cmd_pkg() {
   mountpoint -q "$LFS/mnt/kkomios" || sudo mount --bind "$REPO" "$LFS/mnt/kkomios"
   trap 'sudo umount "$LFS/mnt/kkomios" 2>/dev/null; kernfs_down' EXIT
   sudo install -m755 "$REPO/kpkg/kpkg" "$REPO/kpkg/kpkg-check" "$REPO/kpkg/kkomios-pkgcount" "$LFS/usr/local/bin/"
+  # KkomiOS 의 /etc/resolv.conf 는 /run/systemd/resolve/stub-resolv.conf 를 가리킴 → chroot 의 /run 에 호스트 것을 넣어 둠
+  sudo mkdir -p "$LFS/run/systemd/resolve"
+  sudo cp /etc/resolv.conf "$LFS/run/systemd/resolve/stub-resolv.conf"
 
   msg "3/3 빌드·설치: ${names[*]}"
   in_chroot "
     set -e
     export KPKG_BUILDDIR=/var/tmp/kpkg-build MAKEFLAGS=-j\$(nproc)
     for n in ${names[*]} ; do
+      force=0 ; case \$n in *!) force=1 ; n=\${n%!} ;; esac
       r=/mnt/kkomios/recipes/\$n.sh
       v=\$( unset VERSION; source \$r >/dev/null; echo \$VERSION )
-      if [ -f /var/lib/kpkg/db/\$n/meta ] && [ \"\$( . /var/lib/kpkg/db/\$n/meta; echo \$VERSION )\" = \"\$v\" ] ; then
+      if [ \$force = 0 ] && [ -f /var/lib/kpkg/db/\$n/meta ] && [ \"\$( . /var/lib/kpkg/db/\$n/meta; echo \$VERSION )\" = \"\$v\" ] ; then
         echo \"==> \$n \$v 이미 설치됨\" ; continue
       fi
       echo ; echo \"==> \$n \$v (\$(date +%H:%M))\"
