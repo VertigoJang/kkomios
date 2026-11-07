@@ -1,4 +1,4 @@
-# 터미널 위젯 — GTK3 + GTK4 둘 다, GnuTLS·ICU·GIR 켬 (0.1 때는 전부 끄고 빌드했었음)
+# 터미널 위젯 — GTK3 만(GTK4 는 0.3 에서 안 씀), GnuTLS·ICU·GIR 켬, Vala 바인딩 끔
 NAME=vte
 VERSION=0.84.1
 URL=https://gitlab.gnome.org/GNOME/vte/-/archive/$VERSION/vte-$VERSION.tar.gz
