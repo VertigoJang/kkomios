@@ -97,11 +97,18 @@ attach_image() {
 ctr_running() { [ "$(sudo podman inspect -f '{{.State.Running}}' "$CTR" 2>/dev/null || echo false)" = true ] ; }
 
 start_ctr() {
+  # 예전 컨테이너(--init 없이 만든 것)는 끝난 프로세스를 치우지 못해 쌓이다가
+  # "fork: Resource temporarily unavailable" 로 멈춤 (2026-11-07) → 새로 만듦. 작업 폴더는 밖에 있어 그대로
+  if sudo podman container exists "$CTR" && \
+     ! sudo podman inspect -f '{{.Config.CreateCommand}}' "$CTR" | grep -q -- '--init' ; then
+    msg "컨테이너 $CTR 를 새 설정(--init)으로 다시 만듭니다"
+    sudo podman rm -f "$CTR" > /dev/null
+  fi
   if sudo podman container exists "$CTR" ; then
     ctr_running || sudo podman start "$CTR" > /dev/null
   else
     msg "컨테이너 $CTR 만들기"
-    sudo podman run -d --init --name "$CTR" --privileged --security-opt label=disable --network host \
+    sudo podman run -d --init --pids-limit=-1 --name "$CTR" --privileged --security-opt label=disable --network host \
       -v /dev:/dev -v "$LFS:$LFS" \
       -v "$KK/home:/home/builder" -v "$REPO:/home/builder/kkomios" \
       -v "$KK/opt:/opt/kkomi-build" -v "$KK/sources:/sources" \
@@ -115,7 +122,7 @@ in_ctr() {
   if [ -t 0 ] ; then
     t=(-it)
     read -r rows cols < <(stty size 2>/dev/null || echo "40 120")
-    if [ "${rows:-0}" -lt 24 ] || [ "${cols:-0}" -lt 80 ] ; then
+    if [ "${KK_NEED_80x24:-0}" = 1 ] && { [ "${rows:-0}" -lt 24 ] || [ "${cols:-0}" -lt 80 ] ; } ; then
       die "터미널 창이 작습니다 (${cols}x${rows}). 가로 80·세로 24 이상으로 키운 뒤 다시 실행하세요 (jhalfs 규칙)"
     fi
     # podman exec 는 처음에 창 크기를 0x0 으로 넘기는 경우가 있어 직접 맞춰 줌
@@ -168,7 +175,7 @@ cmd_setup() {
   msg "준비 끝. 다음: tmux 안에서  bash $0 build"
 }
 
-cmd_build()  { need_vm_off ; attach_image ; start_ctr ; in_ctr "$KB build" ; }
+cmd_build()  { need_vm_off ; attach_image ; start_ctr ; KK_NEED_80x24=1 in_ctr "$KB build" ; }
 cmd_finish() { need_vm_off ; attach_image ; start_ctr ; in_ctr "$KB finish" ; }
 cmd_shell()  { need_vm_off ; attach_image ; start_ctr ; in_ctr "bash" ; }
 cmd_mount()  { need_vm_off ; attach_image ; start_ctr ; msg "컨테이너 $CTR 실행 중" ; }
