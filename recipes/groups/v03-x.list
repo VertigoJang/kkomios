@@ -10,7 +10,7 @@ util-macros xorgproto libxau libxdmcp xcb-proto libxcb
 # 4. XCB 도구
 libxcvt xcb-util  xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm xcb-util-cursor xcb-util-errors
 # 5. 3D (VirtualBox VMSVGA 용 svga + 소프트웨어 softpipe)
-libdrm libyaml mako pyyaml wayland wayland-protocols mesa
+libdrm libyaml mako pyyaml icu libxml2 wayland wayland-protocols mesa
 # 6. Xorg 프로그램·커서·글꼴·키보드 배치
 xbitmaps  iceauth mkfontscale sessreg setxkbmap smproxy xauth xcmsdb xcursorgen xdpyinfo xdriinfo xev xgamma xhost xinput xkbcomp xkbevd xkbutils xkill xlsatoms xlsclients xmessage xmodmap xpr xprop xrandr xrdb xrefresh xset xsetroot xvinfo xwd xwininfo xwud
 xcursor-themes  font-util encodings font-alias font-adobe-utopia-type1 font-bh-ttf font-bh-type1 font-ibm-type1 font-misc-ethiopic font-xfree86-type1
