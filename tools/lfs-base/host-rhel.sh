@@ -213,11 +213,15 @@ cmd_up() {   # VM 을 창 없이 켜고, 접속될 때까지 기다렸다가 바
     msg "KkomiOS 켜는 중 ($([ "$mode" = gui ] && echo '창 띄움' || echo '창 없이'))"
     VBoxManage startvm "$VM" --type "$mode" > /dev/null
   fi
+  # SSH 가 "로그인 단계"까지 응답할 때까지 기다림 (켜지는 중에는 연결이 바로 끊기기도 함)
+  local out ready=0
   for i in $(seq 1 60) ; do
-    ssh-keyscan -p 2223 127.0.0.1 2>/dev/null | grep -q . && break
+    out=$(ssh "${SSHOPT[@]}" -o BatchMode=yes -o PasswordAuthentication=no \
+          $([ -f "$SSHKEY" ] && echo "-i $SSHKEY") "$u@127.0.0.1" true 2>&1) && { ready=1 ; break ; }
+    case "$out" in *"Permission denied"*) ready=1 ; break ;; esac
     sleep 2
   done
-  [ "$i" -lt 60 ] || die "2분 기다려도 SSH 가 안 열립니다. VirtualBox 창으로 확인하세요 (host-rhel.sh up gui)"
+  [ "$ready" = 1 ] || die "2분 기다려도 SSH 가 안 열립니다. 창으로 확인하세요: host-rhel.sh gui"
   # 처음 한 번: 비밀번호 대신 열쇠로 접속하게 (이후로는 비밀번호를 묻지 않음)
   if [ ! -f "$SSHKEY" ] ; then
     msg "처음 한 번만: 접속용 열쇠 만들고 KkomiOS 에 등록 ($u 의 비밀번호를 한 번 물어봄)"
@@ -225,7 +229,11 @@ cmd_up() {   # VM 을 창 없이 켜고, 접속될 때까지 기다렸다가 바
     ssh-keygen -q -t ed25519 -N "" -f "$SSHKEY" -C "kkomios-$(hostname)"
   fi
   if ! ssh "${SSHOPT[@]}" -i "$SSHKEY" -o BatchMode=yes "$u@127.0.0.1" true 2>/dev/null ; then
-    ssh-copy-id -i "$SSHKEY.pub" "${SSHOPT[@]}" "$u@127.0.0.1"
+    for i in 1 2 3 ; do
+      ssh-copy-id -i "$SSHKEY.pub" "${SSHOPT[@]}" "$u@127.0.0.1" && break
+      [ "$i" -lt 3 ] || die "열쇠 등록에 실패했습니다. 위 메시지를 알려주세요"
+      warn "연결이 끊겨서 3초 뒤 다시 시도합니다 ($i/3)" ; sleep 3
+    done
   fi
   shift || true
   exec ssh "${SSHOPT[@]}" -i "$SSHKEY" "$u@127.0.0.1" "$@"
