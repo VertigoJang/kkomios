@@ -213,13 +213,14 @@ cmd_up() {   # VM 을 창 없이 켜고, 접속될 때까지 기다렸다가 바
     msg "KkomiOS 켜는 중 ($([ "$mode" = gui ] && echo '창 띄움' || echo '창 없이'))"
     VBoxManage startvm "$VM" --type "$mode" > /dev/null
   fi
-  # SSH 가 "로그인 단계"까지 응답할 때까지 기다림 (켜지는 중에는 연결이 바로 끊기기도 함)
-  local out ready=0
-  for i in $(seq 1 60) ; do
-    out=$(ssh "${SSHOPT[@]}" -o BatchMode=yes -o PasswordAuthentication=no \
-          $([ -f "$SSHKEY" ] && echo "-i $SSHKEY") "$u@127.0.0.1" true 2>&1) && { ready=1 ; break ; }
-    case "$out" in *"Permission denied"*) ready=1 ; break ;; esac
-    sleep 2
+  # SSH 서버가 인사말(SSH-2.0-...)을 보낼 때까지 기다림. 로그인은 시도하지 않음
+  # (로그인 실패를 반복하면 OpenSSH 가 그 주소를 최대 10분 거부함 — recipes/kkomi-sshd.sh)
+  local ready=0
+  for i in $(seq 1 40) ; do
+    if timeout 3 bash -c 'exec 3<>/dev/tcp/127.0.0.1/2223 && read -r -t 2 l <&3 && [[ $l == SSH-* ]]' 2>/dev/null ; then
+      ready=1 ; break
+    fi
+    sleep 3
   done
   [ "$ready" = 1 ] || die "2분 기다려도 SSH 가 안 열립니다. 창으로 확인하세요: host-rhel.sh gui"
   # 처음 한 번: 비밀번호 대신 열쇠로 접속하게 (이후로는 비밀번호를 묻지 않음)

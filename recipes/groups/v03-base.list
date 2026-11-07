@@ -6,3 +6,4 @@ libtasn1 p11-kit make-ca
 wget
 nghttp2 curl
 pcre2 sudo git
+kkomi-sshd
