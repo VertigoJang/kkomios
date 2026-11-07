@@ -326,7 +326,7 @@ cmd_pkg() {
       [ -n "$u" ] || continue
       f=$src/${u##*/} ; [ -f "$f" ] && continue
       ok=0
-      for alt in "$u" "https://anduin.linuxfromscratch.org/BLFS/$n/${u##*/}" ; do
+      for alt in "$u" "${u/\/patches\/blfs\/svn\//\/patches\/blfs\/13.1\/}" "https://anduin.linuxfromscratch.org/BLFS/$n/${u##*/}" ; do
         if wget -q --tries=2 --timeout=30 -O "$f.part" "$alt" ; then mv "$f.part" "$f" ; ok=1 ; echo "  받음: ${u##*/}" ; break ; fi
         rm -f "$f.part"
       done

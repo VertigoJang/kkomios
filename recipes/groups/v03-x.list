@@ -1,0 +1,21 @@
+# 0.3 묶음 X — X.Org 그래픽 기반 (BLFS 13.1 의 "X Window System" 장 순서)
+# 끝나면 VM 화면에서 일반 사용자로 로그인 → startx → 창 관리자 twm + xterm + xclock 이 뜨면 성공
+# 실행(RHEL): kk pkg v03-x.list
+# 1. 글꼴 기반
+libpng freetype fontconfig
+# 2. X 프로토콜·기본 라이브러리
+util-macros xorgproto libxau libxdmcp xcb-proto libxcb
+# 3. Xorg 라이브러리 (BLFS 묶음을 하나씩 나눔)
+ xtrans libx11 libxext libfs libice libsm libxscrnsaver libxt libxmu libxpm libxaw libxfixes libxcomposite libxrender libxcursor libxdamage libfontenc libxfont2 libxft libxi libxinerama libxrandr libxres libxtst libxv libxvmc libxxf86dga libxxf86vm libpciaccess libxkbfile libxshmfence libxpresent
+# 4. XCB 도구
+libxcvt xcb-util  xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm xcb-util-cursor xcb-util-errors
+# 5. 3D (VirtualBox VMSVGA 용 svga + 소프트웨어 softpipe)
+libdrm libyaml mako pyyaml wayland wayland-protocols mesa
+# 6. Xorg 프로그램·커서·글꼴·키보드 배치
+xbitmaps  iceauth mkfontscale sessreg setxkbmap smproxy xauth xcmsdb xcursorgen xdpyinfo xdriinfo xev xgamma xhost xinput xkbcomp xkbevd xkbutils xkill xlsatoms xlsclients xmessage xmodmap xpr xprop xrandr xrdb xrefresh xset xsetroot xvinfo xwd xwininfo xwud
+xcursor-themes  font-util encodings font-alias font-adobe-utopia-type1 font-bh-ttf font-bh-type1 font-ibm-type1 font-misc-ethiopic font-xfree86-type1
+xkeyboard-config
+# 7. X 서버와 입력 장치
+pixman libepoxy xorg-server mtdev libevdev libinput xorg-libinput-driver
+# 8. 시험용 (startx)
+xinit twm xterm xclock

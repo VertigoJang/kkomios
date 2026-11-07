@@ -1,0 +1,10 @@
+# libXinerama-1.1.6 — BLFS 13.1 "Xorg Libraries" 묶음에서 하나씩 나눔 (tools/blfs-gen/x7split.py)
+NAME=libxinerama
+VERSION=1.1.6
+URL=https://www.x.org/pub/individual/lib/libXinerama-$VERSION.tar.xz
+DEPENDS=""
+build() {
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --docdir=/usr/share/doc/libXinerama-1.1.6
+  make
+}
+package() { make DESTDIR="$PKG" install ; }
