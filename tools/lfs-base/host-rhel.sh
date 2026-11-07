@@ -12,6 +12,9 @@
 #    bash host-rhel.sh finish         root·사용자 비밀번호, 네트워크, kpkg 등록, GRUB 설치
 #    bash host-rhel.sh vm             이미지 떼기 → VirtualBox VM "KkomiOS" 가 이미지를 직접 쓰게 연결 (ssh 2223)
 #    bash host-rhel.sh pkg 이름...    kpkg 레시피(또는 recipes/groups/*.list)를 KkomiOS 디스크에 빌드·설치 (VM 꺼진 상태)
+#    bash host-rhel.sh up             KkomiOS 를 창 없이 켜고 바로 접속 (열쇠 접속이라 비밀번호 없음, 처음 한 번만 물어봄)
+#    bash host-rhel.sh gui            위와 같지만 VirtualBox 창도 띄움 (화면 확인용)
+#    bash host-rhel.sh down           KkomiOS 끄기 (pkg 등은 켜져 있으면 알아서 끄고 진행)
 #    bash host-rhel.sh mount          씽크패드를 재부팅한 뒤 이미지·컨테이너 다시 붙이기
 #    bash host-rhel.sh shell          컨테이너 안 셸 (문제 확인용)
 #    bash host-rhel.sh status         지금 상태와 남은 시간(대략) 보기
@@ -172,7 +175,71 @@ cmd_mount()  { need_vm_off ; attach_image ; start_ctr ; msg "컨테이너 $CTR �
 cmd_pkg()    { need_vm_off ; attach_image ; start_ctr ; in_ctr "$KB pkg $*" ; }
 
 vm_running() { VBoxManage list runningvms 2>/dev/null | grep -q "^\"$VM\" " ; }
-need_vm_off() { ! command -v VBoxManage > /dev/null || ! vm_running || die "VirtualBox 의 '$VM' 이 켜져 있습니다. 먼저 끄세요 (같은 디스크를 동시에 쓰면 망가집니다)" ; }
+need_vm_off() {   # VM 이 켜져 있으면 끄고 진행 (같은 디스크를 동시에 쓰면 망가지므로)
+  command -v VBoxManage > /dev/null || return 0
+  vm_running || return 0
+  msg "KkomiOS VM 이 켜져 있어 먼저 끕니다"
+  cmd_down
+}
+
+# ---- VM 켜기·끄기·접속 ----
+SSHKEY=$HOME/.ssh/kkomios
+VMUSER_FILE=$KK/vmuser
+SSHOPT=(-p 2223 -o StrictHostKeyChecking=accept-new -o ConnectTimeout=3)
+
+vm_user() {
+  if [ ! -s "$VMUSER_FILE" ] ; then
+    local u ; read -r -p "KkomiOS 의 사용자 이름 (finish 때 만든 것): " u
+    [ -n "$u" ] || die "사용자 이름이 필요합니다"
+    mkdir -p "$KK" ; echo "$u" > "$VMUSER_FILE"
+  fi
+  cat "$VMUSER_FILE"
+}
+
+# 이미지가 컨테이너 쪽에 붙어 있으면 떼기 (VM 과 동시에 쓰지 않도록)
+release_image() {
+  if ctr_running ; then sudo podman stop -t 5 "$CTR" > /dev/null 2>&1 || true ; fi
+  sync
+  if mountpoint -q "$LFS" ; then sudo umount -R "$LFS" ; fi
+  if [ -n "$(sudo losetup -j "$IMG" 2>/dev/null)" ] ; then detach_image ; fi
+}
+
+cmd_up() {   # VM 을 창 없이 켜고, 접속될 때까지 기다렸다가 바로 접속
+  local mode=${1:-headless} u i
+  VBoxManage showvminfo "$VM" > /dev/null 2>&1 || die "VM '$VM' 이 없습니다 (host-rhel.sh vm 을 먼저)"
+  u=$(vm_user)
+  if ! vm_running ; then
+    sudo -v ; release_image
+    msg "KkomiOS 켜는 중 ($([ "$mode" = gui ] && echo '창 띄움' || echo '창 없이'))"
+    VBoxManage startvm "$VM" --type "$mode" > /dev/null
+  fi
+  for i in $(seq 1 60) ; do
+    ssh-keyscan -p 2223 127.0.0.1 2>/dev/null | grep -q . && break
+    sleep 2
+  done
+  [ "$i" -lt 60 ] || die "2분 기다려도 SSH 가 안 열립니다. VirtualBox 창으로 확인하세요 (host-rhel.sh up gui)"
+  # 처음 한 번: 비밀번호 대신 열쇠로 접속하게 (이후로는 비밀번호를 묻지 않음)
+  if [ ! -f "$SSHKEY" ] ; then
+    msg "처음 한 번만: 접속용 열쇠 만들고 KkomiOS 에 등록 ($u 의 비밀번호를 한 번 물어봄)"
+    mkdir -p "$HOME/.ssh" ; chmod 700 "$HOME/.ssh"
+    ssh-keygen -q -t ed25519 -N "" -f "$SSHKEY" -C "kkomios-$(hostname)"
+  fi
+  if ! ssh "${SSHOPT[@]}" -i "$SSHKEY" -o BatchMode=yes "$u@127.0.0.1" true 2>/dev/null ; then
+    ssh-copy-id -i "$SSHKEY.pub" "${SSHOPT[@]}" "$u@127.0.0.1"
+  fi
+  shift || true
+  exec ssh "${SSHOPT[@]}" -i "$SSHKEY" "$u@127.0.0.1" "$@"
+}
+
+cmd_down() {   # VM 정상 종료 (1분 안에 안 꺼지면 강제로 끔)
+  vm_running || { msg "KkomiOS 는 이미 꺼져 있습니다" ; return 0 ; }
+  VBoxManage controlvm "$VM" acpipowerbutton > /dev/null 2>&1 || true
+  local i
+  for i in $(seq 1 30) ; do vm_running || { msg "KkomiOS 꺼짐" ; return 0 ; } ; sleep 2 ; done
+  warn "1분 안에 안 꺼져서 강제로 끕니다"
+  VBoxManage controlvm "$VM" poweroff > /dev/null 2>&1 || true
+  sleep 2
+}
 
 # VirtualBox 가 이미지 파일(kkomios.img)을 직접 쓰도록 VMDK 설명 파일 만들기 (변환·복사 없음)
 make_vmdk() {
@@ -253,9 +320,12 @@ case "${1:-}" in
   build)  cmd_build ;;
   finish) cmd_finish ;;
   vm|vdi) cmd_vm ;;
+  up)     shift ; cmd_up headless "$@" ;;
+  gui)    shift ; cmd_up gui "$@" ;;
+  down)   cmd_down ;;
   pkg)    shift ; cmd_pkg "$@" ;;
   mount)  cmd_mount ;;
   shell)  cmd_shell ;;
   status) cmd_status ;;
-  *) sed -n '2,20p' "$0" ; exit 1 ;;
+  *) sed -n '2,23p' "$0" ; exit 1 ;;
 esac
