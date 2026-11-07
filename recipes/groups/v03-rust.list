@@ -1,0 +1,4 @@
+# 0.3 묶음 Rust — SVG 아이콘 그리기(librsvg)와 기본 아이콘 테마. Rust 컴파일러 빌드라 오래 걸림
+# v03-gtk 다음이면 언제 해도 됨 (Xfce 보다 나중이어도 됨 — 그 전에는 아이콘 일부가 빈칸으로 보임)
+# 실행(RHEL): kk pkg v03-rust.list
+cmake rustc cargo-c librsvg adwaita-icon-theme
