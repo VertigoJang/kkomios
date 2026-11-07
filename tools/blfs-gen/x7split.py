@@ -63,7 +63,9 @@ for group, (md5name, base) in GROUPS.items():
             r += ['build() {', f'  ./configure {conf}', '  make', '}',
                   'package() { make DESTDIR="$PKG" install ; }']
         if group == 'xorg7-font':
-            # 글꼴 목록(fonts.dir 등)은 설치된 글꼴 전체로 다시 만들어야 해서 설치 후에
+            # 글꼴 목록(fonts.dir, fonts.scale)은 같은 폴더의 여러 글꼴 패키지가 함께 쓰는 파일이라
+            # 패키지에서 빼고(겹침 방지, 2026-11-07), 설치 후에 그 폴더 전체로 다시 만듦
+            r[-1] = 'package() { make DESTDIR="$PKG" install ; rm -f "$PKG"/usr/share/fonts/X11/*/fonts.dir "$PKG"/usr/share/fonts/X11/*/fonts.scale ; }'
             r += ['post_install() {',
                   '  for d in /usr/share/fonts/X11/* ; do [ -d "$d" ] && mkfontscale "$d" && mkfontdir "$d" ; done 2>/dev/null',
                   '  command -v fc-cache > /dev/null && fc-cache -f',
