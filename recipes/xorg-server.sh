@@ -1,7 +1,7 @@
 NAME=xorg-server
 VERSION=21.1.25
 URL=https://www.x.org/pub/individual/xserver/xorg-server-$VERSION.tar.xz
-DEPENDS=""
+DEPENDS="libxcvt pixman xkeyboard-config libepoxy libtirpc"
 build() {
   mkdir build && cd build
   meson setup .. --prefix=/usr --localstatedir=/var -D glamor=true -D xkb_output_dir=/var/lib/xkb

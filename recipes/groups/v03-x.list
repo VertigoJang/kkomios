@@ -16,6 +16,6 @@ xbitmaps  iceauth mkfontscale sessreg setxkbmap smproxy xauth xcmsdb xcursorgen 
 xcursor-themes  font-util encodings font-alias font-adobe-utopia-type1 font-bh-ttf font-bh-type1 font-ibm-type1 font-misc-ethiopic font-xfree86-type1
 xkeyboard-config
 # 7. X 서버와 입력 장치
-pixman libepoxy xorg-server mtdev libevdev libinput xorg-libinput-driver
+pixman libepoxy libtirpc xorg-server mtdev libevdev libinput xorg-libinput-driver
 # 8. 시험용 (startx)
 xinit twm xterm xclock
